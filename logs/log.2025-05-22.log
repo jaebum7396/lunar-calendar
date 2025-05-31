@@ -1,0 +1,926 @@
+Starting Application using Java 17 with PID 12848 (D:\workspace\message-consumer\build\classes\java\main started by jaebu in D:\workspace\message-consumer)
+The following 1 profile is active: "deploy"
+Starting Application using Java 17 with PID 9680 (D:\workspace\message-consumer\build\classes\java\main started by jaebu in D:\workspace\message-consumer)
+The following 1 profile is active: "deploy"
+
+    drop table if exists chat_messages cascade
+
+    create table chat_messages (
+        processed boolean not null,
+        retry_count integer not null,
+        processed_at timestamp(6),
+        timestamp timestamp(6),
+        content varchar(255),
+        message_id varchar(255) not null,
+        room_id varchar(255),
+        sender varchar(255),
+        type varchar(255) check (type in ('CHAT','JOIN','LEAVE','TYPING')),
+        primary key (message_id)
+    )
+
+    create index idx_chat_messages_room_id 
+       on chat_messages (room_id)
+
+    create index idx_chat_messages_timestamp 
+       on chat_messages (timestamp)
+
+    create index idx_chat_messages_room_timestamp 
+       on chat_messages (room_id, timestamp)
+처리되지 않은 메시지 정리 중...
+처리되지 않은 메시지 없음
+JPAQueryFactory 빈 등록 완료
+메시지 스트림 모니터 초기화 중... 소비자 ID: chat-message-processor-130cc3665-5cbb-4005-bb01-5eb8608b2c5f
+Stream 'chat:stream:messages' 정보: 항목 수: 601
+  첫 번째 항목 ID: 1747639128211-0, 마지막 항목 ID: 1747899968698-0
+소비자 그룹 'chat-message-processors' 정보: 처리되지 않은 메시지 총 개수: 0
+Redis Stream 복원 관리자 초기화 중...
+Stream 메시지 리스너 컨테이너 시작됨
+컨슈머 그룹 'chat-message-processors' 이미 존재함
+Redis Stream에서 새 메시지 수신 - 스트림: chat:stream:messages, ID: 1747899822478-0
+
+    select
+        count(*) 
+    from
+        chat_messages cm1_0 
+    where
+        cm1_0.message_id=?
+메시지 처리 시작 - ID: 031bafe3-77ee-4b03-b465-cf6061f8aac4, 채팅방: 1
+
+    select
+        cm1_0.message_id,
+        cm1_0.content,
+        cm1_0.processed,
+        cm1_0.processed_at,
+        cm1_0.retry_count,
+        cm1_0.room_id,
+        cm1_0.sender,
+        cm1_0.timestamp,
+        cm1_0.type 
+    from
+        chat_messages cm1_0 
+    where
+        cm1_0.message_id=?
+메시지 저장 완료 - ID: 031bafe3-77ee-4b03-b465-cf6061f8aac4
+
+    insert 
+    into
+        chat_messages
+        (content, processed, processed_at, retry_count, room_id, sender, timestamp, type, message_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+메시지 처리 완료 - ID: 1747899822478-0
+Redis Stream에서 새 메시지 수신 - 스트림: chat:stream:messages, ID: 1747899838174-0
+
+    select
+        count(*) 
+    from
+        chat_messages cm1_0 
+    where
+        cm1_0.message_id=?
+메시지 처리 시작 - ID: b8812da5-601b-4d13-869a-3551d8475e9f, 채팅방: 1
+
+    select
+        cm1_0.message_id,
+        cm1_0.content,
+        cm1_0.processed,
+        cm1_0.processed_at,
+        cm1_0.retry_count,
+        cm1_0.room_id,
+        cm1_0.sender,
+        cm1_0.timestamp,
+        cm1_0.type 
+    from
+        chat_messages cm1_0 
+    where
+        cm1_0.message_id=?
+메시지 저장 완료 - ID: b8812da5-601b-4d13-869a-3551d8475e9f
+
+    insert 
+    into
+        chat_messages
+        (content, processed, processed_at, retry_count, room_id, sender, timestamp, type, message_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+메시지 처리 완료 - ID: 1747899838174-0
+Redis Stream에서 새 메시지 수신 - 스트림: chat:stream:messages, ID: 1747899838470-0
+
+    select
+        count(*) 
+    from
+        chat_messages cm1_0 
+    where
+        cm1_0.message_id=?
+메시지 처리 시작 - ID: 8c7c76cc-471f-491d-b4f7-2773980c2b04, 채팅방: 1
+
+    select
+        cm1_0.message_id,
+        cm1_0.content,
+        cm1_0.processed,
+        cm1_0.processed_at,
+        cm1_0.retry_count,
+        cm1_0.room_id,
+        cm1_0.sender,
+        cm1_0.timestamp,
+        cm1_0.type 
+    from
+        chat_messages cm1_0 
+    where
+        cm1_0.message_id=?
+메시지 저장 완료 - ID: 8c7c76cc-471f-491d-b4f7-2773980c2b04
+
+    insert 
+    into
+        chat_messages
+        (content, processed, processed_at, retry_count, room_id, sender, timestamp, type, message_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+메시지 처리 완료 - ID: 1747899838470-0
+Redis Stream에서 새 메시지 수신 - 스트림: chat:stream:messages, ID: 1747899839191-0
+
+    select
+        count(*) 
+    from
+        chat_messages cm1_0 
+    where
+        cm1_0.message_id=?
+메시지 처리 시작 - ID: e87e2679-c4ed-4e3f-bbd3-0ee8b12abaa8, 채팅방: 1
+
+    select
+        cm1_0.message_id,
+        cm1_0.content,
+        cm1_0.processed,
+        cm1_0.processed_at,
+        cm1_0.retry_count,
+        cm1_0.room_id,
+        cm1_0.sender,
+        cm1_0.timestamp,
+        cm1_0.type 
+    from
+        chat_messages cm1_0 
+    where
+        cm1_0.message_id=?
+메시지 저장 완료 - ID: e87e2679-c4ed-4e3f-bbd3-0ee8b12abaa8
+
+    insert 
+    into
+        chat_messages
+        (content, processed, processed_at, retry_count, room_id, sender, timestamp, type, message_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+메시지 처리 완료 - ID: 1747899839191-0
+Redis Stream에서 새 메시지 수신 - 스트림: chat:stream:messages, ID: 1747899839492-0
+
+    select
+        count(*) 
+    from
+        chat_messages cm1_0 
+    where
+        cm1_0.message_id=?
+메시지 처리 시작 - ID: ba24e184-3180-4516-a212-36f8fecefdd1, 채팅방: 1
+
+    select
+        cm1_0.message_id,
+        cm1_0.content,
+        cm1_0.processed,
+        cm1_0.processed_at,
+        cm1_0.retry_count,
+        cm1_0.room_id,
+        cm1_0.sender,
+        cm1_0.timestamp,
+        cm1_0.type 
+    from
+        chat_messages cm1_0 
+    where
+        cm1_0.message_id=?
+메시지 저장 완료 - ID: ba24e184-3180-4516-a212-36f8fecefdd1
+
+    insert 
+    into
+        chat_messages
+        (content, processed, processed_at, retry_count, room_id, sender, timestamp, type, message_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+메시지 처리 완료 - ID: 1747899839492-0
+Redis Stream에서 새 메시지 수신 - 스트림: chat:stream:messages, ID: 1747899968698-0
+
+    select
+        count(*) 
+    from
+        chat_messages cm1_0 
+    where
+        cm1_0.message_id=?
+메시지 처리 시작 - ID: 961d7c71-0a35-42ee-80d5-30d19bbbc812, 채팅방: 1
+
+    select
+        cm1_0.message_id,
+        cm1_0.content,
+        cm1_0.processed,
+        cm1_0.processed_at,
+        cm1_0.retry_count,
+        cm1_0.room_id,
+        cm1_0.sender,
+        cm1_0.timestamp,
+        cm1_0.type 
+    from
+        chat_messages cm1_0 
+    where
+        cm1_0.message_id=?
+메시지 저장 완료 - ID: 961d7c71-0a35-42ee-80d5-30d19bbbc812
+
+    insert 
+    into
+        chat_messages
+        (content, processed, processed_at, retry_count, room_id, sender, timestamp, type, message_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+메시지 처리 완료 - ID: 1747899968698-0
+Started Application in 5.441 seconds (process running for 5.949)
+Redis Stream에서 새 메시지 수신 - 스트림: chat:stream:messages, ID: 1747900248800-0
+
+    select
+        count(*) 
+    from
+        chat_messages cm1_0 
+    where
+        cm1_0.message_id=?
+메시지 처리 시작 - ID: 05e7f107-d8b8-4843-b4af-68b381e5bd12, 채팅방: 1
+
+    select
+        cm1_0.message_id,
+        cm1_0.content,
+        cm1_0.processed,
+        cm1_0.processed_at,
+        cm1_0.retry_count,
+        cm1_0.room_id,
+        cm1_0.sender,
+        cm1_0.timestamp,
+        cm1_0.type 
+    from
+        chat_messages cm1_0 
+    where
+        cm1_0.message_id=?
+메시지 저장 완료 - ID: 05e7f107-d8b8-4843-b4af-68b381e5bd12
+
+    insert 
+    into
+        chat_messages
+        (content, processed, processed_at, retry_count, room_id, sender, timestamp, type, message_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+메시지 처리 완료 - ID: 1747900248800-0
+Redis Stream에서 새 메시지 수신 - 스트림: chat:stream:messages, ID: 1747900263283-0
+
+    select
+        count(*) 
+    from
+        chat_messages cm1_0 
+    where
+        cm1_0.message_id=?
+메시지 처리 시작 - ID: cbc710e9-985e-466e-a346-dc7c945998e4, 채팅방: 1
+
+    select
+        cm1_0.message_id,
+        cm1_0.content,
+        cm1_0.processed,
+        cm1_0.processed_at,
+        cm1_0.retry_count,
+        cm1_0.room_id,
+        cm1_0.sender,
+        cm1_0.timestamp,
+        cm1_0.type 
+    from
+        chat_messages cm1_0 
+    where
+        cm1_0.message_id=?
+메시지 저장 완료 - ID: cbc710e9-985e-466e-a346-dc7c945998e4
+
+    insert 
+    into
+        chat_messages
+        (content, processed, processed_at, retry_count, room_id, sender, timestamp, type, message_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+메시지 처리 완료 - ID: 1747900263283-0
+Redis Stream에서 새 메시지 수신 - 스트림: chat:stream:messages, ID: 1747900291782-0
+
+    select
+        count(*) 
+    from
+        chat_messages cm1_0 
+    where
+        cm1_0.message_id=?
+메시지 처리 시작 - ID: 655f481a-e778-4c90-bf78-19c413d13ef4, 채팅방: 1
+
+    select
+        cm1_0.message_id,
+        cm1_0.content,
+        cm1_0.processed,
+        cm1_0.processed_at,
+        cm1_0.retry_count,
+        cm1_0.room_id,
+        cm1_0.sender,
+        cm1_0.timestamp,
+        cm1_0.type 
+    from
+        chat_messages cm1_0 
+    where
+        cm1_0.message_id=?
+메시지 저장 완료 - ID: 655f481a-e778-4c90-bf78-19c413d13ef4
+
+    insert 
+    into
+        chat_messages
+        (content, processed, processed_at, retry_count, room_id, sender, timestamp, type, message_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+메시지 처리 완료 - ID: 1747900291782-0
+Redis Stream에서 새 메시지 수신 - 스트림: chat:stream:messages, ID: 1747900296761-0
+
+    select
+        count(*) 
+    from
+        chat_messages cm1_0 
+    where
+        cm1_0.message_id=?
+메시지 처리 시작 - ID: 126c7763-bc5f-4c89-8546-d0827ba165ea, 채팅방: 1
+
+    select
+        cm1_0.message_id,
+        cm1_0.content,
+        cm1_0.processed,
+        cm1_0.processed_at,
+        cm1_0.retry_count,
+        cm1_0.room_id,
+        cm1_0.sender,
+        cm1_0.timestamp,
+        cm1_0.type 
+    from
+        chat_messages cm1_0 
+    where
+        cm1_0.message_id=?
+메시지 저장 완료 - ID: 126c7763-bc5f-4c89-8546-d0827ba165ea
+
+    insert 
+    into
+        chat_messages
+        (content, processed, processed_at, retry_count, room_id, sender, timestamp, type, message_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+메시지 처리 완료 - ID: 1747900296761-0
+Redis Stream에서 새 메시지 수신 - 스트림: chat:stream:messages, ID: 1747900341002-0
+
+    select
+        count(*) 
+    from
+        chat_messages cm1_0 
+    where
+        cm1_0.message_id=?
+메시지 처리 시작 - ID: 9733054f-0db2-43c7-8a2e-131dbdf8978b, 채팅방: 1
+
+    select
+        cm1_0.message_id,
+        cm1_0.content,
+        cm1_0.processed,
+        cm1_0.processed_at,
+        cm1_0.retry_count,
+        cm1_0.room_id,
+        cm1_0.sender,
+        cm1_0.timestamp,
+        cm1_0.type 
+    from
+        chat_messages cm1_0 
+    where
+        cm1_0.message_id=?
+메시지 저장 완료 - ID: 9733054f-0db2-43c7-8a2e-131dbdf8978b
+
+    insert 
+    into
+        chat_messages
+        (content, processed, processed_at, retry_count, room_id, sender, timestamp, type, message_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+메시지 처리 완료 - ID: 1747900341002-0
+Redis Stream에서 새 메시지 수신 - 스트림: chat:stream:messages, ID: 1747900448673-0
+
+    select
+        count(*) 
+    from
+        chat_messages cm1_0 
+    where
+        cm1_0.message_id=?
+메시지 처리 시작 - ID: 5df6accf-a224-4fd8-8c2c-704aba444d94, 채팅방: 1
+
+    select
+        cm1_0.message_id,
+        cm1_0.content,
+        cm1_0.processed,
+        cm1_0.processed_at,
+        cm1_0.retry_count,
+        cm1_0.room_id,
+        cm1_0.sender,
+        cm1_0.timestamp,
+        cm1_0.type 
+    from
+        chat_messages cm1_0 
+    where
+        cm1_0.message_id=?
+메시지 저장 완료 - ID: 5df6accf-a224-4fd8-8c2c-704aba444d94
+
+    insert 
+    into
+        chat_messages
+        (content, processed, processed_at, retry_count, room_id, sender, timestamp, type, message_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+메시지 처리 완료 - ID: 1747900448673-0
+Redis Stream에서 새 메시지 수신 - 스트림: chat:stream:messages, ID: 1747900528325-0
+
+    select
+        count(*) 
+    from
+        chat_messages cm1_0 
+    where
+        cm1_0.message_id=?
+메시지 처리 시작 - ID: a91089ec-5bbe-4546-a2fa-8b1fec7eb1f5, 채팅방: 1
+
+    select
+        cm1_0.message_id,
+        cm1_0.content,
+        cm1_0.processed,
+        cm1_0.processed_at,
+        cm1_0.retry_count,
+        cm1_0.room_id,
+        cm1_0.sender,
+        cm1_0.timestamp,
+        cm1_0.type 
+    from
+        chat_messages cm1_0 
+    where
+        cm1_0.message_id=?
+메시지 저장 완료 - ID: a91089ec-5bbe-4546-a2fa-8b1fec7eb1f5
+
+    insert 
+    into
+        chat_messages
+        (content, processed, processed_at, retry_count, room_id, sender, timestamp, type, message_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+메시지 처리 완료 - ID: 1747900528325-0
+Redis Stream에서 새 메시지 수신 - 스트림: chat:stream:messages, ID: 1747900648982-0
+
+    select
+        count(*) 
+    from
+        chat_messages cm1_0 
+    where
+        cm1_0.message_id=?
+메시지 처리 시작 - ID: 7d1470db-281d-420a-9b5f-2bec92bf5475, 채팅방: 1
+
+    select
+        cm1_0.message_id,
+        cm1_0.content,
+        cm1_0.processed,
+        cm1_0.processed_at,
+        cm1_0.retry_count,
+        cm1_0.room_id,
+        cm1_0.sender,
+        cm1_0.timestamp,
+        cm1_0.type 
+    from
+        chat_messages cm1_0 
+    where
+        cm1_0.message_id=?
+메시지 저장 완료 - ID: 7d1470db-281d-420a-9b5f-2bec92bf5475
+
+    insert 
+    into
+        chat_messages
+        (content, processed, processed_at, retry_count, room_id, sender, timestamp, type, message_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+메시지 처리 완료 - ID: 1747900648982-0
+Redis Stream에서 새 메시지 수신 - 스트림: chat:stream:messages, ID: 1747900758838-0
+
+    select
+        count(*) 
+    from
+        chat_messages cm1_0 
+    where
+        cm1_0.message_id=?
+메시지 처리 시작 - ID: f2e4dfcc-11e6-41d9-9f1d-c430f0867ee4, 채팅방: 1
+
+    select
+        cm1_0.message_id,
+        cm1_0.content,
+        cm1_0.processed,
+        cm1_0.processed_at,
+        cm1_0.retry_count,
+        cm1_0.room_id,
+        cm1_0.sender,
+        cm1_0.timestamp,
+        cm1_0.type 
+    from
+        chat_messages cm1_0 
+    where
+        cm1_0.message_id=?
+메시지 저장 완료 - ID: f2e4dfcc-11e6-41d9-9f1d-c430f0867ee4
+
+    insert 
+    into
+        chat_messages
+        (content, processed, processed_at, retry_count, room_id, sender, timestamp, type, message_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+메시지 처리 완료 - ID: 1747900758838-0
+Redis Stream에서 새 메시지 수신 - 스트림: chat:stream:messages, ID: 1747900800085-0
+
+    select
+        count(*) 
+    from
+        chat_messages cm1_0 
+    where
+        cm1_0.message_id=?
+메시지 처리 시작 - ID: b103ee30-54ec-4bd2-a57a-cae6fdbf7eca, 채팅방: 1
+
+    select
+        cm1_0.message_id,
+        cm1_0.content,
+        cm1_0.processed,
+        cm1_0.processed_at,
+        cm1_0.retry_count,
+        cm1_0.room_id,
+        cm1_0.sender,
+        cm1_0.timestamp,
+        cm1_0.type 
+    from
+        chat_messages cm1_0 
+    where
+        cm1_0.message_id=?
+메시지 저장 완료 - ID: b103ee30-54ec-4bd2-a57a-cae6fdbf7eca
+
+    insert 
+    into
+        chat_messages
+        (content, processed, processed_at, retry_count, room_id, sender, timestamp, type, message_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+메시지 처리 완료 - ID: 1747900800085-0
+Redis Stream에서 새 메시지 수신 - 스트림: chat:stream:messages, ID: 1747900928840-0
+
+    select
+        count(*) 
+    from
+        chat_messages cm1_0 
+    where
+        cm1_0.message_id=?
+메시지 처리 시작 - ID: d96ac045-432b-4335-b242-6bd36da8ff5f, 채팅방: 1
+
+    select
+        cm1_0.message_id,
+        cm1_0.content,
+        cm1_0.processed,
+        cm1_0.processed_at,
+        cm1_0.retry_count,
+        cm1_0.room_id,
+        cm1_0.sender,
+        cm1_0.timestamp,
+        cm1_0.type 
+    from
+        chat_messages cm1_0 
+    where
+        cm1_0.message_id=?
+메시지 저장 완료 - ID: d96ac045-432b-4335-b242-6bd36da8ff5f
+
+    insert 
+    into
+        chat_messages
+        (content, processed, processed_at, retry_count, room_id, sender, timestamp, type, message_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+메시지 처리 완료 - ID: 1747900928840-0
+Redis Stream에서 새 메시지 수신 - 스트림: chat:stream:messages, ID: 1747901126836-0
+
+    select
+        count(*) 
+    from
+        chat_messages cm1_0 
+    where
+        cm1_0.message_id=?
+메시지 처리 시작 - ID: fcf61e39-6c9b-4154-a31b-d8198ba4be1a, 채팅방: 1
+
+    select
+        cm1_0.message_id,
+        cm1_0.content,
+        cm1_0.processed,
+        cm1_0.processed_at,
+        cm1_0.retry_count,
+        cm1_0.room_id,
+        cm1_0.sender,
+        cm1_0.timestamp,
+        cm1_0.type 
+    from
+        chat_messages cm1_0 
+    where
+        cm1_0.message_id=?
+메시지 저장 완료 - ID: fcf61e39-6c9b-4154-a31b-d8198ba4be1a
+
+    insert 
+    into
+        chat_messages
+        (content, processed, processed_at, retry_count, room_id, sender, timestamp, type, message_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+메시지 처리 완료 - ID: 1747901126836-0
+Redis Stream에서 새 메시지 수신 - 스트림: chat:stream:messages, ID: 1747901269088-0
+
+    select
+        count(*) 
+    from
+        chat_messages cm1_0 
+    where
+        cm1_0.message_id=?
+메시지 처리 시작 - ID: 149dffcb-2a5f-4f7a-82cb-1c9b62c03770, 채팅방: 1
+
+    select
+        cm1_0.message_id,
+        cm1_0.content,
+        cm1_0.processed,
+        cm1_0.processed_at,
+        cm1_0.retry_count,
+        cm1_0.room_id,
+        cm1_0.sender,
+        cm1_0.timestamp,
+        cm1_0.type 
+    from
+        chat_messages cm1_0 
+    where
+        cm1_0.message_id=?
+메시지 저장 완료 - ID: 149dffcb-2a5f-4f7a-82cb-1c9b62c03770
+
+    insert 
+    into
+        chat_messages
+        (content, processed, processed_at, retry_count, room_id, sender, timestamp, type, message_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+메시지 처리 완료 - ID: 1747901269088-0
+Redis Stream에서 새 메시지 수신 - 스트림: chat:stream:messages, ID: 1747901280103-0
+
+    select
+        count(*) 
+    from
+        chat_messages cm1_0 
+    where
+        cm1_0.message_id=?
+메시지 처리 시작 - ID: dd3488cc-0c4c-4948-81c6-bfa6984f8720, 채팅방: 1
+
+    select
+        cm1_0.message_id,
+        cm1_0.content,
+        cm1_0.processed,
+        cm1_0.processed_at,
+        cm1_0.retry_count,
+        cm1_0.room_id,
+        cm1_0.sender,
+        cm1_0.timestamp,
+        cm1_0.type 
+    from
+        chat_messages cm1_0 
+    where
+        cm1_0.message_id=?
+메시지 저장 완료 - ID: dd3488cc-0c4c-4948-81c6-bfa6984f8720
+
+    insert 
+    into
+        chat_messages
+        (content, processed, processed_at, retry_count, room_id, sender, timestamp, type, message_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+메시지 처리 완료 - ID: 1747901280103-0
+Redis Stream에서 새 메시지 수신 - 스트림: chat:stream:messages, ID: 1747901282073-0
+
+    select
+        count(*) 
+    from
+        chat_messages cm1_0 
+    where
+        cm1_0.message_id=?
+메시지 처리 시작 - ID: 45fc35ea-1331-47fa-b6ec-ecb13c3ba2a0, 채팅방: 1
+
+    select
+        cm1_0.message_id,
+        cm1_0.content,
+        cm1_0.processed,
+        cm1_0.processed_at,
+        cm1_0.retry_count,
+        cm1_0.room_id,
+        cm1_0.sender,
+        cm1_0.timestamp,
+        cm1_0.type 
+    from
+        chat_messages cm1_0 
+    where
+        cm1_0.message_id=?
+메시지 저장 완료 - ID: 45fc35ea-1331-47fa-b6ec-ecb13c3ba2a0
+
+    insert 
+    into
+        chat_messages
+        (content, processed, processed_at, retry_count, room_id, sender, timestamp, type, message_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+메시지 처리 완료 - ID: 1747901282073-0
+Redis Stream에서 새 메시지 수신 - 스트림: chat:stream:messages, ID: 1747901282804-0
+
+    select
+        count(*) 
+    from
+        chat_messages cm1_0 
+    where
+        cm1_0.message_id=?
+메시지 처리 시작 - ID: 0b4726a1-78dc-4f8e-9362-d3348759ed08, 채팅방: 1
+
+    select
+        cm1_0.message_id,
+        cm1_0.content,
+        cm1_0.processed,
+        cm1_0.processed_at,
+        cm1_0.retry_count,
+        cm1_0.room_id,
+        cm1_0.sender,
+        cm1_0.timestamp,
+        cm1_0.type 
+    from
+        chat_messages cm1_0 
+    where
+        cm1_0.message_id=?
+메시지 저장 완료 - ID: 0b4726a1-78dc-4f8e-9362-d3348759ed08
+
+    insert 
+    into
+        chat_messages
+        (content, processed, processed_at, retry_count, room_id, sender, timestamp, type, message_id) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+메시지 처리 완료 - ID: 1747901282804-0
+Unexpected error occurred in scheduled task
+org.springframework.data.redis.RedisSystemException: Redis exception
+	at org.springframework.data.redis.connection.lettuce.LettuceExceptionConverter.convert(LettuceExceptionConverter.java:72)
+	at org.springframework.data.redis.connection.lettuce.LettuceExceptionConverter.convert(LettuceExceptionConverter.java:41)
+	at org.springframework.data.redis.PassThroughExceptionTranslationStrategy.translate(PassThroughExceptionTranslationStrategy.java:40)
+	at org.springframework.data.redis.FallbackExceptionTranslationStrategy.translate(FallbackExceptionTranslationStrategy.java:38)
+	at org.springframework.data.redis.connection.lettuce.LettuceConnection.convertLettuceAccessException(LettuceConnection.java:306)
+	at org.springframework.data.redis.connection.lettuce.LettuceConnection.await(LettuceConnection.java:1010)
+	at org.springframework.data.redis.connection.lettuce.LettuceConnection.lambda$doInvoke$3(LettuceConnection.java:443)
+	at org.springframework.data.redis.connection.lettuce.LettuceInvoker$Synchronizer.invoke(LettuceInvoker.java:673)
+	at org.springframework.data.redis.connection.lettuce.LettuceInvoker$DefaultManyInvocationSpec.toList(LettuceInvoker.java:618)
+	at org.springframework.data.redis.connection.lettuce.LettuceStreamCommands.xReadGroup(LettuceStreamCommands.java:282)
+	at org.springframework.data.redis.stream.DefaultStreamMessageListenerContainer.lambda$getReadFunction$3(DefaultStreamMessageListenerContainer.java:236)
+	at org.springframework.data.redis.core.RedisTemplate.execute(RedisTemplate.java:396)
+	at org.springframework.data.redis.core.RedisTemplate.execute(RedisTemplate.java:363)
+	at org.springframework.data.redis.core.RedisTemplate.execute(RedisTemplate.java:350)
+	at org.springframework.data.redis.stream.DefaultStreamMessageListenerContainer.lambda$getReadFunction$4(DefaultStreamMessageListenerContainer.java:235)
+	at org.springframework.data.redis.stream.StreamPollTask.readRecords(StreamPollTask.java:146)
+	at org.springframework.data.redis.stream.StreamPollTask.doLoop(StreamPollTask.java:127)
+	at org.springframework.data.redis.stream.StreamPollTask.run(StreamPollTask.java:112)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:833)
+Caused by: io.lettuce.core.RedisException: Connection closed
+	at io.lettuce.core.protocol.DefaultEndpoint.lambda$notifyDrainQueuedCommands$7(DefaultEndpoint.java:679)
+	at io.lettuce.core.protocol.DefaultEndpoint$Lazy.getNullable(DefaultEndpoint.java:1167)
+	at io.lettuce.core.protocol.DefaultEndpoint$Lazy.get(DefaultEndpoint.java:1152)
+	at io.lettuce.core.protocol.DefaultEndpoint.lambda$notifyDrainQueuedCommands$8(DefaultEndpoint.java:680)
+	at io.lettuce.core.protocol.DefaultEndpoint.cancelCommands(DefaultEndpoint.java:786)
+	at io.lettuce.core.protocol.DefaultEndpoint.notifyDrainQueuedCommands(DefaultEndpoint.java:680)
+	at io.lettuce.core.protocol.CommandHandler.channelInactive(CommandHandler.java:358)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelInactive(AbstractChannelHandlerContext.java:303)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelInactive(AbstractChannelHandlerContext.java:281)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelInactive(AbstractChannelHandlerContext.java:274)
+	at io.netty.channel.ChannelInboundHandlerAdapter.channelInactive(ChannelInboundHandlerAdapter.java:81)
+	at io.lettuce.core.protocol.RedisHandshakeHandler.channelInactive(RedisHandshakeHandler.java:94)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelInactive(AbstractChannelHandlerContext.java:303)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelInactive(AbstractChannelHandlerContext.java:281)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelInactive(AbstractChannelHandlerContext.java:274)
+	at io.netty.channel.ChannelInboundHandlerAdapter.channelInactive(ChannelInboundHandlerAdapter.java:81)
+	at io.lettuce.core.ChannelGroupListener.channelInactive(ChannelGroupListener.java:69)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelInactive(AbstractChannelHandlerContext.java:303)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelInactive(AbstractChannelHandlerContext.java:281)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelInactive(AbstractChannelHandlerContext.java:274)
+	at io.netty.channel.DefaultChannelPipeline$HeadContext.channelInactive(DefaultChannelPipeline.java:1405)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelInactive(AbstractChannelHandlerContext.java:301)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelInactive(AbstractChannelHandlerContext.java:281)
+	at io.netty.channel.DefaultChannelPipeline.fireChannelInactive(DefaultChannelPipeline.java:901)
+	at io.netty.channel.AbstractChannel$AbstractUnsafe$7.run(AbstractChannel.java:813)
+	at io.netty.util.concurrent.AbstractEventExecutor.runTask(AbstractEventExecutor.java:173)
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java:166)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:470)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:569)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:997)
+	at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	... 1 common frames omitted
+Redis Stream 복원 관리자 정리 중...
+Starting Application using Java 17 with PID 12664 (D:\workspace\message-consumer\build\classes\java\main started by jaebu in D:\workspace\message-consumer)
+The following 1 profile is active: "deploy"
+
+    drop table if exists chat_messages cascade
+
+    create table chat_messages (
+        processed boolean not null,
+        retry_count integer not null,
+        created_at timestamp(6) with time zone,
+        processed_at timestamp(6),
+        sequence_number bigint,
+        timestamp timestamp(6),
+        content varchar(255),
+        message_id varchar(255) not null,
+        room_id varchar(255),
+        sender varchar(255),
+        type varchar(255) check (type in ('CHAT','JOIN','LEAVE','TYPING')),
+        primary key (message_id)
+    )
+
+    create index idx_chat_messages_room_id 
+       on chat_messages (room_id)
+
+    create index idx_chat_messages_timestamp 
+       on chat_messages (timestamp)
+
+    create index idx_chat_messages_room_timestamp 
+       on chat_messages (room_id, timestamp)
+
+    create index idx_chat_messages_created_at 
+       on chat_messages (created_at)
+
+    create index idx_chat_messages_room_created 
+       on chat_messages (room_id, created_at)
+처리되지 않은 메시지 정리 중...
+처리되지 않은 메시지 없음
+JPAQueryFactory 빈 등록 완료
+메시지 스트림 모니터 초기화 중... 소비자 ID: chat-message-processor-1f5fe72a9-37ac-43ac-91b2-54b49f126697
+Stream 'chat:stream:messages' 정보: 항목 수: 918
+  첫 번째 항목 ID: 1747639128211-0, 마지막 항목 ID: 1747903208872-0
+소비자 그룹 'chat-message-processors' 정보: 처리되지 않은 메시지 총 개수: 0
+Redis Stream 복원 관리자 초기화 중...
+Stream 메시지 리스너 컨테이너 시작됨
+컨슈머 그룹 'chat-message-processors' 이미 존재함
+Started Application in 5.803 seconds (process running for 6.483)
+Unexpected error occurred in scheduled task
+org.springframework.data.redis.RedisSystemException: Redis exception
+	at org.springframework.data.redis.connection.lettuce.LettuceExceptionConverter.convert(LettuceExceptionConverter.java:72)
+	at org.springframework.data.redis.connection.lettuce.LettuceExceptionConverter.convert(LettuceExceptionConverter.java:41)
+	at org.springframework.data.redis.PassThroughExceptionTranslationStrategy.translate(PassThroughExceptionTranslationStrategy.java:40)
+	at org.springframework.data.redis.FallbackExceptionTranslationStrategy.translate(FallbackExceptionTranslationStrategy.java:38)
+	at org.springframework.data.redis.connection.lettuce.LettuceConnection.convertLettuceAccessException(LettuceConnection.java:306)
+	at org.springframework.data.redis.connection.lettuce.LettuceConnection.await(LettuceConnection.java:1010)
+	at org.springframework.data.redis.connection.lettuce.LettuceConnection.lambda$doInvoke$3(LettuceConnection.java:443)
+	at org.springframework.data.redis.connection.lettuce.LettuceInvoker$Synchronizer.invoke(LettuceInvoker.java:673)
+	at org.springframework.data.redis.connection.lettuce.LettuceInvoker$DefaultManyInvocationSpec.toList(LettuceInvoker.java:618)
+	at org.springframework.data.redis.connection.lettuce.LettuceStreamCommands.xReadGroup(LettuceStreamCommands.java:282)
+	at org.springframework.data.redis.stream.DefaultStreamMessageListenerContainer.lambda$getReadFunction$3(DefaultStreamMessageListenerContainer.java:236)
+	at org.springframework.data.redis.core.RedisTemplate.execute(RedisTemplate.java:396)
+	at org.springframework.data.redis.core.RedisTemplate.execute(RedisTemplate.java:363)
+	at org.springframework.data.redis.core.RedisTemplate.execute(RedisTemplate.java:350)
+	at org.springframework.data.redis.stream.DefaultStreamMessageListenerContainer.lambda$getReadFunction$4(DefaultStreamMessageListenerContainer.java:235)
+	at org.springframework.data.redis.stream.StreamPollTask.readRecords(StreamPollTask.java:146)
+	at org.springframework.data.redis.stream.StreamPollTask.doLoop(StreamPollTask.java:127)
+	at org.springframework.data.redis.stream.StreamPollTask.run(StreamPollTask.java:112)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
+	at java.base/java.lang.Thread.run(Thread.java:833)
+Caused by: io.lettuce.core.RedisException: Connection closed
+	at io.lettuce.core.protocol.DefaultEndpoint.lambda$notifyDrainQueuedCommands$7(DefaultEndpoint.java:679)
+	at io.lettuce.core.protocol.DefaultEndpoint$Lazy.getNullable(DefaultEndpoint.java:1167)
+	at io.lettuce.core.protocol.DefaultEndpoint$Lazy.get(DefaultEndpoint.java:1152)
+	at io.lettuce.core.protocol.DefaultEndpoint.lambda$notifyDrainQueuedCommands$8(DefaultEndpoint.java:680)
+	at io.lettuce.core.protocol.DefaultEndpoint.cancelCommands(DefaultEndpoint.java:786)
+	at io.lettuce.core.protocol.DefaultEndpoint.notifyDrainQueuedCommands(DefaultEndpoint.java:680)
+	at io.lettuce.core.protocol.CommandHandler.channelInactive(CommandHandler.java:358)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelInactive(AbstractChannelHandlerContext.java:303)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelInactive(AbstractChannelHandlerContext.java:281)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelInactive(AbstractChannelHandlerContext.java:274)
+	at io.netty.channel.ChannelInboundHandlerAdapter.channelInactive(ChannelInboundHandlerAdapter.java:81)
+	at io.lettuce.core.protocol.RedisHandshakeHandler.channelInactive(RedisHandshakeHandler.java:94)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelInactive(AbstractChannelHandlerContext.java:303)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelInactive(AbstractChannelHandlerContext.java:281)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelInactive(AbstractChannelHandlerContext.java:274)
+	at io.netty.channel.ChannelInboundHandlerAdapter.channelInactive(ChannelInboundHandlerAdapter.java:81)
+	at io.lettuce.core.ChannelGroupListener.channelInactive(ChannelGroupListener.java:69)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelInactive(AbstractChannelHandlerContext.java:303)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelInactive(AbstractChannelHandlerContext.java:281)
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelInactive(AbstractChannelHandlerContext.java:274)
+	at io.netty.channel.DefaultChannelPipeline$HeadContext.channelInactive(DefaultChannelPipeline.java:1405)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelInactive(AbstractChannelHandlerContext.java:301)
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelInactive(AbstractChannelHandlerContext.java:281)
+	at io.netty.channel.DefaultChannelPipeline.fireChannelInactive(DefaultChannelPipeline.java:901)
+	at io.netty.channel.AbstractChannel$AbstractUnsafe$7.run(AbstractChannel.java:813)
+	at io.netty.util.concurrent.AbstractEventExecutor.runTask(AbstractEventExecutor.java:173)
+	at io.netty.util.concurrent.AbstractEventExecutor.safeExecute(AbstractEventExecutor.java:166)
+	at io.netty.util.concurrent.SingleThreadEventExecutor.runAllTasks(SingleThreadEventExecutor.java:470)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:569)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:997)
+	at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	... 1 common frames omitted
+Redis Stream 복원 관리자 정리 중...

@@ -1,0 +1,20 @@
+spring:
+    jpa:
+#        defer-datasource-initialization: true
+        hibernate:
+            # none: 기본값
+            # create-drop: 시작시 drop및 생성, SessionFactory 종료시 drop
+            # create: SessionFactory 시작시 데이터베이스 drop, 생성된 DDL 적용.
+            # update: 변경된 스키마 적용
+            # validate : 변경된 스키마가 있다면 변경된 사항을 출력, 애플리케이션 종료
+            ddl-auto: create
+        show-sql: true
+#    sql:
+#        init:
+#            mode: always
+#            data-locations: classpath:data.sql
+
+decorator:
+    datasource:
+        p6spy:
+            enable-logging: true

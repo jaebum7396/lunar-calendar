@@ -1,0 +1,8 @@
+cloud:
+  gateway:
+    uri: ${GATEWAY_URI}
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    configUrl: /user/v3/api-docs/swagger-config  # 서비스별로 변경
+    url: /user/v3/api-docs  # 서비스별로 변경

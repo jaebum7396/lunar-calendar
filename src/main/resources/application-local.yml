@@ -1,0 +1,10 @@
+cloud:
+  gateway:
+    uri: ${LOCAL_URL:http://localhost:8080}
+  fe:
+    uri: ${FE_URL:http://localhost:3000}
+spring:
+  cloud:
+    service-registry:
+      auto-registration:
+        enabled: 'false'

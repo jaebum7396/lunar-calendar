@@ -1,0 +1,8 @@
+spring:
+    datasource:
+        hikari:
+            driver-class-name: org.postgresql.Driver
+            jdbc-url: jdbc:postgresql://jaebum7396.iptime.org:5432/pet_fortune
+            username: postgres
+            password: q1w2e3r4!!
+            pool-name: SpringBoot-3.4.4
