@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @RestController
-@RequestMapping("/lunar-calendar")
+@RequestMapping("/api/v1")
 @RequiredArgsConstructor
 public class LunarCalendarController {
 
@@ -33,7 +33,7 @@ public class LunarCalendarController {
             @ApiResponse(responseCode = "400", description = "잘못된 요청 파라미터"),
             @ApiResponse(responseCode = "500", description = "서버 오류")
     })
-    @GetMapping("/stem-branch")
+    @GetMapping
     public ResponseEntity<StemBranchInfo> getStemBranch(
             @Parameter(description = "생년월일 (YYYY-MM-DD 형식)", example = "1990-05-15", required = true)
             @RequestParam String birthDate,
