@@ -190,4 +190,4 @@ http://localhost:8080/swagger-ui/index.html
 
 ## 📞 연락처
 
-프로젝트 링크: [https://github.com/jaebum7396/lunar-calendar](https://github.com/your-username/lunar-calendar)
+프로젝트 링크: [https://github.com/jaebum7396/lunar-calendar](https://github.com/jaebum7396/lunar-calendar)
