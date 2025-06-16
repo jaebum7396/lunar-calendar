@@ -17,7 +17,7 @@ spring:
     name: lunar-calendar
   profiles:
     #active: local
-    active: dev
+    #active: dev
     active: prod
   mvc:
     format:
