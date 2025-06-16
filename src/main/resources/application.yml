@@ -16,8 +16,8 @@ spring:
   application:
     name: lunar-calendar
   profiles:
-    active: local
-    #active: dev
+    #active: local
+    active: dev
     #active: prod
   mvc:
     format:
@@ -58,3 +58,6 @@ logging:
     com:
       codism: info
     root: error
+    org:
+      hibernate:
+        SQL: debug
