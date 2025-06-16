@@ -17,7 +17,8 @@ spring:
     name: lunar-calendar
   profiles:
     #active: local
-    active: deploy
+    active: dev
+    active: prod
   mvc:
     format:
       date-time: "yyyy-MM-dd HH:mm:ss"
