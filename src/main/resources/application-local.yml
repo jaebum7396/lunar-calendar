@@ -8,3 +8,8 @@ spring:
     service-registry:
       auto-registration:
         enabled: 'false'
+  datasource:
+    url: jdbc:postgresql://localhost:5433/lunar_calendar
+    username: postgres
+    password: q1w2e3r4!!
+    driver-class-name: org.postgresql.Driver
