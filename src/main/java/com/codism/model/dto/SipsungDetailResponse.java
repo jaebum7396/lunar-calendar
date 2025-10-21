@@ -1,7 +1,7 @@
 package com.codism.model.dto;
 
+import com.codism.model.entity.SipsungMaster;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
  * 십성 상세 정보 응답 DTO
  */
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class SipsungDetailResponse {
@@ -22,4 +21,18 @@ public class SipsungDetailResponse {
     private String description;        // 간단한 설명
     private String personality;        // 성격 특성 (줄바꿈 포함)
     private String fortune;            // 운세 특성 (줄바꿈 포함)
+
+    /**
+     * Entity로부터 DTO 생성
+     */
+    public SipsungDetailResponse(SipsungMaster sipsung) {
+        this.sipsungName = sipsung.getSipsungName();
+        this.sipsungHanja = sipsung.getSipsungHanja();
+        this.sipsungCategory = sipsung.getSipsungCategory();
+        this.relationshipType = sipsung.getRelationshipType();
+        this.eumyangCondition = sipsung.getEumyangCondition();
+        this.description = sipsung.getDescription();
+        this.personality = sipsung.getPersonality();
+        this.fortune = sipsung.getFortune();
+    }
 }

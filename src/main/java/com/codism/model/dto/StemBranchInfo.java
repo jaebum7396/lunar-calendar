@@ -1,9 +1,12 @@
 package com.codism.model.dto;
 
+import lombok.Getter;
+
 /**
  * 간지(천간지지) 정보를 담는 클래스
  * 년월일시 사주팔자 정보 포함
  */
+@Getter
 public class StemBranchInfo {
     private String yearStemBranch;
     private String monthStemBranch;
@@ -20,22 +23,6 @@ public class StemBranchInfo {
     // 기존 생성자 (하위 호환성)
     public StemBranchInfo(String yearStemBranch, String monthStemBranch, String dayStemBranch) {
         this(yearStemBranch, monthStemBranch, dayStemBranch, null);
-    }
-
-    public String getYearStemBranch() {
-        return yearStemBranch;
-    }
-
-    public String getMonthStemBranch() {
-        return monthStemBranch;
-    }
-
-    public String getDayStemBranch() {
-        return dayStemBranch;
-    }
-
-    public String getTimeStemBranch() {
-        return timeStemBranch;
     }
 
     @Override

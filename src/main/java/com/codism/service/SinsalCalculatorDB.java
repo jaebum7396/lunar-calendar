@@ -66,11 +66,7 @@ public class SinsalCalculatorDB {
                         yearCheongan, monthCheongan, hourCheongan)) {
 
                     // 신살 발견 (간략 정보만, 상세 정보는 별도 API로 조회)
-                    sinsalList.add(SajuDetailResponse.SinsalInfo.builder()
-                            .sinsalName(sinsal.getSinsalName())
-                            .sinsalType(sinsal.getSinsalType())
-                            .icon(sinsal.getIcon())
-                            .build());
+                    sinsalList.add(new SajuDetailResponse.SinsalInfo(sinsal));
 
                     break; // 같은 신살 중복 방지
                 }

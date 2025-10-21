@@ -29,16 +29,7 @@ public class SipsungDetailService {
         SipsungMaster sipsung = sipsungMasterRepository.findBySipsungName(sipsungName)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 십성입니다: " + sipsungName));
 
-        return SipsungDetailResponse.builder()
-                .sipsungName(sipsung.getSipsungName())
-                .sipsungHanja(sipsung.getSipsungHanja())
-                .sipsungCategory(sipsung.getSipsungCategory())
-                .relationshipType(sipsung.getRelationshipType())
-                .eumyangCondition(sipsung.getEumyangCondition())
-                .description(sipsung.getDescription())
-                .personality(sipsung.getPersonality())
-                .fortune(sipsung.getFortune())
-                .build();
+        return new SipsungDetailResponse(sipsung);
     }
 
     /**
@@ -50,16 +41,7 @@ public class SipsungDetailService {
         log.info("전체 십성 목록 조회");
 
         return sipsungMasterRepository.findAll().stream()
-                .map(sipsung -> SipsungDetailResponse.builder()
-                        .sipsungName(sipsung.getSipsungName())
-                        .sipsungHanja(sipsung.getSipsungHanja())
-                        .sipsungCategory(sipsung.getSipsungCategory())
-                        .relationshipType(sipsung.getRelationshipType())
-                        .eumyangCondition(sipsung.getEumyangCondition())
-                        .description(sipsung.getDescription())
-                        .personality(sipsung.getPersonality())
-                        .fortune(sipsung.getFortune())
-                        .build())
+                .map(SipsungDetailResponse::new)
                 .toList();
     }
 }

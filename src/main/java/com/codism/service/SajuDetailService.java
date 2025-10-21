@@ -93,19 +93,19 @@ public class SajuDetailService {
             String daeunSipsung = sipSungCalculatorDB.calculateSipSung(ilgan, daeunCheongan);
 
             // 6. 응답 DTO 생성
-            return SajuDetailResponse.builder()
-                    .birthDate(birthDate)
-                    .birthTime(birthTime)
-                    .isSolarCalendar(isSolarCalendar)
-                    .age(age)
-                    .year(createPillar(yearCheongan, yearJiji, sipSungMap.get("year")))
-                    .month(createPillar(monthCheongan, monthJiji, sipSungMap.get("month")))
-                    .day(createPillar(dayCheongan, dayJiji, sipSungMap.get("day")))
-                    .hour(createPillar(hourCheongan, hourJiji, sipSungMap.get("hour")))
-                    .daeun(createPillar(daeunCheongan, daeunJiji, daeunSipsung))  // 대운 (고도화됨)
-                    .seun(createSeun(LocalDate.now().getYear(), ilgan))  // 세운 (현재년도)
-                    .sinsalList(sinsalList)
-                    .build();
+            return new SajuDetailResponse(
+                    birthDate,
+                    birthTime,
+                    isSolarCalendar,
+                    age,
+                    createPillar(yearCheongan, yearJiji, sipSungMap.get("year")),
+                    createPillar(monthCheongan, monthJiji, sipSungMap.get("month")),
+                    createPillar(dayCheongan, dayJiji, sipSungMap.get("day")),
+                    createPillar(hourCheongan, hourJiji, sipSungMap.get("hour")),
+                    createPillar(daeunCheongan, daeunJiji, daeunSipsung),  // 대운 (고도화됨)
+                    createSeun(LocalDate.now().getYear(), ilgan),  // 세운 (현재년도)
+                    sinsalList
+            );
 
         } catch (Exception e) {
             log.error("사주 상세 조회 실패", e);
@@ -125,17 +125,17 @@ public class SajuDetailService {
         JijiMaster jijiMaster = jijiMasterRepository.findByJijiKorean(jiji)
                 .orElse(null);
 
-        return SajuPillar.builder()
-                .cheongan(cheongan)
-                .cheonganHanja(cheonganMaster != null ? cheonganMaster.getCheonganHanja() : cheongan)
-                .cheonganColor(cheonganMaster != null ? cheonganMaster.getColor() : null)
-                .cheonganColorHex(cheonganMaster != null ? cheonganMaster.getColorHex() : null)
-                .jiji(jiji)
-                .jijiHanja(jijiMaster != null ? jijiMaster.getJijiHanja() : jiji)
-                .jijiColor(jijiMaster != null ? jijiMaster.getColor() : null)
-                .jijiColorHex(jijiMaster != null ? jijiMaster.getColorHex() : null)
-                .sipsung(sipsung)
-                .build();
+        return new SajuPillar(
+                cheongan,
+                cheonganMaster != null ? cheonganMaster.getCheonganHanja() : cheongan,
+                cheonganMaster != null ? cheonganMaster.getColor() : null,
+                cheonganMaster != null ? cheonganMaster.getColorHex() : null,
+                jiji,
+                jijiMaster != null ? jijiMaster.getJijiHanja() : jiji,
+                jijiMaster != null ? jijiMaster.getColor() : null,
+                jijiMaster != null ? jijiMaster.getColorHex() : null,
+                sipsung
+        );
     }
 
     /**
@@ -156,17 +156,17 @@ public class SajuDetailService {
         JijiMaster jijiMaster = jijiMasterRepository.findByJijiKorean(jiji)
                 .orElse(null);
 
-        return SajuPillar.builder()
-                .cheongan(cheongan)
-                .cheonganHanja(cheonganMaster != null ? cheonganMaster.getCheonganHanja() : cheongan)
-                .cheonganColor(cheonganMaster != null ? cheonganMaster.getColor() : null)
-                .cheonganColorHex(cheonganMaster != null ? cheonganMaster.getColorHex() : null)
-                .jiji(jiji)
-                .jijiHanja(jijiMaster != null ? jijiMaster.getJijiHanja() : jiji)
-                .jijiColor(jijiMaster != null ? jijiMaster.getColor() : null)
-                .jijiColorHex(jijiMaster != null ? jijiMaster.getColorHex() : null)
-                .sipsung(sipsung)
-                .build();
+        return new SajuPillar(
+                cheongan,
+                cheonganMaster != null ? cheonganMaster.getCheonganHanja() : cheongan,
+                cheonganMaster != null ? cheonganMaster.getColor() : null,
+                cheonganMaster != null ? cheonganMaster.getColorHex() : null,
+                jiji,
+                jijiMaster != null ? jijiMaster.getJijiHanja() : jiji,
+                jijiMaster != null ? jijiMaster.getColor() : null,
+                jijiMaster != null ? jijiMaster.getColorHex() : null,
+                sipsung
+        );
     }
 
     /**

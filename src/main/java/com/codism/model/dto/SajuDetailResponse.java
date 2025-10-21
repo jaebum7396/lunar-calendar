@@ -1,8 +1,8 @@
 package com.codism.model.dto;
 
+import com.codism.model.entity.SinsalMaster;
 import com.codism.model.enums.SinsalType;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -14,7 +14,6 @@ import java.util.List;
  * 천간지지, 십성, 신살 등 전체 사주 정보 포함
  */
 @Getter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class SajuDetailResponse {
@@ -42,7 +41,6 @@ public class SajuDetailResponse {
      * 사주 기둥 (연월일시 각각)
      */
     @Getter
-    @Builder
     @NoArgsConstructor
     @AllArgsConstructor
     public static class SajuPillar {
@@ -61,12 +59,20 @@ public class SajuDetailResponse {
      * 신살 정보 (간략 버전 - 클릭 시 별도 API로 상세 조회)
      */
     @Getter
-    @Builder
     @NoArgsConstructor
     @AllArgsConstructor
     public static class SinsalInfo {
         private String sinsalName;          // 신살 이름 (천을귀인, 망신살...)
         private SinsalType sinsalType;      // 길신/흉신 (Enum)
         private String icon;                // 아이콘 (☀️, ⚠️...)
+
+        /**
+         * Entity로부터 DTO 생성
+         */
+        public SinsalInfo(SinsalMaster sinsal) {
+            this.sinsalName = sinsal.getSinsalName();
+            this.sinsalType = sinsal.getSinsalType();
+            this.icon = sinsal.getIcon();
+        }
     }
 }
