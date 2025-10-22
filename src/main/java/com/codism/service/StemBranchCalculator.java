@@ -51,12 +51,91 @@ public class StemBranchCalculator {
     }
 
     /**
-     * 음력 월의 간지(干支) 계산
+     * 절입일 기준 사주 월 계산 (양력 날짜 기준)
+     *
+     * @param solarYear 양력 연도
+     * @param solarMonth 양력 월
+     * @param solarDay 양력 일
+     * @return 사주 월 인덱스 (1=인월, 2=묘월, ..., 12=축월)
+     */
+    public static int getSajuMonthIndex(int solarYear, int solarMonth, int solarDay) {
+        // 절입일 대략적인 날짜 기준 (실제로는 DB에서 조회해야 함)
+        // 각 절기 이후에 해당 사주 월이 시작됨
+        // 예: 입춘(2/4) 이후 = 1월(인월), 경칩(3/6) 이후 = 2월(묘월)
+
+        if (solarMonth == 1 && solarDay < 6) {
+            return 12;  // 소한 이전 = 11월(자월)
+        } else if (solarMonth == 1 || (solarMonth == 2 && solarDay < 4)) {
+            return 12;  // 입춘 이전 = 12월(축월)
+        } else if (solarMonth == 2 || (solarMonth == 3 && solarDay < 6)) {
+            return 1;   // 경칩 이전 = 1월(인월)
+        } else if (solarMonth == 3 || (solarMonth == 4 && solarDay < 5)) {
+            return 2;   // 청명 이전 = 2월(묘월)
+        } else if (solarMonth == 4 || (solarMonth == 5 && solarDay < 6)) {
+            return 3;   // 입하 이전 = 3월(진월)
+        } else if (solarMonth == 5 || (solarMonth == 6 && solarDay < 6)) {
+            return 4;   // 망종 이전 = 4월(사월)
+        } else if (solarMonth == 6 || (solarMonth == 7 && solarDay < 7)) {
+            return 5;   // 소서 이전 = 5월(오월)
+        } else if (solarMonth == 7 || (solarMonth == 8 && solarDay < 8)) {
+            return 6;   // 입추 이전 = 6월(미월)
+        } else if (solarMonth == 8 || (solarMonth == 9 && solarDay < 8)) {
+            return 7;   // 백로 이전 = 7월(신월)
+        } else if (solarMonth == 9 || (solarMonth == 10 && solarDay < 8)) {
+            return 8;   // 한로 이전 = 8월(유월)
+        } else if (solarMonth == 10 || (solarMonth == 11 && solarDay < 7)) {
+            return 9;   // 입동 이전 = 9월(술월)
+        } else if (solarMonth == 11 || (solarMonth == 12 && solarDay < 7)) {
+            return 10;  // 대설 이전 = 10월(해월)
+        } else {
+            return 11;  // 대설 이후 = 11월(자월)
+        }
+    }
+
+    /**
+     * 절입일 기준 월간지(干支) 계산
+     *
+     * @param solarYear  양력 연도
+     * @param solarMonth 양력 월
+     * @param solarDay   양력 일
+     * @return 해당 월의 간지 문자열 (예: "기해월")
+     */
+    public static String getMonthStemBranchBySolarTerm(int solarYear, int solarMonth, int solarDay) {
+        // 절입일 기준 사주 월 계산
+        int sajuMonth = getSajuMonthIndex(solarYear, solarMonth, solarDay);
+
+        // 년도 결정: 입춘 이전이면 전년도
+        int sajuYear = solarYear;
+        if (sajuMonth == 12) {
+            // 12월(축월)이면 전년도 기준
+            sajuYear = solarYear - 1;
+        }
+
+        // 년도의 천간(stem)에 따라 월의 천간 결정
+        int yearStem = (sajuYear - 4) % 10;
+        if (yearStem < 0) yearStem += 10;
+
+        // 월의 천간 계산 - 년의 천간에 따라 시작하는 월의 천간이 결정됨
+        // 사주 월: 1=인월, 2=묘월, ..., 12=축월
+        int monthStem = (yearStem * 2 + sajuMonth) % 10;
+        if (monthStem == 0) monthStem = 10;
+        monthStem = (monthStem - 1) % 10;
+
+        // 월의 지지 계산 (사주 1월=인, 2월=묘, ..., 11월=자, 12월=축)
+        int monthBranch = (sajuMonth + 1) % 12;
+
+        return CELESTIAL_STEMS[monthStem] + TERRESTRIAL_BRANCHES[monthBranch];
+    }
+
+    /**
+     * 음력 월의 간지(干支) 계산 (레거시 - 절입일 기준으로 변경 권장)
      *
      * @param lunarYear  음력 연도
      * @param lunarMonth 음력 월 (1-12)
      * @return 해당 월의 간지 문자열 (예: "경자월")
+     * @deprecated 사주 계산에는 getMonthStemBranchBySolarTerm 사용 권장
      */
+    @Deprecated
     public static String getMonthStemBranch(int lunarYear, int lunarMonth) {
         // 년도의 천간(stem)에 따라 월의 천간 결정
         int yearStem = (lunarYear - 4) % 10;
@@ -67,10 +146,8 @@ public class StemBranchCalculator {
         if (monthStem == 0) monthStem = 10;
         monthStem = (monthStem - 1) % 10;
 
-        // 월의 지지 계산
+        // 월의 지지 계산 (음력 1월=인, 2월=묘, ..., 10월=해, 11월=자, 12월=축)
         int monthBranch = (lunarMonth + 1) % 12;
-        if (monthBranch == 0) monthBranch = 12;
-        monthBranch = (monthBranch - 1) % 12;
 
         return CELESTIAL_STEMS[monthStem] + TERRESTRIAL_BRANCHES[monthBranch];
     }
@@ -84,13 +161,13 @@ public class StemBranchCalculator {
      * @return 해당 일의 간지 문자열 (예: "경자일")
      */
     public static String getDayStemBranch(int solarYear, int solarMonth, int solarDay) {
-        // 기준일자: 1900년 1월 1일은 "경진일"
+        // 기준일자: 1900년 1월 1일은 "을해일" (乙亥)
         Calendar baseDate = Calendar.getInstance();
         baseDate.set(1900, 0, 1); // 1900년 1월 1일
 
         // 기준일자의 간지 인덱스
-        int baseStem = 6; // "경"의 인덱스
-        int baseBranch = 4; // "진"의 인덱스
+        int baseStem = 1; // "을"의 인덱스
+        int baseBranch = 11; // "해"의 인덱스
 
         // 입력일자
         Calendar targetDate = Calendar.getInstance();
@@ -135,7 +212,8 @@ public class StemBranchCalculator {
         int timeBranchIndex = getTimeBranchIndex(hour);
 
         // 시간의 천간 계산 (일간에 따라 자시의 천간이 결정됨)
-        int timeStemIndex = (DAY_TO_TIME_STEM_OFFSET[dayStemIndex] + timeBranchIndex * 2) % 10;
+        // 자시부터 시작해서 시간마다 천간이 1씩 증가
+        int timeStemIndex = (DAY_TO_TIME_STEM_OFFSET[dayStemIndex] + timeBranchIndex) % 10;
 
         return CELESTIAL_STEMS[timeStemIndex] + TIME_BRANCHES[timeBranchIndex];
     }
@@ -147,19 +225,21 @@ public class StemBranchCalculator {
      * @return 지지 인덱스 (0-11)
      */
     private static int getTimeBranchIndex(int hour) {
-        // 자시: 23-01시, 축시: 01-03시, 인시: 03-05시, ...
-        if (hour == 23 || hour == 0) return 0;  // 자시
-        else if (hour >= 1 && hour < 3) return 1;   // 축시
-        else if (hour >= 3 && hour < 5) return 2;   // 인시
-        else if (hour >= 5 && hour < 7) return 3;   // 묘시
-        else if (hour >= 7 && hour < 9) return 4;   // 진시
-        else if (hour >= 9 && hour < 11) return 5;  // 사시
-        else if (hour >= 11 && hour < 13) return 6; // 오시
-        else if (hour >= 13 && hour < 15) return 7; // 미시
-        else if (hour >= 15 && hour < 17) return 8; // 신시
-        else if (hour >= 17 && hour < 19) return 9; // 유시
-        else if (hour >= 19 && hour < 21) return 10; // 술시
-        else return 11; // 해시 (21-23시)
+        // 전통 사주에서 정시(X:00)는 이전 시에 포함됨
+        // 예: 05:00~06:59 = 묘시, 07:00~08:59 = 진시
+        // 하지만 일부 유파에서는 07:00을 묘시에 포함시키므로 < 7로 처리
+        if (hour == 23 || hour == 0) return 0;  // 자시 (23:00~00:59)
+        else if (hour >= 1 && hour < 3) return 1;   // 축시 (01:00~02:59)
+        else if (hour >= 3 && hour < 5) return 2;   // 인시 (03:00~04:59)
+        else if (hour >= 5 && hour < 7) return 3;   // 묘시 (05:00~06:59)
+        else if (hour >= 7 && hour < 9) return 4;   // 진시 (07:00~08:59)
+        else if (hour >= 9 && hour < 11) return 5;  // 사시 (09:00~10:59)
+        else if (hour >= 11 && hour < 13) return 6; // 오시 (11:00~12:59)
+        else if (hour >= 13 && hour < 15) return 7; // 미시 (13:00~14:59)
+        else if (hour >= 15 && hour < 17) return 8; // 신시 (15:00~16:59)
+        else if (hour >= 17 && hour < 19) return 9; // 유시 (17:00~18:59)
+        else if (hour >= 19 && hour < 21) return 10; // 술시 (19:00~20:59)
+        else return 11; // 해시 (21:00~22:59)
     }
 
     /**
@@ -231,23 +311,32 @@ public class StemBranchCalculator {
      * @return 년월일시 간지 정보가 담긴 StemBranchInfo 객체
      */
     public static StemBranchInfo getAllStemBranch(int solarYear, int solarMonth, int solarDay, Integer hour, boolean isSolarCalendar) {
-        // 양력 날짜를 음력으로 변환
+        // 양력 날짜를 음력으로 변환 (사주는 항상 음력 기준)
         LunarCalendarService.LunarDate lunarDate = LunarCalendarService.solarToLunar(solarYear, solarMonth, solarDay);
 
-        int year = lunarDate.getYear();
-        int month = lunarDate.getMonth();
-        int day = lunarDate.getDay();
+        int lunarYear = lunarDate.getYear();
+        int lunarMonth = lunarDate.getMonth();
 
-        if (isSolarCalendar) {
-            year = solarYear;
-            month = solarMonth;
-            day = solarDay;
-        }
+        // 음력 변환 결과 로깅
+        log.info("양력 {}/{}/{} → 음력 {}/{}/{}", solarYear, solarMonth, solarDay, lunarYear, lunarMonth, lunarDate.getDay());
 
         // 년월일 간지 계산
-        String yearStemBranch = getYearStemBranch(year);
-        String monthStemBranch = getMonthStemBranch(year, month);
+        // 년: 음력 년 기준 (단, 입춘 이전은 전년도)
+        // 월: 절입일 기준 (24절기 중 입춘, 경칩 등 12개 절기 기준)
+        // 일: 양력 기준
+        String monthStemBranch = getMonthStemBranchBySolarTerm(solarYear, solarMonth, solarDay);
+        int sajuMonth = getSajuMonthIndex(solarYear, solarMonth, solarDay);
+
+        // 사주 년도 결정: 입춘 이전(12월 축월)이면 전년도
+        int sajuYear = lunarYear;
+        if (sajuMonth == 12) {
+            sajuYear = lunarYear - 1;
+        }
+
+        String yearStemBranch = getYearStemBranch(sajuYear);
         String dayStemBranch = getDayStemBranch(solarYear, solarMonth, solarDay);
+
+        log.info("절입일 기준 - 사주년: {}, 사주월: {}월({})", sajuYear, sajuMonth, monthStemBranch);
 
         // 시간 간지 계산 (시간이 제공된 경우)
         String timeStemBranch = null;

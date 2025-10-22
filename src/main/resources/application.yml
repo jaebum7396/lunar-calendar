@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 8088
 
 eureka:
   client:
@@ -16,9 +16,9 @@ spring:
   application:
     name: lunar-calendar
   profiles:
-    #active: local
+    active: local
     #active: dev
-    active: prod
+    #active: prod
   mvc:
     format:
       date-time: "yyyy-MM-dd HH:mm:ss"
@@ -26,12 +26,35 @@ spring:
     web:
       pageable:
         max-page-size: 50
+  datasource:
+    url: jdbc:h2:mem:lunar_calendar;DATABASE_TO_UPPER=FALSE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  jpa:
+    hibernate:
+      # none: 기본값
+      # create-drop: 시작시 drop및 생성, SessionFactory 종료시 drop
+      # create: SessionFactory 시작시 데이터베이스 drop, 생성된 DDL 적용.
+      # update: 변경된 스키마 적용
+      # validate : 변경된 스키마가 있다면 변경된 사항을 출력, 애플리케이션 종료
+      ddl-auto: create
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+  sql:
+    init:
+      mode: never
 logging:
   config: classpath:logback-spring.xml
   level:
     com:
       codism: info
     root: error
-    org:
-      hibernate:
-        SQL: debug

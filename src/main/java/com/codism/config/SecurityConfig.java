@@ -39,6 +39,9 @@ public class SecurityConfig {
                 // CORS 설정
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
 
+                // H2 콘솔을 위한 Frame Options 비활성화
+                .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable()))
+
                 // 세션 비활성화 (JWT 사용)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 

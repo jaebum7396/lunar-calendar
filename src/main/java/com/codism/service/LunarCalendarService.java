@@ -1,12 +1,14 @@
 package com.codism.service;
 
+import com.github.usingsky.calendar.KoreanLunarCalendar;
 import java.util.Calendar;
 
 /**
  * 만세력(음력) 계산을 위한 Java API
  * 음력-양력 변환 및 다양한 달력 관련 기능을 제공합니다.
+ * KoreanLunarCalendar 라이브러리 사용 (한국천문연구원 데이터 기반)
  *
- * @version 1.1
+ * @version 2.0
  */
 public class LunarCalendarService {
 
@@ -66,7 +68,7 @@ public class LunarCalendarService {
     };
 
     /**
-     * 양력 날짜를 음력으로 변환
+     * 양력 날짜를 음력으로 변환 (KoreanLunarCalendar 라이브러리 사용)
      *
      * @param year  양력 연도
      * @param month 양력 월 (1-12)
@@ -74,68 +76,25 @@ public class LunarCalendarService {
      * @return 음력 날짜를 나타내는 LunarDate 객체
      */
     public static LunarDate solarToLunar(int year, int month, int day) {
-        // 지원 가능한 연도 범위 확인
-        if (year < 1900 || year > 2050) {
-            throw new IllegalArgumentException("지원하는 연도 범위는 1900년에서 2050년까지입니다: " + year);
+        try {
+            KoreanLunarCalendar calendar = KoreanLunarCalendar.getInstance();
+            calendar.setSolarDate(year, month, day);
+
+            // 음력 정보 추출 - getLunarIsoFormat()은 "YYYY-MM-DD" 형식 반환
+            String lunarIso = calendar.getLunarIsoFormat();
+            String[] parts = lunarIso.split("-");
+
+            int lunarYear = Integer.parseInt(parts[0]);
+            int lunarMonth = Integer.parseInt(parts[1]);
+            int lunarDay = Integer.parseInt(parts[2]);
+
+            // 윤달 여부는 ISO 형식에서 확인 (intercalation 필드)
+            boolean isLeapMonth = calendar.isIntercalation();
+
+            return new LunarDate(lunarYear, lunarMonth, lunarDay, isLeapMonth);
+        } catch (Exception e) {
+            throw new IllegalArgumentException("음력 변환 실패: " + year + "/" + month + "/" + day, e);
         }
-
-        // 기준일자 (1900년 1월 31일은 음력 1900년 1월 1일)
-        Calendar baseDate = Calendar.getInstance();
-        baseDate.set(1900, 0, 31); // 1900년 1월 31일
-
-        // 변환할 날짜
-        Calendar targetDate = Calendar.getInstance();
-        targetDate.set(year, month - 1, day);
-
-        // 두 날짜 사이의 일수 계산
-        long offset = (targetDate.getTimeInMillis() - baseDate.getTimeInMillis()) / (24 * 60 * 60 * 1000);
-
-        // 음력 날짜 계산
-        int lunarYear = 1900;
-        int lunarMonth = 1;
-        int lunarDay = 1;
-        boolean isLeapMonth = false;
-
-        // 날짜 차이만큼 이동하며 음력 날짜 계산
-        int daysInLunarYear = getLunarYearDays(lunarYear);
-
-        while (offset >= daysInLunarYear) {
-            offset -= daysInLunarYear;
-            lunarYear++;
-
-            // 연도 범위 확인 (안전장치)
-            if (lunarYear > 2050) {
-                throw new IllegalArgumentException("계산된 음력 연도가 지원 범위를 초과했습니다: " + lunarYear);
-            }
-
-            daysInLunarYear = getLunarYearDays(lunarYear);
-        }
-
-        // 해당 연도의 월별 일수 계산
-        int[] monthDays = getLunarMonthDays(lunarYear);
-        int leapMonth = getLeapMonth(lunarYear);
-
-        // 월 계산
-        for (int i = 0; i < monthDays.length; i++) {
-            int daysInMonth = monthDays[i];
-
-            if (offset < daysInMonth) {
-                if (i > 0 && i == leapMonth) {
-                    isLeapMonth = true;
-                    lunarMonth = i;
-                } else if (i > 0 && i > leapMonth && leapMonth > 0) {
-                    lunarMonth = i;
-                } else {
-                    lunarMonth = i + 1;
-                }
-                lunarDay = (int) (offset + 1);
-                break;
-            }
-
-            offset -= daysInMonth;
-        }
-
-        return new LunarDate(lunarYear, lunarMonth, lunarDay, isLeapMonth);
     }
 
     /**

@@ -21,6 +21,7 @@ configurations {
 
 repositories {
     mavenCentral()
+    maven { url 'https://jitpack.io' }
 }
 
 dependencies {
@@ -35,6 +36,11 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-devtools'
+
+    // Database
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    runtimeOnly 'com.h2database:h2'
+    // implementation 'org.postgresql:postgresql'  // PostgreSQL 사용 시 주석 해제
 
     // Security (JWT 사용을 위해 필요한 경우만)
     implementation 'org.springframework.boot:spring-boot-starter-security'
@@ -51,6 +57,9 @@ dependencies {
     implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
 
     implementation 'commons-io:commons-io:2.18.0'
+
+    // Korean Lunar Calendar
+    implementation 'com.github.usingsky:KoreanLunarCalendar:0.3.1'
 
     // Redis
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
