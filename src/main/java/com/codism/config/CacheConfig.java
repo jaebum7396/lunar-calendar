@@ -17,7 +17,8 @@ public class CacheConfig {
     @Bean
     public CacheManager cacheManager() {
         return new ConcurrentMapCacheManager(
-                "sipsung",          // 십성 계산 결과 캐시
+                "sipsung",          // 천간십성 계산 결과 캐시
+                "jijiSipsung",      // 지지십성 계산 결과 캐시
                 "sipsungDetail",    // 십성 상세 정보 캐시
                 "sinsal",           // 신살 계산 결과 캐시
                 "cheongan",         // 천간 마스터 캐시

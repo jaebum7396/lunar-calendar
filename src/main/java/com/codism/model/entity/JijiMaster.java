@@ -83,6 +83,10 @@ public class JijiMaster {
     @Comment("오행 색상 (HEX 코드)")
     private String colorHex;
 
+    @Column(name = "jijanggan", length = 10)
+    @Comment("지장간(지지 본기) - 십성 계산용 (갑, 을, 병...)")
+    private String jijanggan;
+
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     @Comment("생성 일시")

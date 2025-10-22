@@ -52,7 +52,8 @@ public class SajuDetailResponse {
         private String jijiHanja;       // 지지 (한자: 子, 丑, 寅...)
         private String jijiColor;       // 지지 색상 (한글)
         private String jijiColorHex;    // 지지 색상 (HEX)
-        private String sipsung;         // 십성 (비견, 겁재, 식신...)
+        private String cheonganSipsung; // 천간십성 (비견, 겁재, 식신...)
+        private String jijiSipsung;     // 지지십성 (비견, 겁재, 식신...)
     }
 
     /**

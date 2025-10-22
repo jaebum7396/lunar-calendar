@@ -1,9 +1,11 @@
 package com.codism.service;
 
 import com.codism.model.entity.CheonganMaster;
+import com.codism.model.entity.JijiMaster;
 import com.codism.model.entity.SipsungMaster;
 import com.codism.model.entity.SipsungRule;
 import com.codism.repository.CheonganMasterRepository;
+import com.codism.repository.JijiMasterRepository;
 import com.codism.repository.SipsungMasterRepository;
 import com.codism.repository.SipsungRuleRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +27,7 @@ import java.util.Optional;
 public class SipSungCalculatorDB {
 
     private final CheonganMasterRepository cheonganMasterRepository;
+    private final JijiMasterRepository jijiMasterRepository;
     private final SipsungMasterRepository sipsungMasterRepository;
     private final SipsungRuleRepository sipsungRuleRepository;
 
@@ -107,6 +110,36 @@ public class SipSungCalculatorDB {
 
         } catch (Exception e) {
             log.error("십성 계산 실패 - ilgan: {}, target: {}", ilgan, targetCheongan, e);
+            return "알 수 없음";
+        }
+    }
+
+    /**
+     * 지지십성 계산 (일간 vs 대상 지지)
+     * 지지의 지장간을 통해 십성 계산
+     *
+     * @param ilgan 일간
+     * @param targetJiji 대상 지지
+     * @return 지지십성명
+     */
+    @Cacheable(value = "jijiSipsung", key = "#ilgan + '_' + #targetJiji")
+    public String calculateJijiSipsung(String ilgan, String targetJiji) {
+        try {
+            // 1. 대상 지지의 지장간(본기) 조회
+            JijiMaster jijiMaster = jijiMasterRepository.findByJijiKorean(targetJiji)
+                    .orElseThrow(() -> new IllegalArgumentException("지지 데이터 없음: " + targetJiji));
+
+            String jijanggan = jijiMaster.getJijanggan();
+            if (jijanggan == null || jijanggan.isEmpty()) {
+                log.warn("지장간 데이터 없음 - 지지: {}", targetJiji);
+                return "알 수 없음";
+            }
+
+            // 2. 지장간으로 십성 계산 (천간십성 계산 메서드 재사용)
+            return calculateSipSung(ilgan, jijanggan);
+
+        } catch (Exception e) {
+            log.error("지지십성 계산 실패 - ilgan: {}, targetJiji: {}", ilgan, targetJiji, e);
             return "알 수 없음";
         }
     }

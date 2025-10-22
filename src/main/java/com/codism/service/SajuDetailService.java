@@ -69,40 +69,47 @@ public class SajuDetailService {
             // 일간
             String ilgan = dayCheongan;
 
-            // 2. 십성 계산 (DB 기반)
-            var sipSungMap = sipSungCalculatorDB.calculateAllSipSung(
+            // 2. 천간십성 계산 (DB 기반)
+            var cheonganSipsungMap = sipSungCalculatorDB.calculateAllSipSung(
                     ilgan, yearCheongan, monthCheongan, hourCheongan
             );
 
-            // 3. 신살 계산 (DB 기반)
+            // 3. 지지십성 계산 (DB 기반)
+            String yearJijiSipsung = sipSungCalculatorDB.calculateJijiSipsung(ilgan, yearJiji);
+            String monthJijiSipsung = sipSungCalculatorDB.calculateJijiSipsung(ilgan, monthJiji);
+            String dayJijiSipsung = sipSungCalculatorDB.calculateJijiSipsung(ilgan, dayJiji);
+            String hourJijiSipsung = sipSungCalculatorDB.calculateJijiSipsung(ilgan, hourJiji);
+
+            // 4. 신살 계산 (DB 기반)
             var sinsalList = sinsalCalculatorDB.calculateAllSinsal(
                     ilgan,
                     yearJiji, monthJiji, dayJiji, hourJiji,
                     yearCheongan, monthCheongan, hourCheongan
             );
 
-            // 4. 나이 계산
+            // 5. 나이 계산
             int age = calculateAge(birthDate);
 
-            // 5. 대운 계산
+            // 6. 대운 계산
             String daeunStemBranch = daeunCalculator.calculateDaeun(
                     birthDate, gender, yearCheongan, monthCheongan, monthJiji
             );
             String daeunCheongan = daeunStemBranch.substring(0, 1);
             String daeunJiji = daeunStemBranch.substring(1, 2);
-            String daeunSipsung = sipSungCalculatorDB.calculateSipSung(ilgan, daeunCheongan);
+            String daeunCheonganSipsung = sipSungCalculatorDB.calculateSipSung(ilgan, daeunCheongan);
+            String daeunJijiSipsung = sipSungCalculatorDB.calculateJijiSipsung(ilgan, daeunJiji);
 
-            // 6. 응답 DTO 생성
+            // 7. 응답 DTO 생성
             return new SajuDetailResponse(
                     birthDate,
                     birthTime,
                     isSolarCalendar,
                     age,
-                    createPillar(yearCheongan, yearJiji, sipSungMap.get("year")),
-                    createPillar(monthCheongan, monthJiji, sipSungMap.get("month")),
-                    createPillar(dayCheongan, dayJiji, sipSungMap.get("day")),
-                    createPillar(hourCheongan, hourJiji, sipSungMap.get("hour")),
-                    createPillar(daeunCheongan, daeunJiji, daeunSipsung),  // 대운 (고도화됨)
+                    createPillar(yearCheongan, yearJiji, cheonganSipsungMap.get("year"), yearJijiSipsung),
+                    createPillar(monthCheongan, monthJiji, cheonganSipsungMap.get("month"), monthJijiSipsung),
+                    createPillar(dayCheongan, dayJiji, cheonganSipsungMap.get("day"), dayJijiSipsung),
+                    createPillar(hourCheongan, hourJiji, cheonganSipsungMap.get("hour"), hourJijiSipsung),
+                    createPillar(daeunCheongan, daeunJiji, daeunCheonganSipsung, daeunJijiSipsung),  // 대운
                     createSeun(LocalDate.now().getYear(), ilgan),  // 세운 (현재년도)
                     sinsalList
             );
@@ -116,7 +123,7 @@ public class SajuDetailService {
     /**
      * 사주 기둥 생성 (DB에서 한자, 색상 조회)
      */
-    private SajuPillar createPillar(String cheongan, String jiji, String sipsung) {
+    private SajuPillar createPillar(String cheongan, String jiji, String cheonganSipsung, String jijiSipsung) {
         // DB에서 천간 정보 조회 (한자, 색상)
         CheonganMaster cheonganMaster = cheonganMasterRepository.findByCheonganKorean(cheongan)
                 .orElse(null);
@@ -134,7 +141,8 @@ public class SajuDetailService {
                 jijiMaster != null ? jijiMaster.getJijiHanja() : jiji,
                 jijiMaster != null ? jijiMaster.getColor() : null,
                 jijiMaster != null ? jijiMaster.getColorHex() : null,
-                sipsung
+                cheonganSipsung,
+                jijiSipsung
         );
     }
 
@@ -146,8 +154,11 @@ public class SajuDetailService {
         String cheongan = yearStemBranch.substring(0, 1);
         String jiji = yearStemBranch.substring(1, 2);
 
-        // 십성 계산
-        String sipsung = sipSungCalculatorDB.calculateSipSung(ilgan, cheongan);
+        // 천간십성 계산
+        String cheonganSipsung = sipSungCalculatorDB.calculateSipSung(ilgan, cheongan);
+
+        // 지지십성 계산
+        String jijiSipsung = sipSungCalculatorDB.calculateJijiSipsung(ilgan, jiji);
 
         // DB에서 정보 조회 (한자, 색상)
         CheonganMaster cheonganMaster = cheonganMasterRepository.findByCheonganKorean(cheongan)
@@ -165,7 +176,8 @@ public class SajuDetailService {
                 jijiMaster != null ? jijiMaster.getJijiHanja() : jiji,
                 jijiMaster != null ? jijiMaster.getColor() : null,
                 jijiMaster != null ? jijiMaster.getColorHex() : null,
-                sipsung
+                cheonganSipsung,
+                jijiSipsung
         );
     }
 
