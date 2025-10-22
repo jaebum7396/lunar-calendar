@@ -1,5 +1,5 @@
 server:
-  port: 8088
+  port: 8080
 
 eureka:
   client:
@@ -16,8 +16,8 @@ spring:
   application:
     name: lunar-calendar
   profiles:
-    active: local
-    #active: dev
+    #active: local
+    active: dev
     #active: prod
   mvc:
     format:
