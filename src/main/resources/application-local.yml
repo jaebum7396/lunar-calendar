@@ -9,7 +9,31 @@ spring:
       auto-registration:
         enabled: 'false'
   datasource:
-    url: jdbc:postgresql://localhost:5433/lunar_calendar
-    username: postgres
+    url: jdbc:h2:mem:lunar_calendar;DATABASE_TO_UPPER=FALSE
+    username: sa
     password: q1w2e3r4!!
-    driver-class-name: org.postgresql.Driver
+    driver-class-name: org.h2.Driver
+  h2:
+    console:
+      enabled: true
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  # PostgreSQL 설정 (필요시 주석 해제)
+  # datasource:
+  #   url: jdbc:postgresql://localhost:5433/lunar_calendar
+  #   username: postgres
+  #   password: q1w2e3r4!!
+  #   driver-class-name: org.postgresql.Driver
+
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: debug
+        type:
+          descriptor:
+            sql:
+              BasicBinder: trace

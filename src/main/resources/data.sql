@@ -17,7 +17,7 @@ VALUES ('갑', '甲', 'Gap', '목', '양', 1, '큰 나무, 동쪽 방향, 봄의
 -- ============================================
 -- 지지(地支) 마스터 데이터 삽입
 -- ============================================
-INSERT INTO jiji_master (jiji_korean, jiji_hanja, jiji_english, animal, ohang, direction, season, month, time_start,
+INSERT INTO jiji_master (jiji_korean, jiji_hanja, jiji_english, animal, ohang, direction, season, jiji_month, time_start,
                          time_end, sequence_order, description)
 VALUES ('자', '子', 'Ja', '쥐', '수', '북', '겨울', 11, 23, 1, 1, '밤 11시~새벽 1시, 쥐띠, 한겨울'),
        ('축', '丑', 'Chuk', '소', '토', '북동', '겨울', 12, 1, 3, 2, '새벽 1시~3시, 소띠, 겨울의 끝'),

@@ -55,7 +55,7 @@ public class JijiMaster {
     @Comment("계절 (봄, 여름, 가을, 겨울)")
     private String season;
 
-    @Column(name = "month")
+    @Column(name = "jiji_month")
     @Comment("해당 월 (1~12)")
     private Integer month;
 

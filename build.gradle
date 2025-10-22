@@ -39,7 +39,8 @@ dependencies {
 
     // Database
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.postgresql:postgresql'
+    runtimeOnly 'com.h2database:h2'
+    // implementation 'org.postgresql:postgresql'  // PostgreSQL 사용 시 주석 해제
 
     // Security (JWT 사용을 위해 필요한 경우만)
     implementation 'org.springframework.boot:spring-boot-starter-security'
