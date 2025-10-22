@@ -681,12 +681,12 @@ VALUES (5, 'ILGAN_JIJI', '["갑"]', '["사"]', 'any', '갑일에 사가 있으�
        (5, 'ILGAN_JIJI', '["임"]', '["인"]', 'any', '임일에 인이 있으면 문창귀인'),
        (5, 'ILGAN_JIJI', '["계"]', '["묘"]', 'any', '계일에 묘가 있으면 문창귀인');
 
--- 도화살 규칙 - 묘, 유, 오, 자 자체가 도화살
+-- 도화살 규칙 - 삼합 기준
 INSERT INTO sinsal_rule (sinsal_id, rule_type, condition_yenji, condition_target, match_position, description)
-VALUES (23, 'YENJI_TO_ANY', '[]', '["묘"]', 'any', '묘가 있으면 도화살'),
-       (23, 'YENJI_TO_ANY', '[]', '["유"]', 'any', '유가 있으면 도화살'),
-       (23, 'YENJI_TO_ANY', '[]', '["오"]', 'any', '오가 있으면 도화살'),
-       (23, 'YENJI_TO_ANY', '[]', '["자"]', 'any', '자가 있으면 도화살');
+VALUES (23, 'YENJI_TO_ANY', '["인", "오", "술"]', '["묘"]', 'any', '인오술 삼합에 묘가 있으면 도화살'),
+       (23, 'YENJI_TO_ANY', '["신", "자", "진"]', '["유"]', 'any', '신자진 삼합에 유가 있으면 도화살'),
+       (23, 'YENJI_TO_ANY', '["사", "유", "축"]', '["오"]', 'any', '사유축 삼합에 오가 있으면 도화살'),
+       (23, 'YENJI_TO_ANY', '["해", "묘", "미"]', '["자"]', 'any', '해묘미 삼합에 자가 있으면 도화살');
 
 -- 역마살 규칙
 INSERT INTO sinsal_rule (sinsal_id, rule_type, condition_yenji, condition_target, match_position, description)
@@ -718,12 +718,12 @@ VALUES (28, 'ILGAN_JIJI', '["갑"]', '["묘"]', 'any', '갑일에 묘가 있으�
        (28, 'ILGAN_JIJI', '["경"]', '["유"]', 'any', '경일에 유가 있으면 양인살'),
        (28, 'ILGAN_JIJI', '["임"]', '["자"]', 'any', '임일에 자가 있으면 양인살');
 
--- 괴강살 규칙 (일주 기준)
+-- 괴강살 규칙 (일주 기준) - 31번
 INSERT INTO sinsal_rule (sinsal_id, rule_type, condition_ilgan, condition_target, match_position, description)
-VALUES (34, 'ILJU_COMBINATION', '["경"]', '["술"]', 'day', '경술일주면 괴강살'),
-       (34, 'ILJU_COMBINATION', '["경"]', '["진"]', 'day', '경진일주면 괴강살'),
-       (34, 'ILJU_COMBINATION', '["임"]', '["진"]', 'day', '임진일주면 괴강살'),
-       (34, 'ILJU_COMBINATION', '["무"]', '["술"]', 'day', '무술일주면 괴강살');
+VALUES (31, 'ILJU_COMBINATION', '["경"]', '["술"]', 'day', '경술일주면 괴강살'),
+       (31, 'ILJU_COMBINATION', '["경"]', '["진"]', 'day', '경진일주면 괴강살'),
+       (31, 'ILJU_COMBINATION', '["임"]', '["진"]', 'day', '임진일주면 괴강살'),
+       (31, 'ILJU_COMBINATION', '["무"]', '["술"]', 'day', '무술일주면 괴강살');
 
 -- 화개살 규칙
 INSERT INTO sinsal_rule (sinsal_id, rule_type, condition_yenji, condition_target, match_position, description)
@@ -847,11 +847,15 @@ VALUES (16, 'YENJI_TO_ANY', '["자"]', '["무"]', 'any', '자년에 무가 있�
        (16, 'YENJI_TO_ANY', '["해"]', '["임"]', 'any', '해년에 임이 있으면 천사귀인');
 
 -- 백호대살 규칙 (25번)
-INSERT INTO sinsal_rule (sinsal_id, rule_type, condition_yenji, condition_target, match_position, description)
-VALUES (25, 'YENJI_TO_ANY', '["인", "오", "술"]', '["유"]', 'any', '인오술년에 유가 있으면 백호대살'),
-       (25, 'YENJI_TO_ANY', '["사", "유", "축"]', '["자"]', 'any', '사유축년에 자가 있으면 백호대살'),
-       (25, 'YENJI_TO_ANY', '["신", "자", "진"]', '["묘"]', 'any', '신자진년에 묘가 있으면 백호대살'),
-       (25, 'YENJI_TO_ANY', '["해", "묘", "미"]', '["오"]', 'any', '해묘미년에 오가 있으면 백호대살');
+-- 백호대살은 일주 기준: 갑진, 을미, 병술, 정축, 무진, 임술, 계축
+INSERT INTO sinsal_rule (sinsal_id, rule_type, condition_ilgan, condition_target, match_position, description)
+VALUES (25, 'ILJU_COMBINATION', '["갑"]', '["진"]', 'day', '갑진일주면 백호대살'),
+       (25, 'ILJU_COMBINATION', '["을"]', '["미"]', 'day', '을미일주면 백호대살'),
+       (25, 'ILJU_COMBINATION', '["병"]', '["술"]', 'day', '병술일주면 백호대살'),
+       (25, 'ILJU_COMBINATION', '["정"]', '["축"]', 'day', '정축일주면 백호대살'),
+       (25, 'ILJU_COMBINATION', '["무"]', '["진"]', 'day', '무진일주면 백호대살'),
+       (25, 'ILJU_COMBINATION', '["임"]', '["술"]', 'day', '임술일주면 백호대살'),
+       (25, 'ILJU_COMBINATION', '["계"]', '["축"]', 'day', '계축일주면 백호대살');
 
 -- 상문살 규칙 (26번)
 INSERT INTO sinsal_rule (sinsal_id, rule_type, condition_yenji, condition_target, match_position, description)
@@ -975,13 +979,16 @@ VALUES (33, 'ILGAN_JIJI', '["갑"]', '["인"]', 'month', '갑일에 월지가 �
        (33, 'ILGAN_JIJI', '["임"]', '["해"]', 'month', '임일에 월지가 해면 천문성'),
        (33, 'ILGAN_JIJI', '["계"]', '["자"]', 'month', '계일에 월지가 자면 천문성');
 
--- 귀문관살 규칙 (49번 = 길신 20개 + 흉신 29번) - 특정 지지
--- 포스텔러 기준: 계묘(시주), 임신(일주)에 귀문관살 - 묘와 신에 귀문관살
+-- 귀문관살 규칙 (49번 = 길신 20개 + 흉신 29번) - 지지 조합
+-- 진해, 자유, 인미, 축오, 묘신, 사술 6가지 조합
+-- TODO: JIJI_PAIR 타입 구현 필요. 일지-월지, 일지-시지 인접 체크
 INSERT INTO sinsal_rule (sinsal_id, rule_type, condition_yenji, condition_target, match_position, description)
-VALUES (49, 'YENJI_TO_ANY', '[]', '["묘"]', 'any', '묘가 있으면 귀문관살'),
-       (49, 'YENJI_TO_ANY', '[]', '["신"]', 'any', '신이 있으면 귀문관살'),
-       (49, 'YENJI_TO_ANY', '[]', '["자"]', 'any', '자가 있으면 귀문관살'),
-       (49, 'YENJI_TO_ANY', '[]', '["유"]', 'any', '유가 있으면 귀문관살');
+VALUES (49, 'JIJI_PAIR', '["진"]', '["해"]', 'day_adjacent', '진해 조합이 있으면 귀문관살'),
+       (49, 'JIJI_PAIR', '["자"]', '["유"]', 'day_adjacent', '자유 조합이 있으면 귀문관살'),
+       (49, 'JIJI_PAIR', '["인"]', '["미"]', 'day_adjacent', '인미 조합이 있으면 귀문관살'),
+       (49, 'JIJI_PAIR', '["축"]', '["오"]', 'day_adjacent', '축오 조합이 있으면 귀문관살'),
+       (49, 'JIJI_PAIR', '["묘"]', '["신"]', 'day_adjacent', '묘신 조합이 있으면 귀문관살'),
+       (49, 'JIJI_PAIR', '["사"]', '["술"]', 'day_adjacent', '사술 조합이 있으면 귀문관살');
 
 COMMENT ON TABLE sinsal_master IS '신살 마스터 데이터 - 길신 23개, 흉신 31개';
 COMMENT ON TABLE sinsal_rule IS '신살 계산 규칙 - 각 신살별 발현 조건';

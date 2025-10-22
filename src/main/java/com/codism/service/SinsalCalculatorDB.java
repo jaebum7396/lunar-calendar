@@ -120,6 +120,9 @@ public class SinsalCalculatorDB {
                 case "ILJU_COMBINATION":
                     return checkIljuCombinationRule(rule, ilgan, dayJiji);
 
+                case "JIJI_PAIR":
+                    return checkJijiPairRule(rule, yearJiji, monthJiji, dayJiji, hourJiji);
+
                 default:
                     log.warn("알 수 없는 규칙 타입: {}", ruleType);
                     return false;
@@ -285,7 +288,7 @@ public class SinsalCalculatorDB {
 
     /**
      * 연지를 기준으로 사주 전체에서 특정 지지 찾기
-     * 예: 인오술년에 묘가 있으면 도화살
+     * 예: 인오술 삼합에 묘가 있으면 도화살
      */
     private boolean checkYenjiToAnyRule(SinsalRule rule,
                                          String yearJiji, String monthJiji, String dayJiji, String hourJiji) {
@@ -293,13 +296,25 @@ public class SinsalCalculatorDB {
             List<String> yenjiList = parseJsonArray(rule.getConditionYenji());
             List<String> targetList = parseJsonArray(rule.getConditionTarget());
 
-            // yenjiList가 비어있으면 모든 연지 허용
-            if (!yenjiList.isEmpty() && !yenjiList.contains(yearJiji)) {
-                return false;
+            List<String> allJiji = Arrays.asList(yearJiji, monthJiji, dayJiji, hourJiji);
+
+            // yenjiList가 비어있지 않으면 삼합 체크
+            if (!yenjiList.isEmpty()) {
+                // 사주 전체에서 yenjiList의 지지가 2개 이상 있는지 확인 (삼합 조건)
+                int matchCount = 0;
+                for (String yenji : yenjiList) {
+                    if (allJiji.contains(yenji)) {
+                        matchCount++;
+                    }
+                }
+
+                // 2개 미만이면 삼합이 아님
+                if (matchCount < 2) {
+                    return false;
+                }
             }
 
             // 사주 전체에서 대상 지지가 있는지 확인
-            List<String> allJiji = Arrays.asList(yearJiji, monthJiji, dayJiji, hourJiji);
             for (String target : targetList) {
                 if (allJiji.contains(target)) {
                     return true;
@@ -326,6 +341,49 @@ public class SinsalCalculatorDB {
             return ilganList.contains(ilgan) && jijiList.contains(dayJiji);
         } catch (Exception e) {
             log.error("일주 조합 규칙 체크 실패", e);
+            return false;
+        }
+    }
+
+    /**
+     * 지지 쌍 규칙 체크 (두 지지가 사주 내에 동시에 있는지)
+     * 예: 귀문관살 - 진해, 자유, 인미, 축오, 묘신, 사술
+     */
+    private boolean checkJijiPairRule(SinsalRule rule,
+                                       String yearJiji, String monthJiji, String dayJiji, String hourJiji) {
+        try {
+            List<String> yenji = parseJsonArray(rule.getConditionYenji());
+            List<String> targetList = parseJsonArray(rule.getConditionTarget());
+
+            if (yenji.isEmpty() || targetList.isEmpty()) {
+                return false;
+            }
+
+            List<String> allJiji = Arrays.asList(yearJiji, monthJiji, dayJiji, hourJiji);
+
+            // 첫 번째 지지가 사주에 있는지 확인
+            boolean hasFirst = false;
+            for (String first : yenji) {
+                if (allJiji.contains(first)) {
+                    hasFirst = true;
+                    break;
+                }
+            }
+
+            if (!hasFirst) {
+                return false;
+            }
+
+            // 두 번째 지지가 사주에 있는지 확인
+            for (String second : targetList) {
+                if (allJiji.contains(second)) {
+                    return true;
+                }
+            }
+
+            return false;
+        } catch (Exception e) {
+            log.error("지지 쌍 규칙 체크 실패", e);
             return false;
         }
     }
