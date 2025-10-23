@@ -59,6 +59,10 @@ public class SipsungMaster {
     @Comment("운세 특성")
     private String fortune;
 
+    @Column(name = "daeun_interpretation", length = 100)
+    @Comment("대운 해석 (간단 요약)")
+    private String daeunInterpretation;
+
     @CreationTimestamp
     @Column(name = "created_at", updatable = false)
     @Comment("생성 일시")

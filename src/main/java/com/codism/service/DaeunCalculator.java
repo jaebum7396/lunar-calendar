@@ -136,4 +136,67 @@ public class DaeunCalculator {
         // 현재는 간단히 3세부터 시작
         return 3;
     }
+
+    /**
+     * 특정 나이에 해당하는 대운의 천간지지 계산
+     *
+     * @param targetAge 계산할 나이
+     * @param birthDate 생년월일
+     * @param gender 성별
+     * @param yearCheongan 년주 천간
+     * @param monthCheongan 월주 천간
+     * @param monthJiji 월주 지지
+     * @return 대운 천간지지 (예: "갑자")
+     */
+    public String calculateDaeunForAge(int targetAge, LocalDate birthDate, String gender,
+                                       String yearCheongan, String monthCheongan, String monthJiji) {
+        // 대운 시작 나이
+        int daeunStartAge = 3;
+
+        // 몇 번째 대운인지 계산 (10년 주기)
+        int daeunIndex = (targetAge - daeunStartAge) / 10;
+        if (daeunIndex < 0) daeunIndex = 0; // 대운 시작 전이면 첫 대운
+
+        // 순행/역행 결정
+        boolean isForward = isForwardDaeun(gender, yearCheongan);
+
+        // 월주 기준으로 대운 계산
+        String daeunCheongan = calculateDaeunCheongan(monthCheongan, daeunIndex, isForward);
+        String daeunJiji = calculateDaeunJiji(monthJiji, daeunIndex, isForward);
+
+        return daeunCheongan + daeunJiji;
+    }
+
+    /**
+     * 대운 시작 나이 반환
+     * (현재는 간단히 3세로 고정)
+     */
+    public int getDaeunStartAge() {
+        return 3;
+    }
+
+    /**
+     * 대운 주기 반환 (10년)
+     */
+    public int getDaeunCycle() {
+        return 10;
+    }
+
+    /**
+     * 월운(月運) 계산
+     * 현재 월의 천간지지를 반환
+     *
+     * @param currentDate 현재 날짜
+     * @return 월운 천간지지
+     */
+    public String calculateWolun(LocalDate currentDate) {
+        int year = currentDate.getYear();
+        int month = currentDate.getMonthValue();
+        int day = currentDate.getDayOfMonth();
+
+        // 월주 계산 (절입일 기준)
+        String monthStemBranch = StemBranchCalculator.getMonthStemBranchBySolarTerm(year, month, day);
+
+        return monthStemBranch;
+    }
 }
