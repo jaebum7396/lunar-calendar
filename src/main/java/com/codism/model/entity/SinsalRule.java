@@ -1,5 +1,6 @@
 package com.codism.model.entity;
 
+import com.codism.model.enums.SinsalRuleType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,9 +28,10 @@ public class SinsalRule {
     @Comment("신살 마스터 ID (Foreign Key)")
     private Long sinsalId;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "rule_type", nullable = false, length = 30)
     @Comment("규칙 타입 (ILGAN_JIJI, YENJI_COMBINATION, JIJI_PATTERN 등)")
-    private String ruleType;
+    private SinsalRuleType ruleType;
 
     @Column(name = "condition_ilgan", columnDefinition = "TEXT")
     @Comment("일간 조건 (JSON 배열 형식)")

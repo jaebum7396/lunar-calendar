@@ -654,344 +654,15 @@ VALUES
  '천문성은 하늘의 문으로, 학문과 출세, 명예의 길이 열리는 길신이다. 시험 운이 좋고 학업 성취도가 높으며, 관직이나 공직에 진출하여 출세할 가능성이 높다. 명예로운 지위에 오를 수 있고, 사회적으로 인정받는다. 문창귀인, 학당귀인과 유사하지만 특히 출세와 관련이 깊다.',
  E'• 학문 성취도가 높음\n• 시험 운이 좋음\n• 출세와 승진 운\n• 관직, 공직 진출\n• 명예로운 지위\n• 사회적 인정\n• 지적 능력 탁월',
  NULL,
+ true),
+
+-- 34. 암록
+('암록', '暗祿', 'GILSIN', '🌙', 'GWIIN', 76,
+ '숨은 녹봉. 정록의 육합 지지',
+ '암록은 정록과 짝을 이루는 길신으로, 숨겨진 재물과 의외의 수입을 의미한다. 정록이 드러난 재물이라면 암록은 숨은 재물로, 예상치 못한 곳에서 도움을 받거나 재물을 얻는다. 부업이나 간접적인 수입원이 있을 수 있으며, 타인의 도움으로 이익을 얻는다.',
+ E'• 숨겨진 재물 운\n• 의외의 수입\n• 예상치 못한 도움\n• 부업이나 간접 수입\n• 타인의 도움으로 이익\n• 은밀한 재산 형성',
+ NULL,
  true);
-
--- ============================================
--- 신살 계산 규칙 데이터 삽입
--- ============================================
-
--- 천을귀인 규칙
-INSERT INTO sinsal_rule (sinsal_id, rule_type, condition_ilgan, condition_target, match_position, description)
-VALUES (1, 'ILGAN_JIJI', '["갑", "무", "경"]', '["축", "미"]', 'any', '갑, 무, 경일에 축이나 미가 있으면 천을귀인'),
-       (1, 'ILGAN_JIJI', '["을", "기"]', '["자", "신"]', 'any', '을, 기일에 자나 신이 있으면 천을귀인'),
-       (1, 'ILGAN_JIJI', '["병", "정"]', '["해", "유"]', 'any', '병, 정일에 해나 유가 있으면 천을귀인'),
-       (1, 'ILGAN_JIJI', '["임", "계"]', '["사", "묘"]', 'any', '임, 계일에 사나 묘가 있으면 천을귀인'),
-       (1, 'ILGAN_JIJI', '["신"]', '["오", "인"]', 'any', '신일에 오나 인이 있으면 천을귀인');
-
--- 문창귀인 규칙
-INSERT INTO sinsal_rule (sinsal_id, rule_type, condition_ilgan, condition_target, match_position, description)
-VALUES (5, 'ILGAN_JIJI', '["갑"]', '["사"]', 'any', '갑일에 사가 있으면 문창귀인'),
-       (5, 'ILGAN_JIJI', '["을"]', '["오"]', 'any', '을일에 오가 있으면 문창귀인'),
-       (5, 'ILGAN_JIJI', '["병"]', '["신"]', 'any', '병일에 신이 있으면 문창귀인'),
-       (5, 'ILGAN_JIJI', '["정"]', '["유"]', 'any', '정일에 유가 있으면 문창귀인'),
-       (5, 'ILGAN_JIJI', '["무"]', '["신"]', 'any', '무일에 신이 있으면 문창귀인'),
-       (5, 'ILGAN_JIJI', '["기"]', '["유"]', 'any', '기일에 유가 있으면 문창귀인'),
-       (5, 'ILGAN_JIJI', '["경"]', '["해"]', 'any', '경일에 해가 있으면 문창귀인'),
-       (5, 'ILGAN_JIJI', '["신"]', '["자"]', 'any', '신일에 자가 있으면 문창귀인'),
-       (5, 'ILGAN_JIJI', '["임"]', '["인"]', 'any', '임일에 인이 있으면 문창귀인'),
-       (5, 'ILGAN_JIJI', '["계"]', '["묘"]', 'any', '계일에 묘가 있으면 문창귀인');
-
--- 도화살 규칙 - 삼합 기준
-INSERT INTO sinsal_rule (sinsal_id, rule_type, condition_yenji, condition_target, match_position, description)
-VALUES (23, 'YENJI_TO_ANY', '["인", "오", "술"]', '["묘"]', 'any', '인오술 삼합에 묘가 있으면 도화살'),
-       (23, 'YENJI_TO_ANY', '["신", "자", "진"]', '["유"]', 'any', '신자진 삼합에 유가 있으면 도화살'),
-       (23, 'YENJI_TO_ANY', '["사", "유", "축"]', '["오"]', 'any', '사유축 삼합에 오가 있으면 도화살'),
-       (23, 'YENJI_TO_ANY', '["해", "묘", "미"]', '["자"]', 'any', '해묘미 삼합에 자가 있으면 도화살');
-
--- 역마살 규칙
-INSERT INTO sinsal_rule (sinsal_id, rule_type, condition_yenji, condition_target, match_position, description)
-VALUES (24, 'YENJI_TO_ANY', '["인", "오", "술"]', '["신"]', 'any', '인오술년에 신이 있으면 역마살'),
-       (24, 'YENJI_TO_ANY', '["사", "유", "축"]', '["해"]', 'any', '사유축년에 해가 있으면 역마살'),
-       (24, 'YENJI_TO_ANY', '["신", "자", "진"]', '["인"]', 'any', '신자진년에 인이 있으면 역마살'),
-       (24, 'YENJI_TO_ANY', '["해", "묘", "미"]', '["사"]', 'any', '해묘미년에 사가 있으면 역마살');
-
--- 망신살 규칙
-INSERT INTO sinsal_rule (sinsal_id, rule_type, condition_yenji, condition_target, match_position, description)
-VALUES (21, 'YENJI_TO_ANY', '["자"]', '["유"]', 'any', '자년에 유가 있으면 망신살'),
-       (21, 'YENJI_TO_ANY', '["축"]', '["술"]', 'any', '축년에 술이 있으면 망신살'),
-       (21, 'YENJI_TO_ANY', '["인"]', '["미"]', 'any', '인년에 미가 있으면 망신살'),
-       (21, 'YENJI_TO_ANY', '["묘"]', '["오"]', 'any', '묘년에 오가 있으면 망신살'),
-       (21, 'YENJI_TO_ANY', '["진"]', '["사"]', 'any', '진년에 사가 있으면 망신살'),
-       (21, 'YENJI_TO_ANY', '["사"]', '["진"]', 'any', '사년에 진이 있으면 망신살'),
-       (21, 'YENJI_TO_ANY', '["오"]', '["묘"]', 'any', '오년에 묘가 있으면 망신살'),
-       (21, 'YENJI_TO_ANY', '["미"]', '["인"]', 'any', '미년에 인이 있으면 망신살'),
-       (21, 'YENJI_TO_ANY', '["신"]', '["축"]', 'any', '신년에 축이 있으면 망신살'),
-       (21, 'YENJI_TO_ANY', '["유"]', '["자"]', 'any', '유년에 자가 있으면 망신살'),
-       (21, 'YENJI_TO_ANY', '["술"]', '["해"]', 'any', '술년에 해가 있으면 망신살'),
-       (21, 'YENJI_TO_ANY', '["해"]', '["신"]', 'any', '해년에 신이 있으면 망신살');
-
--- 양인살 규칙
-INSERT INTO sinsal_rule (sinsal_id, rule_type, condition_ilgan, condition_target, match_position, description)
-VALUES (28, 'ILGAN_JIJI', '["갑"]', '["묘"]', 'any', '갑일에 묘가 있으면 양인살'),
-       (28, 'ILGAN_JIJI', '["병"]', '["오"]', 'any', '병일에 오가 있으면 양인살'),
-       (28, 'ILGAN_JIJI', '["무"]', '["오"]', 'any', '무일에 오가 있으면 양인살'),
-       (28, 'ILGAN_JIJI', '["경"]', '["유"]', 'any', '경일에 유가 있으면 양인살'),
-       (28, 'ILGAN_JIJI', '["임"]', '["자"]', 'any', '임일에 자가 있으면 양인살');
-
--- 괴강살 규칙 (일주 기준) - 31번
-INSERT INTO sinsal_rule (sinsal_id, rule_type, condition_ilgan, condition_target, match_position, description)
-VALUES (31, 'ILJU_COMBINATION', '["경"]', '["술"]', 'day', '경술일주면 괴강살'),
-       (31, 'ILJU_COMBINATION', '["경"]', '["진"]', 'day', '경진일주면 괴강살'),
-       (31, 'ILJU_COMBINATION', '["임"]', '["진"]', 'day', '임진일주면 괴강살'),
-       (31, 'ILJU_COMBINATION', '["무"]', '["술"]', 'day', '무술일주면 괴강살');
-
--- 화개살 규칙
-INSERT INTO sinsal_rule (sinsal_id, rule_type, condition_yenji, condition_target, match_position, description)
-VALUES (38, 'YENJI_TO_ANY', '["인", "오", "술"]', '["술"]', 'any', '인오술년에 술이 있으면 화개살'),
-       (38, 'YENJI_TO_ANY', '["사", "유", "축"]', '["축"]', 'any', '사유축년에 축이 있으면 화개살'),
-       (38, 'YENJI_TO_ANY', '["신", "자", "진"]', '["진"]', 'any', '신자진년에 진이 있으면 화개살'),
-       (38, 'YENJI_TO_ANY', '["해", "묘", "미"]', '["미"]', 'any', '해묘미년에 미가 있으면 화개살');
-
--- 덕합귀인 규칙 (11번)
-INSERT INTO sinsal_rule (sinsal_id, rule_type, condition_ilgan, condition_target, match_position, description)
-VALUES (11, 'ILGAN_JIJI', '["갑"]', '["해"]', 'any', '갑일에 해가 있으면 덕합귀인'),
-       (11, 'ILGAN_JIJI', '["을"]', '["술"]', 'any', '을일에 술이 있으면 덕합귀인'),
-       (11, 'ILGAN_JIJI', '["병"]', '["축"]', 'any', '병일에 축이 있으면 덕합귀인'),
-       (11, 'ILGAN_JIJI', '["정"]', '["자"]', 'any', '정일에 자가 있으면 덕합귀인'),
-       (11, 'ILGAN_JIJI', '["무"]', '["축"]', 'any', '무일에 축이 있으면 덕합귀인'),
-       (11, 'ILGAN_JIJI', '["기"]', '["자"]', 'any', '기일에 자가 있으면 덕합귀인'),
-       (11, 'ILGAN_JIJI', '["경"]', '["묘"]', 'any', '경일에 묘가 있으면 덕합귀인'),
-       (11, 'ILGAN_JIJI', '["신"]', '["인"]', 'any', '신일에 인이 있으면 덕합귀인'),
-       (11, 'ILGAN_JIJI', '["임"]', '["사"]', 'any', '임일에 사가 있으면 덕합귀인'),
-       (11, 'ILGAN_JIJI', '["계"]', '["진"]', 'any', '계일에 진이 있으면 덕합귀인');
-
--- 천덕귀인 규칙 (2번)
-INSERT INTO sinsal_rule (sinsal_id, rule_type, condition_yenji, condition_target, match_position, description)
-VALUES (2, 'YENJI_TO_ANY', '["자"]', '["정"]', 'any', '자년에 정이 있으면 천덕귀인'),
-       (2, 'YENJI_TO_ANY', '["축"]', '["신"]', 'any', '축년에 신이 있으면 천덕귀인'),
-       (2, 'YENJI_TO_ANY', '["인"]', '["임"]', 'any', '인년에 임이 있으면 천덕귀인'),
-       (2, 'YENJI_TO_ANY', '["묘"]', '["갑"]', 'any', '묘년에 갑이 있으면 천덕귀인'),
-       (2, 'YENJI_TO_ANY', '["진"]', '["계"]', 'any', '진년에 계가 있으면 천덕귀인'),
-       (2, 'YENJI_TO_ANY', '["사"]', '["병"]', 'any', '사년에 병이 있으면 천덕귀인'),
-       (2, 'YENJI_TO_ANY', '["오"]', '["경"]', 'any', '오년에 경이 있으면 천덕귀인'),
-       (2, 'YENJI_TO_ANY', '["미"]', '["을"]', 'any', '미년에 을이 있으면 천덕귀인'),
-       (2, 'YENJI_TO_ANY', '["신"]', '["무"]', 'any', '신년에 무가 있으면 천덕귀인'),
-       (2, 'YENJI_TO_ANY', '["유"]', '["기"]', 'any', '유년에 기가 있으면 천덕귀인'),
-       (2, 'YENJI_TO_ANY', '["술"]', '["신"]', 'any', '술년에 신이 있으면 천덕귀인'),
-       (2, 'YENJI_TO_ANY', '["해"]', '["갑"]', 'any', '해년에 갑이 있으면 천덕귀인');
-
--- 월덕귀인 규칙 (3번)
-INSERT INTO sinsal_rule (sinsal_id, rule_type, condition_yenji, condition_target, match_position, description)
-VALUES (3, 'YENJI_TO_ANY', '["자"]', '["병"]', 'any', '자년에 병이 있으면 월덕귀인'),
-       (3, 'YENJI_TO_ANY', '["축"]', '["갑"]', 'any', '축년에 갑이 있으면 월덕귀인'),
-       (3, 'YENJI_TO_ANY', '["인"]', '["임"]', 'any', '인년에 임이 있으면 월덕귀인'),
-       (3, 'YENJI_TO_ANY', '["묘"]', '["갑"]', 'any', '묘년에 갑이 있으면 월덕귀인'),
-       (3, 'YENJI_TO_ANY', '["진"]', '["병"]', 'any', '진년에 병이 있으면 월덕귀인'),
-       (3, 'YENJI_TO_ANY', '["사"]', '["경"]', 'any', '사년에 경이 있으면 월덕귀인'),
-       (3, 'YENJI_TO_ANY', '["오"]', '["임"]', 'any', '오년에 임이 있으면 월덕귀인'),
-       (3, 'YENJI_TO_ANY', '["미"]', '["경"]', 'any', '미년에 경이 있으면 월덕귀인'),
-       (3, 'YENJI_TO_ANY', '["신"]', '["무"]', 'any', '신년에 무가 있으면 월덕귀인'),
-       (3, 'YENJI_TO_ANY', '["유"]', '["병"]', 'any', '유년에 병이 있으면 월덕귀인'),
-       (3, 'YENJI_TO_ANY', '["술"]', '["갑"]', 'any', '술년에 갑이 있으면 월덕귀인'),
-       (3, 'YENJI_TO_ANY', '["해"]', '["임"]', 'any', '해년에 임이 있으면 월덕귀인');
-
--- 학당귀인 규칙 (6번)
-INSERT INTO sinsal_rule (sinsal_id, rule_type, condition_ilgan, condition_target, match_position, description)
-VALUES (6, 'ILGAN_JIJI', '["갑"]', '["사"]', 'any', '갑일에 사가 있으면 학당귀인'),
-       (6, 'ILGAN_JIJI', '["을"]', '["오"]', 'any', '을일에 오가 있으면 학당귀인'),
-       (6, 'ILGAN_JIJI', '["병", "무"]', '["신"]', 'any', '병, 무일에 신이 있으면 학당귀인'),
-       (6, 'ILGAN_JIJI', '["정", "기"]', '["유"]', 'any', '정, 기일에 유가 있으면 학당귀인'),
-       (6, 'ILGAN_JIJI', '["경"]', '["해"]', 'any', '경일에 해가 있으면 학당귀인'),
-       (6, 'ILGAN_JIJI', '["신"]', '["자"]', 'any', '신일에 자가 있으면 학당귀인'),
-       (6, 'ILGAN_JIJI', '["임"]', '["인"]', 'any', '임일에 인이 있으면 학당귀인'),
-       (6, 'ILGAN_JIJI', '["계"]', '["묘"]', 'any', '계일에 묘가 있으면 학당귀인');
-
--- 금여록 규칙 (7번)
-INSERT INTO sinsal_rule (sinsal_id, rule_type, condition_yenji, condition_target, match_position, description)
-VALUES (7, 'YENJI_TO_ANY', '["인", "오", "술"]', '["술"]', 'any', '인오술년에 술이 있으면 금여록'),
-       (7, 'YENJI_TO_ANY', '["사", "유", "축"]', '["축"]', 'any', '사유축년에 축이 있으면 금여록'),
-       (7, 'YENJI_TO_ANY', '["신", "자", "진"]', '["진"]', 'any', '신자진년에 진이 있으면 금여록'),
-       (7, 'YENJI_TO_ANY', '["해", "묘", "미"]', '["미"]', 'any', '해묘미년에 미가 있으면 금여록');
-
--- 천의성 규칙 (8번)
-INSERT INTO sinsal_rule (sinsal_id, rule_type, condition_yenji, condition_target, match_position, description)
-VALUES (8, 'YENJI_TO_ANY', '["인", "오", "술"]', '["축"]', 'any', '인오술년에 축이 있으면 천의성'),
-       (8, 'YENJI_TO_ANY', '["사", "유", "축"]', '["인"]', 'any', '사유축년에 인이 있으면 천의성'),
-       (8, 'YENJI_TO_ANY', '["신", "자", "진"]', '["해"]', 'any', '신자진년에 해가 있으면 천의성'),
-       (8, 'YENJI_TO_ANY', '["해", "묘", "미"]', '["신"]', 'any', '해묘미년에 신이 있으면 천의성');
-
--- 복성귀인 규칙 (9번)
-INSERT INTO sinsal_rule (sinsal_id, rule_type, condition_yenji, condition_target, match_position, description)
-VALUES (9, 'YENJI_TO_ANY', '["인", "오", "술"]', '["오"]', 'any', '인오술년에 오가 있으면 복성귀인'),
-       (9, 'YENJI_TO_ANY', '["사", "유", "축"]', '["유"]', 'any', '사유축년에 유가 있으면 복성귀인'),
-       (9, 'YENJI_TO_ANY', '["신", "자", "진"]', '["자"]', 'any', '신자진년에 자가 있으면 복성귀인'),
-       (9, 'YENJI_TO_ANY', '["해", "묘", "미"]', '["묘"]', 'any', '해묘미년에 묘가 있으면 복성귀인');
-
--- 천관귀인 규칙 (10번)
-INSERT INTO sinsal_rule (sinsal_id, rule_type, condition_ilgan, condition_target, match_position, description)
-VALUES (10, 'ILGAN_JIJI', '["갑"]', '["인"]', 'any', '갑일에 인이 있으면 천관귀인'),
-       (10, 'ILGAN_JIJI', '["을"]', '["묘"]', 'any', '을일에 묘가 있으면 천관귀인'),
-       (10, 'ILGAN_JIJI', '["병", "무"]', '["사"]', 'any', '병, 무일에 사가 있으면 천관귀인'),
-       (10, 'ILGAN_JIJI', '["정", "기"]', '["오"]', 'any', '정, 기일에 오가 있으면 천관귀인'),
-       (10, 'ILGAN_JIJI', '["경"]', '["신"]', 'any', '경일에 신이 있으면 천관귀인'),
-       (10, 'ILGAN_JIJI', '["신"]', '["유"]', 'any', '신일에 유가 있으면 천관귀인'),
-       (10, 'ILGAN_JIJI', '["임"]', '["해"]', 'any', '임일에 해가 있으면 천관귀인'),
-       (10, 'ILGAN_JIJI', '["계"]', '["자"]', 'any', '계일에 자가 있으면 천관귀인');
-
--- 장성살 규칙 (12번)
-INSERT INTO sinsal_rule (sinsal_id, rule_type, condition_yenji, condition_target, match_position, description)
-VALUES (12, 'YENJI_TO_ANY', '["인", "오", "술"]', '["오"]', 'any', '인오술년에 오가 있으면 장성살'),
-       (12, 'YENJI_TO_ANY', '["사", "유", "축"]', '["유"]', 'any', '사유축년에 유가 있으면 장성살'),
-       (12, 'YENJI_TO_ANY', '["신", "자", "진"]', '["자"]', 'any', '신자진년에 자가 있으면 장성살'),
-       (12, 'YENJI_TO_ANY', '["해", "묘", "미"]', '["묘"]', 'any', '해묘미년에 묘가 있으면 장성살');
-
--- 태극귀인 규칙 (13번) - 일간별 특정 지지
-INSERT INTO sinsal_rule (sinsal_id, rule_type, condition_ilgan, condition_target, match_position, description)
-VALUES (13, 'ILGAN_JIJI', '["갑", "을"]', '["자", "오"]', 'any', '갑, 을일에 자, 오가 있으면 태극귀인'),
-       (13, 'ILGAN_JIJI', '["병", "정"]', '["묘", "유"]', 'any', '병, 정일에 묘, 유가 있으면 태극귀인'),
-       (13, 'ILGAN_JIJI', '["무", "기"]', '["진", "술", "축", "미"]', 'any', '무, 기일에 진, 술, 축, 미가 있으면 태극귀인'),
-       (13, 'ILGAN_JIJI', '["경", "신"]', '["인", "해"]', 'any', '경, 신일에 인, 해가 있으면 태극귀인'),
-       (13, 'ILGAN_JIJI', '["임", "계"]', '["사", "신"]', 'any', '임, 계일에 사, 신이 있으면 태극귀인');
-
--- 천사귀인 규칙 (16번) - 천간과 지지의 조합
-INSERT INTO sinsal_rule (sinsal_id, rule_type, condition_yenji, condition_target, match_position, description)
-VALUES (16, 'YENJI_TO_ANY', '["자"]', '["무"]', 'any', '자년에 무가 있으면 천사귀인'),
-       (16, 'YENJI_TO_ANY', '["축", "미"]', '["기"]', 'any', '축, 미년에 기가 있으면 천사귀인'),
-       (16, 'YENJI_TO_ANY', '["인"]', '["갑"]', 'any', '인년에 갑이 있으면 천사귀인'),
-       (16, 'YENJI_TO_ANY', '["묘"]', '["을"]', 'any', '묘년에 을이 있으면 천사귀인'),
-       (16, 'YENJI_TO_ANY', '["진", "술"]', '["무"]', 'any', '진, 술년에 무가 있으면 천사귀인'),
-       (16, 'YENJI_TO_ANY', '["사"]', '["병"]', 'any', '사년에 병이 있으면 천사귀인'),
-       (16, 'YENJI_TO_ANY', '["오"]', '["정"]', 'any', '오년에 정이 있으면 천사귀인'),
-       (16, 'YENJI_TO_ANY', '["신"]', '["경"]', 'any', '신년에 경이 있으면 천사귀인'),
-       (16, 'YENJI_TO_ANY', '["유"]', '["신"]', 'any', '유년에 신이 있으면 천사귀인'),
-       (16, 'YENJI_TO_ANY', '["해"]', '["임"]', 'any', '해년에 임이 있으면 천사귀인');
-
--- 백호대살 규칙 (25번)
--- 백호대살은 일주 기준: 갑진, 을미, 병술, 정축, 무진, 임술, 계축
-INSERT INTO sinsal_rule (sinsal_id, rule_type, condition_ilgan, condition_target, match_position, description)
-VALUES (25, 'ILJU_COMBINATION', '["갑"]', '["진"]', 'day', '갑진일주면 백호대살'),
-       (25, 'ILJU_COMBINATION', '["을"]', '["미"]', 'day', '을미일주면 백호대살'),
-       (25, 'ILJU_COMBINATION', '["병"]', '["술"]', 'day', '병술일주면 백호대살'),
-       (25, 'ILJU_COMBINATION', '["정"]', '["축"]', 'day', '정축일주면 백호대살'),
-       (25, 'ILJU_COMBINATION', '["무"]', '["진"]', 'day', '무진일주면 백호대살'),
-       (25, 'ILJU_COMBINATION', '["임"]', '["술"]', 'day', '임술일주면 백호대살'),
-       (25, 'ILJU_COMBINATION', '["계"]', '["축"]', 'day', '계축일주면 백호대살');
-
--- 상문살 규칙 (26번)
-INSERT INTO sinsal_rule (sinsal_id, rule_type, condition_yenji, condition_target, match_position, description)
-VALUES (26, 'YENJI_TO_ANY', '["인", "오", "술"]', '["인"]', 'any', '인오술년에 인이 있으면 상문살'),
-       (26, 'YENJI_TO_ANY', '["사", "유", "축"]', '["사"]', 'any', '사유축년에 사가 있으면 상문살'),
-       (26, 'YENJI_TO_ANY', '["신", "자", "진"]', '["신"]', 'any', '신자진년에 신이 있으면 상문살'),
-       (26, 'YENJI_TO_ANY', '["해", "묘", "미"]', '["해"]', 'any', '해묘미년에 해가 있으면 상문살');
-
--- 조객살 규칙 (27번)
-INSERT INTO sinsal_rule (sinsal_id, rule_type, condition_yenji, condition_target, match_position, description)
-VALUES (27, 'YENJI_TO_ANY', '["인", "오", "술"]', '["술"]', 'any', '인오술년에 술이 있으면 조객살'),
-       (27, 'YENJI_TO_ANY', '["사", "유", "축"]', '["축"]', 'any', '사유축년에 축이 있으면 조객살'),
-       (27, 'YENJI_TO_ANY', '["신", "자", "진"]', '["진"]', 'any', '신자진년에 진이 있으면 조객살'),
-       (27, 'YENJI_TO_ANY', '["해", "묘", "미"]', '["미"]', 'any', '해묘미년에 미가 있으면 조객살');
-
--- 현침살 규칙 (29번) - 일간과 일지 조합
-INSERT INTO sinsal_rule (sinsal_id, rule_type, condition_ilgan, condition_target, match_position, description)
-VALUES (29, 'ILGAN_JIJI', '["갑"]', '["인"]', 'day', '갑일에 일지가 인이면 현침살'),
-       (29, 'ILGAN_JIJI', '["을"]', '["묘"]', 'day', '을일에 일지가 묘면 현침살'),
-       (29, 'ILGAN_JIJI', '["병"]', '["사"]', 'day', '병일에 일지가 사면 현침살'),
-       (29, 'ILGAN_JIJI', '["정"]', '["오"]', 'day', '정일에 일지가 오면 현침살'),
-       (29, 'ILGAN_JIJI', '["무"]', '["사"]', 'day', '무일에 일지가 사면 현침살'),
-       (29, 'ILGAN_JIJI', '["기"]', '["오"]', 'day', '기일에 일지가 오면 현침살'),
-       (29, 'ILGAN_JIJI', '["경"]', '["신"]', 'day', '경일에 일지가 신이면 현침살'),
-       (29, 'ILGAN_JIJI', '["신"]', '["유"]', 'day', '신일에 일지가 유면 현침살'),
-       (29, 'ILGAN_JIJI', '["임"]', '["신"]', 'day', '임일에 일지가 신이면 현침살'),
-       (29, 'ILGAN_JIJI', '["계"]', '["자"]', 'day', '계일에 일지가 자면 현침살');
-
--- 고란살 규칙 (30번) - 특정 일주 조합
-INSERT INTO sinsal_rule (sinsal_id, rule_type, condition_ilgan, condition_target, match_position, description)
-VALUES (30, 'ILJU_COMBINATION', '["을"]', '["사"]', 'day', '을사일주면 고란살'),
-       (30, 'ILJU_COMBINATION', '["정"]', '["해"]', 'day', '정해일주면 고란살'),
-       (30, 'ILJU_COMBINATION', '["무"]', '["신"]', 'day', '무신일주면 고란살'),
-       (30, 'ILJU_COMBINATION', '["신"]', '["사"]', 'day', '신사일주면 고란살'),
-       (30, 'ILJU_COMBINATION', '["임"]', '["인"]', 'day', '임인일주면 고란살'),
-       (30, 'ILJU_COMBINATION', '["계"]', '["해"]', 'day', '계해일주면 고란살');
-
--- 원진살 규칙 (32번) - 대립 지지
-INSERT INTO sinsal_rule (sinsal_id, rule_type, condition_yenji, condition_target, match_position, description)
-VALUES (32, 'YENJI_TO_ANY', '["자"]', '["미"]', 'any', '자와 미는 원진'),
-       (32, 'YENJI_TO_ANY', '["축"]', '["오"]', 'any', '축과 오는 원진'),
-       (32, 'YENJI_TO_ANY', '["인"]', '["사"]', 'any', '인과 사는 원진'),
-       (32, 'YENJI_TO_ANY', '["묘"]', '["진"]', 'any', '묘와 진은 원진'),
-       (32, 'YENJI_TO_ANY', '["신"]', '["해"]', 'any', '신과 해는 원진'),
-       (32, 'YENJI_TO_ANY', '["유"]', '["술"]', 'any', '유와 술은 원진');
-
--- 육해살 규칙 (33번) - 해를 끼치는 지지
-INSERT INTO sinsal_rule (sinsal_id, rule_type, condition_yenji, condition_target, match_position, description)
-VALUES (33, 'YENJI_TO_ANY', '["자"]', '["미"]', 'any', '자와 미는 육해'),
-       (33, 'YENJI_TO_ANY', '["축"]', '["오"]', 'any', '축과 오는 육해'),
-       (33, 'YENJI_TO_ANY', '["인"]', '["사"]', 'any', '인과 사는 육해'),
-       (33, 'YENJI_TO_ANY', '["묘"]', '["진"]', 'any', '묘와 진은 육해'),
-       (33, 'YENJI_TO_ANY', '["신"]', '["해"]', 'any', '신과 해는 육해'),
-       (33, 'YENJI_TO_ANY', '["유"]', '["술"]', 'any', '유와 술은 육해');
-
--- 공망살 규칙 (34번) - 일간별 공망 지지
-INSERT INTO sinsal_rule (sinsal_id, rule_type, condition_ilgan, condition_target, match_position, description)
-VALUES (34, 'ILGAN_JIJI', '["갑", "을"]', '["술", "해"]', 'any', '갑, 을일에 술, 해가 있으면 공망살'),
-       (34, 'ILGAN_JIJI', '["병", "정"]', '["자", "축"]', 'any', '병, 정일에 자, 축이 있으면 공망살'),
-       (34, 'ILGAN_JIJI', '["무", "기"]', '["인", "묘"]', 'any', '무, 기일에 인, 묘가 있으면 공망살'),
-       (34, 'ILGAN_JIJI', '["경", "신"]', '["진", "사"]', 'any', '경, 신일에 진, 사가 있으면 공망살'),
-       (34, 'ILGAN_JIJI', '["임", "계"]', '["오", "미"]', 'any', '임, 계일에 오, 미가 있으면 공망살');
-
--- 천라지망 규칙 (35번)
-INSERT INTO sinsal_rule (sinsal_id, rule_type, condition_ilgan, condition_target, match_position, description)
-VALUES (35, 'ILJU_COMBINATION', '["갑"]', '["진"]', 'day', '갑진일주면 천라'),
-       (35, 'ILJU_COMBINATION', '["을"]', '["사"]', 'day', '을사일주면 지망'),
-       (35, 'ILJU_COMBINATION', '["임"]', '["술"]', 'day', '임술일주면 천라'),
-       (35, 'ILJU_COMBINATION', '["계"]', '["해"]', 'day', '계해일주면 지망');
-
--- 과숙살 규칙 (36번)
-INSERT INTO sinsal_rule (sinsal_id, rule_type, condition_yenji, condition_target, match_position, description)
-VALUES (36, 'YENJI_TO_ANY', '["인", "오", "술"]', '["술"]', 'any', '인오술년에 술이 있으면 과숙살'),
-       (36, 'YENJI_TO_ANY', '["사", "유", "축"]', '["축"]', 'any', '사유축년에 축이 있으면 과숙살'),
-       (36, 'YENJI_TO_ANY', '["신", "자", "진"]', '["진"]', 'any', '신자진년에 진이 있으면 과숙살'),
-       (36, 'YENJI_TO_ANY', '["해", "묘", "미"]', '["미"]', 'any', '해묘미년에 미가 있으면 과숙살');
-
--- 과신살 규칙 (37번)
-INSERT INTO sinsal_rule (sinsal_id, rule_type, condition_yenji, condition_target, match_position, description)
-VALUES (37, 'YENJI_TO_ANY', '["인", "오", "술"]', '["인"]', 'any', '인오술년에 인이 있으면 과신살'),
-       (37, 'YENJI_TO_ANY', '["사", "유", "축"]', '["사"]', 'any', '사유축년에 사가 있으면 과신살'),
-       (37, 'YENJI_TO_ANY', '["신", "자", "진"]', '["신"]', 'any', '신자진년에 신이 있으면 과신살'),
-       (37, 'YENJI_TO_ANY', '["해", "묘", "미"]', '["해"]', 'any', '해묘미년에 해가 있으면 과신살');
-
--- 홍염살 규칙 (31번) - 일간별 홍염살
-INSERT INTO sinsal_rule (sinsal_id, rule_type, condition_ilgan, condition_target, match_position, description)
-VALUES (31, 'ILGAN_JIJI', '["갑"]', '["오"]', 'any', '갑일에 오가 있으면 홍염살'),
-       (31, 'ILGAN_JIJI', '["을"]', '["신"]', 'any', '을일에 신이 있으면 홍염살'),
-       (31, 'ILGAN_JIJI', '["병"]', '["자"]', 'any', '병일에 자가 있으면 홍염살'),
-       (31, 'ILGAN_JIJI', '["정"]', '["유"]', 'any', '정일에 유가 있으면 홍염살'),
-       (31, 'ILGAN_JIJI', '["무"]', '["오"]', 'any', '무일에 오가 있으면 홍염살'),
-       (31, 'ILGAN_JIJI', '["기"]', '["신"]', 'any', '기일에 신이 있으면 홍염살'),
-       (31, 'ILGAN_JIJI', '["경"]', '["자"]', 'any', '경일에 자가 있으면 홍염살'),
-       (31, 'ILGAN_JIJI', '["신"]', '["묘"]', 'any', '신일에 묘가 있으면 홍염살'),
-       (31, 'ILGAN_JIJI', '["임"]', '["신"]', 'any', '임일에 신이 있으면 홍염살'),
-       (31, 'ILGAN_JIJI', '["계"]', '["유"]', 'any', '계일에 유가 있으면 홍염살');
-
--- 정록 규칙 (32번) - 일간별 정록 지지
-INSERT INTO sinsal_rule (sinsal_id, rule_type, condition_ilgan, condition_target, match_position, description)
-VALUES (32, 'ILGAN_JIJI', '["갑"]', '["인"]', 'any', '갑일에 인이 있으면 정록'),
-       (32, 'ILGAN_JIJI', '["을"]', '["묘"]', 'any', '을일에 묘가 있으면 정록'),
-       (32, 'ILGAN_JIJI', '["병"]', '["사"]', 'any', '병일에 사가 있으면 정록'),
-       (32, 'ILGAN_JIJI', '["정"]', '["오"]', 'any', '정일에 오가 있으면 정록'),
-       (32, 'ILGAN_JIJI', '["무"]', '["사"]', 'any', '무일에 사가 있으면 정록'),
-       (32, 'ILGAN_JIJI', '["기"]', '["오"]', 'any', '기일에 오가 있으면 정록'),
-       (32, 'ILGAN_JIJI', '["경"]', '["신"]', 'any', '경일에 신이 있으면 정록'),
-       (32, 'ILGAN_JIJI', '["신"]', '["유"]', 'any', '신일에 유가 있으면 정록'),
-       (32, 'ILGAN_JIJI', '["임"]', '["해"]', 'any', '임일에 해가 있으면 정록'),
-       (32, 'ILGAN_JIJI', '["계"]', '["자"]', 'any', '계일에 자가 있으면 정록');
-
--- 천문성 규칙 (33번) - 월지별 천문성
-INSERT INTO sinsal_rule (sinsal_id, rule_type, condition_ilgan, condition_target, match_position, description)
-VALUES (33, 'ILGAN_JIJI', '["갑"]', '["인"]', 'month', '갑일에 월지가 인이면 천문성'),
-       (33, 'ILGAN_JIJI', '["을"]', '["묘"]', 'month', '을일에 월지가 묘면 천문성'),
-       (33, 'ILGAN_JIJI', '["병"]', '["사"]', 'month', '병일에 월지가 사면 천문성'),
-       (33, 'ILGAN_JIJI', '["정"]', '["오"]', 'month', '정일에 월지가 오면 천문성'),
-       (33, 'ILGAN_JIJI', '["무"]', '["사"]', 'month', '무일에 월지가 사면 천문성'),
-       (33, 'ILGAN_JIJI', '["기"]', '["오"]', 'month', '기일에 월지가 오면 천문성'),
-       (33, 'ILGAN_JIJI', '["경"]', '["신"]', 'month', '경일에 월지가 신이면 천문성'),
-       (33, 'ILGAN_JIJI', '["신"]', '["유"]', 'month', '신일에 월지가 유면 천문성'),
-       (33, 'ILGAN_JIJI', '["임"]', '["해"]', 'month', '임일에 월지가 해면 천문성'),
-       (33, 'ILGAN_JIJI', '["계"]', '["자"]', 'month', '계일에 월지가 자면 천문성');
-
--- 귀문관살 규칙 (49번 = 길신 20개 + 흉신 29번) - 지지 조합
--- 진해, 자유, 인미, 축오, 묘신, 사술 6가지 조합
--- TODO: JIJI_PAIR 타입 구현 필요. 일지-월지, 일지-시지 인접 체크
-INSERT INTO sinsal_rule (sinsal_id, rule_type, condition_yenji, condition_target, match_position, description)
-VALUES (49, 'JIJI_PAIR', '["진"]', '["해"]', 'day_adjacent', '진해 조합이 있으면 귀문관살'),
-       (49, 'JIJI_PAIR', '["자"]', '["유"]', 'day_adjacent', '자유 조합이 있으면 귀문관살'),
-       (49, 'JIJI_PAIR', '["인"]', '["미"]', 'day_adjacent', '인미 조합이 있으면 귀문관살'),
-       (49, 'JIJI_PAIR', '["축"]', '["오"]', 'day_adjacent', '축오 조합이 있으면 귀문관살'),
-       (49, 'JIJI_PAIR', '["묘"]', '["신"]', 'day_adjacent', '묘신 조합이 있으면 귀문관살'),
-       (49, 'JIJI_PAIR', '["사"]', '["술"]', 'day_adjacent', '사술 조합이 있으면 귀문관살');
-
-COMMENT ON TABLE sinsal_master IS '신살 마스터 데이터 - 길신 23개, 흉신 31개';
-COMMENT ON TABLE sinsal_rule IS '신살 계산 규칙 - 각 신살별 발현 조건';
 
 -- ============================================
 -- 오행 색상 정보 추가
@@ -1137,3 +808,477 @@ COMMENT ON COLUMN cheongan_master.color_hex IS '오행 색상 (HEX 코드)';
 COMMENT ON COLUMN jiji_master.color IS '오행 색상 (한글)';
 COMMENT ON COLUMN jiji_master.color_hex IS '오행 색상 (HEX 코드)';
 
+-- ============================================
+-- 1. 천을귀인 (天乙貴人) - 5개 규칙
+-- ============================================
+INSERT INTO sinsal_rule (sinsal_id, rule_type, condition_ilgan, condition_target, match_position, description)
+VALUES
+    (1, 'ILGAN_JIJI', '["갑", "무", "경"]', '["축", "미"]', 'any', '갑, 무, 경일에 축이나 미가 있으면 천을귀인'),
+    (1, 'ILGAN_JIJI', '["을", "기"]', '["자", "신"]', 'any', '을, 기일에 자나 신이 있으면 천을귀인'),
+    (1, 'ILGAN_JIJI', '["병", "정"]', '["해", "유"]', 'any', '병, 정일에 해나 유가 있으면 천을귀인'),
+    (1, 'ILGAN_JIJI', '["임", "계"]', '["사", "묘"]', 'any', '임, 계일에 사나 묘가 있으면 천을귀인'),
+    (1, 'ILGAN_JIJI', '["신"]', '["오", "인"]', 'any', '신일에 오나 인이 있으면 천을귀인');
+
+-- ============================================
+-- 2. 천덕귀인 (天德貴人) - 12개 규칙 (월별)
+-- ============================================
+INSERT INTO sinsal_rule (sinsal_id, rule_type, condition_yenji, condition_target, match_position, description)
+VALUES
+    (2, 'JIJI_TO_CHEONGAN', '["자"]', '["정"]', 'any', '자년에 정이 있으면 천덕귀인'),
+    (2, 'JIJI_TO_CHEONGAN', '["축"]', '["신"]', 'any', '축년에 신이 있으면 천덕귀인'),
+    (2, 'JIJI_TO_CHEONGAN', '["인"]', '["임"]', 'any', '인년에 임이 있으면 천덕귀인'),
+    (2, 'JIJI_TO_CHEONGAN', '["묘"]', '["갑"]', 'any', '묘년에 갑이 있으면 천덕귀인'),
+    (2, 'JIJI_TO_CHEONGAN', '["진"]', '["계"]', 'any', '진년에 계가 있으면 천덕귀인'),
+    (2, 'JIJI_TO_CHEONGAN', '["사"]', '["병"]', 'any', '사년에 병이 있으면 천덕귀인'),
+    (2, 'JIJI_TO_CHEONGAN', '["오"]', '["경"]', 'any', '오년에 경이 있으면 천덕귀인'),
+    (2, 'JIJI_TO_CHEONGAN', '["미"]', '["을"]', 'any', '미년에 을이 있으면 천덕귀인'),
+    (2, 'JIJI_TO_CHEONGAN', '["신"]', '["무"]', 'any', '신년에 무가 있으면 천덕귀인'),
+    (2, 'JIJI_TO_CHEONGAN', '["유"]', '["기"]', 'any', '유년에 기가 있으면 천덕귀인'),
+    (2, 'JIJI_TO_CHEONGAN', '["술"]', '["신"]', 'any', '술년에 신이 있으면 천덕귀인'),
+    (2, 'JIJI_TO_CHEONGAN', '["해"]', '["갑"]', 'any', '해년에 갑이 있으면 천덕귀인');
+
+-- ============================================
+-- 3. 월덕귀인 (月德貴人) - 12개 규칙 (월별)
+-- ============================================
+INSERT INTO sinsal_rule (sinsal_id, rule_type, condition_yenji, condition_target, match_position, description)
+VALUES
+    (3, 'JIJI_TO_CHEONGAN', '["자"]', '["병"]', 'any', '자년에 병이 있으면 월덕귀인'),
+    (3, 'JIJI_TO_CHEONGAN', '["축"]', '["갑"]', 'any', '축년에 갑이 있으면 월덕귀인'),
+    (3, 'JIJI_TO_CHEONGAN', '["인"]', '["임"]', 'any', '인년에 임이 있으면 월덕귀인'),
+    (3, 'JIJI_TO_CHEONGAN', '["묘"]', '["갑"]', 'any', '묘년에 갑이 있으면 월덕귀인'),
+    (3, 'JIJI_TO_CHEONGAN', '["진"]', '["병"]', 'any', '진년에 병이 있으면 월덕귀인'),
+    (3, 'JIJI_TO_CHEONGAN', '["사"]', '["경"]', 'any', '사년에 경이 있으면 월덕귀인'),
+    (3, 'JIJI_TO_CHEONGAN', '["오"]', '["임"]', 'any', '오년에 임이 있으면 월덕귀인'),
+    (3, 'JIJI_TO_CHEONGAN', '["미"]', '["경"]', 'any', '미년에 경이 있으면 월덕귀인'),
+    (3, 'JIJI_TO_CHEONGAN', '["신"]', '["무"]', 'any', '신년에 무가 있으면 월덕귀인'),
+    (3, 'JIJI_TO_CHEONGAN', '["유"]', '["병"]', 'any', '유년에 병이 있으면 월덕귀인'),
+    (3, 'JIJI_TO_CHEONGAN', '["술"]', '["갑"]', 'any', '술년에 갑이 있으면 월덕귀인'),
+    (3, 'JIJI_TO_CHEONGAN', '["해"]', '["임"]', 'any', '해년에 임이 있으면 월덕귀인');
+
+-- ============================================
+-- 5. 문창귀인 (文昌貴人) - 10개 규칙
+-- ============================================
+INSERT INTO sinsal_rule (sinsal_id, rule_type, condition_ilgan, condition_target, match_position, description)
+VALUES
+    (5, 'ILGAN_JIJI', '["갑"]', '["사"]', 'any', '갑일에 사가 있으면 문창귀인'),
+    (5, 'ILGAN_JIJI', '["을"]', '["오"]', 'any', '을일에 오가 있으면 문창귀인'),
+    (5, 'ILGAN_JIJI', '["병"]', '["신"]', 'any', '병일에 신이 있으면 문창귀인'),
+    (5, 'ILGAN_JIJI', '["정"]', '["유"]', 'any', '정일에 유가 있으면 문창귀인'),
+    (5, 'ILGAN_JIJI', '["무"]', '["신"]', 'any', '무일에 신이 있으면 문창귀인'),
+    (5, 'ILGAN_JIJI', '["기"]', '["유"]', 'any', '기일에 유가 있으면 문창귀인'),
+    (5, 'ILGAN_JIJI', '["경"]', '["해"]', 'any', '경일에 해가 있으면 문창귀인'),
+    (5, 'ILGAN_JIJI', '["신"]', '["자"]', 'any', '신일에 자가 있으면 문창귀인'),
+    (5, 'ILGAN_JIJI', '["임"]', '["인"]', 'any', '임일에 인이 있으면 문창귀인'),
+    (5, 'ILGAN_JIJI', '["계"]', '["묘"]', 'any', '계일에 묘가 있으면 문창귀인');
+
+-- ============================================
+-- 6. 학당귀인 (學堂貴人) - 8개 규칙
+-- ============================================
+INSERT INTO sinsal_rule (sinsal_id, rule_type, condition_ilgan, condition_target, match_position, description)
+VALUES
+    (6, 'ILGAN_JIJI', '["갑"]', '["사"]', 'any', '갑일에 사가 있으면 학당귀인'),
+    (6, 'ILGAN_JIJI', '["을"]', '["오"]', 'any', '을일에 오가 있으면 학당귀인'),
+    (6, 'ILGAN_JIJI', '["병", "무"]', '["신"]', 'any', '병, 무일에 신이 있으면 학당귀인'),
+    (6, 'ILGAN_JIJI', '["정", "기"]', '["유"]', 'any', '정, 기일에 유가 있으면 학당귀인'),
+    (6, 'ILGAN_JIJI', '["경"]', '["해"]', 'any', '경일에 해가 있으면 학당귀인'),
+    (6, 'ILGAN_JIJI', '["신"]', '["자"]', 'any', '신일에 자가 있으면 학당귀인'),
+    (6, 'ILGAN_JIJI', '["임"]', '["인"]', 'any', '임일에 인이 있으면 학당귀인'),
+    (6, 'ILGAN_JIJI', '["계"]', '["묘"]', 'any', '계일에 묘가 있으면 학당귀인');
+
+-- ============================================
+-- 7. 금여록 (金輿祿) - 4개 규칙
+-- ============================================
+INSERT INTO sinsal_rule (sinsal_id, rule_type, condition_yenji, condition_target, match_position, description)
+VALUES
+    (7, 'YENJI_TO_ANY', '["인", "오", "술"]', '["술"]', 'any', '인오술년에 술이 있으면 금여록'),
+    (7, 'YENJI_TO_ANY', '["사", "유", "축"]', '["축"]', 'any', '사유축년에 축이 있으면 금여록'),
+    (7, 'YENJI_TO_ANY', '["신", "자", "진"]', '["진"]', 'any', '신자진년에 진이 있으면 금여록'),
+    (7, 'YENJI_TO_ANY', '["해", "묘", "미"]', '["미"]', 'any', '해묘미년에 미가 있으면 금여록');
+
+-- ============================================
+-- 8. 천의성 (天醫星) - 4개 규칙
+-- ============================================
+INSERT INTO sinsal_rule (sinsal_id, rule_type, condition_yenji, condition_target, match_position, description)
+VALUES
+    (8, 'YENJI_TO_ANY', '["인", "오", "술"]', '["축"]', 'any', '인오술년에 축이 있으면 천의성'),
+    (8, 'YENJI_TO_ANY', '["사", "유", "축"]', '["인"]', 'any', '사유축년에 인이 있으면 천의성'),
+    (8, 'YENJI_TO_ANY', '["신", "자", "진"]', '["해"]', 'any', '신자진년에 해가 있으면 천의성'),
+    (8, 'YENJI_TO_ANY', '["해", "묘", "미"]', '["신"]', 'any', '해묘미년에 신이 있으면 천의성');
+
+-- ============================================
+-- 9. 복성귀인 (福星貴人) - 4개 규칙
+-- ============================================
+INSERT INTO sinsal_rule (sinsal_id, rule_type, condition_yenji, condition_target, match_position, description)
+VALUES
+    (9, 'YENJI_TO_ANY', '["인", "오", "술"]', '["오"]', 'any', '인오술년에 오가 있으면 복성귀인'),
+    (9, 'YENJI_TO_ANY', '["사", "유", "축"]', '["유"]', 'any', '사유축년에 유가 있으면 복성귀인'),
+    (9, 'YENJI_TO_ANY', '["신", "자", "진"]', '["자"]', 'any', '신자진년에 자가 있으면 복성귀인'),
+    (9, 'YENJI_TO_ANY', '["해", "묘", "미"]', '["묘"]', 'any', '해묘미년에 묘가 있으면 복성귀인');
+
+-- ============================================
+-- 10. 천관귀인 (天官貴人) - 8개 규칙
+-- ============================================
+INSERT INTO sinsal_rule (sinsal_id, rule_type, condition_ilgan, condition_target, match_position, description)
+VALUES
+    (10, 'ILGAN_JIJI', '["갑"]', '["인"]', 'any', '갑일에 인이 있으면 천관귀인'),
+    (10, 'ILGAN_JIJI', '["을"]', '["묘"]', 'any', '을일에 묘가 있으면 천관귀인'),
+    (10, 'ILGAN_JIJI', '["병", "무"]', '["사"]', 'any', '병, 무일에 사가 있으면 천관귀인'),
+    (10, 'ILGAN_JIJI', '["정", "기"]', '["오"]', 'any', '정, 기일에 오가 있으면 천관귀인'),
+    (10, 'ILGAN_JIJI', '["경"]', '["신"]', 'any', '경일에 신이 있으면 천관귀인'),
+    (10, 'ILGAN_JIJI', '["신"]', '["유"]', 'any', '신일에 유가 있으면 천관귀인'),
+    (10, 'ILGAN_JIJI', '["임"]', '["해"]', 'any', '임일에 해가 있으면 천관귀인'),
+    (10, 'ILGAN_JIJI', '["계"]', '["자"]', 'any', '계일에 자가 있으면 천관귀인');
+
+-- ============================================
+-- 11. 덕합귀인 (德合貴人) - 10개 규칙
+-- ============================================
+INSERT INTO sinsal_rule (sinsal_id, rule_type, condition_ilgan, condition_target, match_position, description)
+VALUES
+    (11, 'ILGAN_JIJI', '["갑"]', '["해"]', 'any', '갑일에 해가 있으면 덕합귀인'),
+    (11, 'ILGAN_JIJI', '["을"]', '["술"]', 'any', '을일에 술이 있으면 덕합귀인'),
+    (11, 'ILGAN_JIJI', '["병"]', '["축"]', 'any', '병일에 축이 있으면 덕합귀인'),
+    (11, 'ILGAN_JIJI', '["정"]', '["자"]', 'any', '정일에 자가 있으면 덕합귀인'),
+    (11, 'ILGAN_JIJI', '["무"]', '["축"]', 'any', '무일에 축이 있으면 덕합귀인'),
+    (11, 'ILGAN_JIJI', '["기"]', '["자"]', 'any', '기일에 자가 있으면 덕합귀인'),
+    (11, 'ILGAN_JIJI', '["경"]', '["묘"]', 'any', '경일에 묘가 있으면 덕합귀인'),
+    (11, 'ILGAN_JIJI', '["신"]', '["인"]', 'any', '신일에 인이 있으면 덕합귀인'),
+    (11, 'ILGAN_JIJI', '["임"]', '["사"]', 'any', '임일에 사가 있으면 덕합귀인'),
+    (11, 'ILGAN_JIJI', '["계"]', '["진"]', 'any', '계일에 진이 있으면 덕합귀인');
+
+-- ============================================
+-- 12. 장성살 (將星殺) - 4개 규칙
+-- ============================================
+INSERT INTO sinsal_rule (sinsal_id, rule_type, condition_yenji, condition_target, match_position, description)
+VALUES
+    (12, 'YENJI_TO_ANY', '["인", "오", "술"]', '["오"]', 'any', '인오술년에 오가 있으면 장성살'),
+    (12, 'YENJI_TO_ANY', '["사", "유", "축"]', '["유"]', 'any', '사유축년에 유가 있으면 장성살'),
+    (12, 'YENJI_TO_ANY', '["신", "자", "진"]', '["자"]', 'any', '신자진년에 자가 있으면 장성살'),
+    (12, 'YENJI_TO_ANY', '["해", "묘", "미"]', '["묘"]', 'any', '해묘미년에 묘가 있으면 장성살');
+
+-- ============================================
+-- 13. 태극귀인 (太極貴人) - 5개 규칙
+-- ============================================
+INSERT INTO sinsal_rule (sinsal_id, rule_type, condition_ilgan, condition_target, match_position, description)
+VALUES
+    (13, 'ILGAN_JIJI', '["갑", "을"]', '["자", "오"]', 'any', '갑, 을일에 자, 오가 있으면 태극귀인'),
+    (13, 'ILGAN_JIJI', '["병", "정"]', '["묘", "유"]', 'any', '병, 정일에 묘, 유가 있으면 태극귀인'),
+    (13, 'ILGAN_JIJI', '["무", "기"]', '["진", "술", "축", "미"]', 'any', '무, 기일에 진, 술, 축, 미가 있으면 태극귀인'),
+    (13, 'ILGAN_JIJI', '["경", "신"]', '["인", "해"]', 'any', '경, 신일에 인, 해가 있으면 태극귀인'),
+    (13, 'ILGAN_JIJI', '["임", "계"]', '["사", "신"]', 'any', '임, 계일에 사, 신이 있으면 태극귀인');
+
+-- ============================================
+-- 16. 천사귀인 (天赦貴人, 황은대사) - 10개 규칙
+-- ============================================
+INSERT INTO sinsal_rule (sinsal_id, rule_type, condition_yenji, condition_target, match_position, description)
+VALUES
+    (16, 'JIJI_TO_CHEONGAN', '["자"]', '["무"]', 'any', '자년에 무가 있으면 천사귀인'),
+    (16, 'JIJI_TO_CHEONGAN', '["축", "미"]', '["기"]', 'any', '축, 미년에 기가 있으면 천사귀인'),
+    (16, 'JIJI_TO_CHEONGAN', '["인"]', '["갑"]', 'any', '인년에 갑이 있으면 천사귀인'),
+    (16, 'JIJI_TO_CHEONGAN', '["묘"]', '["을"]', 'any', '묘년에 을이 있으면 천사귀인'),
+    (16, 'JIJI_TO_CHEONGAN', '["진", "술"]', '["무"]', 'any', '진, 술년에 무가 있으면 천사귀인'),
+    (16, 'JIJI_TO_CHEONGAN', '["사"]', '["병"]', 'any', '사년에 병이 있으면 천사귀인'),
+    (16, 'JIJI_TO_CHEONGAN', '["오"]', '["정"]', 'any', '오년에 정이 있으면 천사귀인'),
+    (16, 'JIJI_TO_CHEONGAN', '["신"]', '["경"]', 'any', '신년에 경이 있으면 천사귀인'),
+    (16, 'JIJI_TO_CHEONGAN', '["유"]', '["신"]', 'any', '유년에 신이 있으면 천사귀인'),
+    (16, 'JIJI_TO_CHEONGAN', '["해"]', '["임"]', 'any', '해년에 임이 있으면 천사귀인');
+
+-- ============================================
+-- 21. 망신살 (亡神殺) - 12개 규칙 (모든 지지별)
+-- ============================================
+INSERT INTO sinsal_rule (sinsal_id, rule_type, condition_yenji, condition_target, match_position, description)
+VALUES
+    (21, 'YENJI_TO_ANY', '["자"]', '["유"]', 'any', '자년에 유가 있으면 망신살'),
+    (21, 'YENJI_TO_ANY', '["축"]', '["술"]', 'any', '축년에 술이 있으면 망신살'),
+    (21, 'YENJI_TO_ANY', '["인"]', '["미"]', 'any', '인년에 미가 있으면 망신살'),
+    (21, 'YENJI_TO_ANY', '["묘"]', '["오"]', 'any', '묘년에 오가 있으면 망신살'),
+    (21, 'YENJI_TO_ANY', '["진"]', '["사"]', 'any', '진년에 사가 있으면 망신살'),
+    (21, 'YENJI_TO_ANY', '["사"]', '["진"]', 'any', '사년에 진이 있으면 망신살'),
+    (21, 'YENJI_TO_ANY', '["오"]', '["묘"]', 'any', '오년에 묘가 있으면 망신살'),
+    (21, 'YENJI_TO_ANY', '["미"]', '["인"]', 'any', '미년에 인이 있으면 망신살'),
+    (21, 'YENJI_TO_ANY', '["신"]', '["축"]', 'any', '신년에 축이 있으면 망신살'),
+    (21, 'YENJI_TO_ANY', '["유"]', '["자"]', 'any', '유년에 자가 있으면 망신살'),
+    (21, 'YENJI_TO_ANY', '["술"]', '["해"]', 'any', '술년에 해가 있으면 망신살'),
+    (21, 'YENJI_TO_ANY', '["해"]', '["신"]', 'any', '해년에 신이 있으면 망신살');
+
+-- ============================================
+-- 23. 도화살 (桃花殺) - 8개 규칙
+-- ============================================
+INSERT INTO sinsal_rule (sinsal_id, rule_type, condition_yenji, condition_target, match_position, description)
+VALUES
+    -- 전통 규칙: 삼합 + 도화 지지
+    (23, 'YENJI_TO_ANY', '["인", "오", "술"]', '["묘"]', 'any', '인오술 삼합에 묘가 있으면 도화살'),
+    (23, 'YENJI_TO_ANY', '["신", "자", "진"]', '["유"]', 'any', '신자진 삼합에 유가 있으면 도화살'),
+    (23, 'YENJI_TO_ANY', '["사", "유", "축"]', '["오"]', 'any', '사유축 삼합에 오가 있으면 도화살'),
+    (23, 'YENJI_TO_ANY', '["해", "묘", "미"]', '["자"]', 'any', '해묘미 삼합에 자가 있으면 도화살'),
+    -- 추가 규칙: 도화 지지 자체 (자오묘유, 포스텔러 방식)
+    (23, 'YENJI_COMBINATION', '["자"]', NULL, 'any', '자(子)가 있으면 도화살'),
+    (23, 'YENJI_COMBINATION', '["오"]', NULL, 'any', '오(午)가 있으면 도화살'),
+    (23, 'YENJI_COMBINATION', '["묘"]', NULL, 'any', '묘(卯)가 있으면 도화살'),
+    (23, 'YENJI_COMBINATION', '["유"]', NULL, 'any', '유(酉)가 있으면 도화살');
+
+-- ============================================
+-- 24. 역마살 (驛馬殺) - 8개 규칙
+-- ============================================
+INSERT INTO sinsal_rule (sinsal_id, rule_type, condition_yenji, condition_target, match_position, description)
+VALUES
+    -- 전통 규칙: 년지 삼합 + 역마 지지
+    (24, 'YENJI_TO_ANY', '["인", "오", "술"]', '["신"]', 'any', '인오술년에 신이 있으면 역마살'),
+    (24, 'YENJI_TO_ANY', '["사", "유", "축"]', '["해"]', 'any', '사유축년에 해가 있으면 역마살'),
+    (24, 'YENJI_TO_ANY', '["신", "자", "진"]', '["인"]', 'any', '신자진년에 인이 있으면 역마살'),
+    (24, 'YENJI_TO_ANY', '["해", "묘", "미"]', '["사"]', 'any', '해묘미년에 사가 있으면 역마살'),
+    -- 추가 규칙: 역마 지지 자체 (포스텔러 방식)
+    (24, 'YENJI_COMBINATION', '["신"]', NULL, 'any', '신이 있으면 역마살'),
+    (24, 'YENJI_COMBINATION', '["해"]', NULL, 'any', '해가 있으면 역마살'),
+    (24, 'YENJI_COMBINATION', '["인"]', NULL, 'any', '인이 있으면 역마살'),
+    (24, 'YENJI_COMBINATION', '["사"]', NULL, 'any', '사가 있으면 역마살');
+
+-- ============================================
+-- 25. 백호대살 (白虎大殺) - 7개 규칙 (4기둥 전체)
+-- ============================================
+INSERT INTO sinsal_rule (sinsal_id, rule_type, condition_ilgan, condition_target, match_position, description)
+VALUES
+    (25, 'ILJU_COMBINATION', '["갑"]', '["진"]', 'any', '갑진 간지가 있으면 백호대살'),
+    (25, 'ILJU_COMBINATION', '["을"]', '["미"]', 'any', '을미 간지가 있으면 백호대살'),
+    (25, 'ILJU_COMBINATION', '["병"]', '["술"]', 'any', '병술 간지가 있으면 백호대살'),
+    (25, 'ILJU_COMBINATION', '["정"]', '["축"]', 'any', '정축 간지가 있으면 백호대살'),
+    (25, 'ILJU_COMBINATION', '["무"]', '["진"]', 'any', '무진 간지가 있으면 백호대살'),
+    (25, 'ILJU_COMBINATION', '["임"]', '["술"]', 'any', '임술 간지가 있으면 백호대살'),
+    (25, 'ILJU_COMBINATION', '["계"]', '["축"]', 'any', '계축 간지가 있으면 백호대살');
+
+-- ============================================
+-- 26. 상문살 (喪門殺) - 4개 규칙
+-- ============================================
+INSERT INTO sinsal_rule (sinsal_id, rule_type, condition_yenji, condition_target, match_position, description)
+VALUES
+    (26, 'YENJI_TO_ANY', '["인", "오", "술"]', '["인"]', 'any', '인오술년에 인이 있으면 상문살'),
+    (26, 'YENJI_TO_ANY', '["사", "유", "축"]', '["사"]', 'any', '사유축년에 사가 있으면 상문살'),
+    (26, 'YENJI_TO_ANY', '["신", "자", "진"]', '["신"]', 'any', '신자진년에 신이 있으면 상문살'),
+    (26, 'YENJI_TO_ANY', '["해", "묘", "미"]', '["해"]', 'any', '해묘미년에 해가 있으면 상문살');
+
+-- ============================================
+-- 27. 조객살 (弔客殺) - 4개 규칙
+-- ============================================
+INSERT INTO sinsal_rule (sinsal_id, rule_type, condition_yenji, condition_target, match_position, description)
+VALUES
+    (27, 'YENJI_TO_ANY', '["인", "오", "술"]', '["술"]', 'any', '인오술년에 술이 있으면 조객살'),
+    (27, 'YENJI_TO_ANY', '["사", "유", "축"]', '["축"]', 'any', '사유축년에 축이 있으면 조객살'),
+    (27, 'YENJI_TO_ANY', '["신", "자", "진"]', '["진"]', 'any', '신자진년에 진이 있으면 조객살'),
+    (27, 'YENJI_TO_ANY', '["해", "묘", "미"]', '["미"]', 'any', '해묘미년에 미가 있으면 조객살');
+
+-- ============================================
+-- 28. 양인살 (羊刃殺) - 5개 규칙 (양간만)
+-- ============================================
+INSERT INTO sinsal_rule (sinsal_id, rule_type, condition_ilgan, condition_target, match_position, description)
+VALUES
+    (28, 'ILGAN_JIJI', '["갑"]', '["묘"]', 'any', '갑일에 묘가 있으면 양인살'),
+    (28, 'ILGAN_JIJI', '["병"]', '["오"]', 'any', '병일에 오가 있으면 양인살'),
+    (28, 'ILGAN_JIJI', '["무"]', '["오"]', 'any', '무일에 오가 있으면 양인살'),
+    (28, 'ILGAN_JIJI', '["경"]', '["유"]', 'any', '경일에 유가 있으면 양인살'),
+    (28, 'ILGAN_JIJI', '["임"]', '["자"]', 'any', '임일에 자가 있으면 양인살');
+
+-- ============================================
+-- 29. 현침살 (懸針殺) - 20개 규칙
+-- ============================================
+INSERT INTO sinsal_rule (sinsal_id, rule_type, condition_ilgan, condition_target, match_position, description)
+VALUES
+    -- 전통 규칙: 일간 + 일지 (정록 위치)
+    (29, 'ILGAN_JIJI', '["갑"]', '["인"]', 'day', '갑일에 일지가 인이면 현침살'),
+    (29, 'ILGAN_JIJI', '["을"]', '["묘"]', 'day', '을일에 일지가 묘면 현침살'),
+    (29, 'ILGAN_JIJI', '["병"]', '["사"]', 'day', '병일에 일지가 사면 현침살'),
+    (29, 'ILGAN_JIJI', '["정"]', '["오"]', 'day', '정일에 일지가 오면 현침살'),
+    (29, 'ILGAN_JIJI', '["무"]', '["사"]', 'day', '무일에 일지가 사면 현침살'),
+    (29, 'ILGAN_JIJI', '["기"]', '["오"]', 'day', '기일에 일지가 오면 현침살'),
+    (29, 'ILGAN_JIJI', '["경"]', '["신"]', 'day', '경일에 일지가 신이면 현침살'),
+    (29, 'ILGAN_JIJI', '["신"]', '["유"]', 'day', '신일에 일지가 유면 현침살'),
+    (29, 'ILGAN_JIJI', '["임"]', '["신"]', 'day', '임일에 일지가 신이면 현침살'),
+    (29, 'ILGAN_JIJI', '["계"]', '["자"]', 'day', '계일에 일지가 자면 현침살'),
+    -- 추가 규칙: 일간 + 편관 위치 (포스텔러 방식)
+    (29, 'ILGAN_JIJI', '["갑"]', '["신"]', 'any', '갑일에 신이 있으면 현침살'),
+    (29, 'ILGAN_JIJI', '["을"]', '["유"]', 'any', '을일에 유가 있으면 현침살'),
+    (29, 'ILGAN_JIJI', '["병"]', '["해"]', 'any', '병일에 해가 있으면 현침살'),
+    (29, 'ILGAN_JIJI', '["정"]', '["자"]', 'any', '정일에 자가 있으면 현침살'),
+    (29, 'ILGAN_JIJI', '["무"]', '["해"]', 'any', '무일에 해가 있으면 현침살'),
+    (29, 'ILGAN_JIJI', '["기"]', '["자"]', 'any', '기일에 자가 있으면 현침살'),
+    (29, 'ILGAN_JIJI', '["경"]', '["인"]', 'any', '경일에 인이 있으면 현침살'),
+    (29, 'ILGAN_JIJI', '["신"]', '["묘"]', 'any', '신일에 묘가 있으면 현침살'),
+    (29, 'ILGAN_JIJI', '["임"]', '["사"]', 'any', '임일에 사가 있으면 현침살'),
+    (29, 'ILGAN_JIJI', '["계"]', '["오"]', 'any', '계일에 오가 있으면 현침살');
+
+-- ============================================
+-- 30. 고란살 (孤鸞殺) - 6개 규칙 (일주 기준)
+-- ============================================
+INSERT INTO sinsal_rule (sinsal_id, rule_type, condition_ilgan, condition_target, match_position, description)
+VALUES
+    (30, 'ILJU_COMBINATION', '["을"]', '["사"]', 'day', '을사일주면 고란살'),
+    (30, 'ILJU_COMBINATION', '["정"]', '["해"]', 'day', '정해일주면 고란살'),
+    (30, 'ILJU_COMBINATION', '["무"]', '["신"]', 'day', '무신일주면 고란살'),
+    (30, 'ILJU_COMBINATION', '["신"]', '["사"]', 'day', '신사일주면 고란살'),
+    (30, 'ILJU_COMBINATION', '["임"]', '["인"]', 'day', '임인일주면 고란살'),
+    (30, 'ILJU_COMBINATION', '["계"]', '["해"]', 'day', '계해일주면 고란살');
+
+-- ============================================
+-- 11. 괴강살 (魁罡殺) - 4개 규칙 (일주 기준)
+-- ============================================
+INSERT INTO sinsal_rule (sinsal_id, rule_type, condition_ilgan, condition_target, match_position, description)
+VALUES
+    (11, 'ILJU_COMBINATION', '["경"]', '["술"]', 'day', '경술일주면 괴강살'),
+    (11, 'ILJU_COMBINATION', '["경"]', '["진"]', 'day', '경진일주면 괴강살'),
+    (11, 'ILJU_COMBINATION', '["임"]', '["진"]', 'day', '임진일주면 괴강살'),
+    (11, 'ILJU_COMBINATION', '["무"]', '["술"]', 'day', '무술일주면 괴강살');
+
+-- ============================================
+-- 12. 원진살 (怨嗔殺) - 6개 규칙
+-- ============================================
+INSERT INTO sinsal_rule (sinsal_id, rule_type, condition_yenji, condition_target, match_position, description)
+VALUES
+    (12, 'YENJI_TO_ANY', '["자"]', '["미"]', 'any', '자와 미는 원진'),
+    (12, 'YENJI_TO_ANY', '["축"]', '["오"]', 'any', '축과 오는 원진'),
+    (12, 'YENJI_TO_ANY', '["인"]', '["사"]', 'any', '인과 사는 원진'),
+    (12, 'YENJI_TO_ANY', '["묘"]', '["진"]', 'any', '묘와 진은 원진'),
+    (12, 'YENJI_TO_ANY', '["신"]', '["해"]', 'any', '신과 해는 원진'),
+    (12, 'YENJI_TO_ANY', '["유"]', '["술"]', 'any', '유와 술은 원진');
+
+-- ============================================
+-- 13. 육해살 (六害殺) - 6개 규칙
+-- ============================================
+INSERT INTO sinsal_rule (sinsal_id, rule_type, condition_yenji, condition_target, match_position, description)
+VALUES
+    (13, 'YENJI_TO_ANY', '["자"]', '["미"]', 'any', '자와 미는 육해'),
+    (13, 'YENJI_TO_ANY', '["축"]', '["오"]', 'any', '축과 오는 육해'),
+    (13, 'YENJI_TO_ANY', '["인"]', '["사"]', 'any', '인과 사는 육해'),
+    (13, 'YENJI_TO_ANY', '["묘"]', '["진"]', 'any', '묘와 진은 육해'),
+    (13, 'YENJI_TO_ANY', '["신"]', '["해"]', 'any', '신과 해는 육해'),
+    (13, 'YENJI_TO_ANY', '["유"]', '["술"]', 'any', '유와 술은 육해');
+
+-- ============================================
+-- 34. 공망살 (空亡殺) - 5개 규칙
+-- ============================================
+INSERT INTO sinsal_rule (sinsal_id, rule_type, condition_ilgan, condition_target, match_position, description)
+VALUES
+    (34, 'ILGAN_JIJI', '["갑", "을"]', '["술", "해"]', 'any', '갑, 을일에 술, 해가 있으면 공망살'),
+    (34, 'ILGAN_JIJI', '["병", "정"]', '["자", "축"]', 'any', '병, 정일에 자, 축이 있으면 공망살'),
+    (34, 'ILGAN_JIJI', '["무", "기"]', '["인", "묘"]', 'any', '무, 기일에 인, 묘가 있으면 공망살'),
+    (34, 'ILGAN_JIJI', '["경", "신"]', '["진", "사"]', 'any', '경, 신일에 진, 사가 있으면 공망살'),
+    (34, 'ILGAN_JIJI', '["임", "계"]', '["오", "미"]', 'any', '임, 계일에 오, 미가 있으면 공망살');
+
+-- ============================================
+-- 35. 천라지망 (天羅地網) - 4개 규칙 (일주 기준)
+-- ============================================
+INSERT INTO sinsal_rule (sinsal_id, rule_type, condition_ilgan, condition_target, match_position, description)
+VALUES
+    (35, 'ILJU_COMBINATION', '["갑"]', '["진"]', 'day', '갑진일주면 천라'),
+    (35, 'ILJU_COMBINATION', '["을"]', '["사"]', 'day', '을사일주면 지망'),
+    (35, 'ILJU_COMBINATION', '["임"]', '["술"]', 'day', '임술일주면 천라'),
+    (35, 'ILJU_COMBINATION', '["계"]', '["해"]', 'day', '계해일주면 지망');
+
+-- ============================================
+-- 36. 과숙살 (孤宿殺) - 4개 규칙
+-- ============================================
+INSERT INTO sinsal_rule (sinsal_id, rule_type, condition_yenji, condition_target, match_position, description)
+VALUES
+    (36, 'YENJI_TO_ANY', '["인", "오", "술"]', '["술"]', 'any', '인오술년에 술이 있으면 과숙살'),
+    (36, 'YENJI_TO_ANY', '["사", "유", "축"]', '["축"]', 'any', '사유축년에 축이 있으면 과숙살'),
+    (36, 'YENJI_TO_ANY', '["신", "자", "진"]', '["진"]', 'any', '신자진년에 진이 있으면 과숙살'),
+    (36, 'YENJI_TO_ANY', '["해", "묘", "미"]', '["미"]', 'any', '해묘미년에 미가 있으면 과숙살');
+
+-- ============================================
+-- 37. 과신살/고신살 (孤辰殺) - 4개 규칙
+-- ============================================
+INSERT INTO sinsal_rule (sinsal_id, rule_type, condition_yenji, condition_target, match_position, description)
+VALUES
+    (37, 'YENJI_TO_ANY', '["해", "자", "축"]', '["인"]', 'any', '해자축년에 인이 있으면 과신살'),
+    (37, 'YENJI_TO_ANY', '["인", "묘", "진"]', '["사"]', 'any', '인묘진년에 사가 있으면 과신살'),
+    (37, 'YENJI_TO_ANY', '["사", "오", "미"]', '["신"]', 'any', '사오미년에 신이 있으면 과신살'),
+    (37, 'YENJI_TO_ANY', '["신", "유", "술"]', '["해"]', 'any', '신유술년에 해가 있으면 과신살');
+
+-- ============================================
+-- 38. 화개살 (華蓋殺) - 4개 규칙
+-- ============================================
+INSERT INTO sinsal_rule (sinsal_id, rule_type, condition_yenji, condition_target, match_position, description)
+VALUES
+    (38, 'YENJI_TO_ANY', '["인", "오", "술"]', '["술"]', 'any', '인오술년에 술이 있으면 화개살'),
+    (38, 'YENJI_TO_ANY', '["사", "유", "축"]', '["축"]', 'any', '사유축년에 축이 있으면 화개살'),
+    (38, 'YENJI_TO_ANY', '["신", "자", "진"]', '["진"]', 'any', '신자진년에 진이 있으면 화개살'),
+    (38, 'YENJI_TO_ANY', '["해", "묘", "미"]', '["미"]', 'any', '해묘미년에 미가 있으면 화개살');
+
+-- ============================================
+-- 홍염살 (紅艶殺) - 10개 규칙 (일간별) - ID 51
+-- ============================================
+INSERT INTO sinsal_rule (sinsal_id, rule_type, condition_ilgan, condition_target, match_position, description)
+VALUES
+    (51, 'ILGAN_JIJI', '["갑"]', '["오"]', 'any', '갑일에 오가 있으면 홍염살'),
+    (51, 'ILGAN_JIJI', '["을"]', '["신"]', 'any', '을일에 신이 있으면 홍염살'),
+    (51, 'ILGAN_JIJI', '["병"]', '["자"]', 'any', '병일에 자가 있으면 홍염살'),
+    (51, 'ILGAN_JIJI', '["정"]', '["유"]', 'any', '정일에 유가 있으면 홍염살'),
+    (51, 'ILGAN_JIJI', '["무"]', '["오"]', 'any', '무일에 오가 있으면 홍염살'),
+    (51, 'ILGAN_JIJI', '["기"]', '["신"]', 'any', '기일에 신이 있으면 홍염살'),
+    (51, 'ILGAN_JIJI', '["경"]', '["자"]', 'any', '경일에 자가 있으면 홍염살'),
+    (51, 'ILGAN_JIJI', '["신"]', '["묘"]', 'any', '신일에 묘가 있으면 홍염살'),
+    (51, 'ILGAN_JIJI', '["임"]', '["신"]', 'any', '임일에 신이 있으면 홍염살'),
+    (51, 'ILGAN_JIJI', '["계"]', '["유"]', 'any', '계일에 유가 있으면 홍염살');
+
+-- ============================================
+-- 정록 (正祿) - 10개 규칙 (일간별) - ID 52
+-- ============================================
+INSERT INTO sinsal_rule (sinsal_id, rule_type, condition_ilgan, condition_target, match_position, description)
+VALUES
+    (52, 'ILGAN_JIJI', '["갑"]', '["인"]', 'any', '갑일에 인이 있으면 정록'),
+    (52, 'ILGAN_JIJI', '["을"]', '["묘"]', 'any', '을일에 묘가 있으면 정록'),
+    (52, 'ILGAN_JIJI', '["병"]', '["사"]', 'any', '병일에 사가 있으면 정록'),
+    (52, 'ILGAN_JIJI', '["정"]', '["오"]', 'any', '정일에 오가 있으면 정록'),
+    (52, 'ILGAN_JIJI', '["무"]', '["사"]', 'any', '무일에 사가 있으면 정록'),
+    (52, 'ILGAN_JIJI', '["기"]', '["오"]', 'any', '기일에 오가 있으면 정록'),
+    (52, 'ILGAN_JIJI', '["경"]', '["신"]', 'any', '경일에 신이 있으면 정록'),
+    (52, 'ILGAN_JIJI', '["신"]', '["유"]', 'any', '신일에 유가 있으면 정록'),
+    (52, 'ILGAN_JIJI', '["임"]', '["해"]', 'any', '임일에 해가 있으면 정록'),
+    (52, 'ILGAN_JIJI', '["계"]', '["자"]', 'any', '계일에 자가 있으면 정록');
+
+-- ============================================
+-- 천문성 (天門星) - 10개 규칙 (월지 기준) - ID 53
+-- ============================================
+INSERT INTO sinsal_rule (sinsal_id, rule_type, condition_ilgan, condition_target, match_position, description)
+VALUES
+    (53, 'ILGAN_JIJI', '["갑"]', '["인"]', 'month', '갑일에 월지가 인이면 천문성'),
+    (53, 'ILGAN_JIJI', '["을"]', '["묘"]', 'month', '을일에 월지가 묘면 천문성'),
+    (53, 'ILGAN_JIJI', '["병"]', '["사"]', 'month', '병일에 월지가 사면 천문성'),
+    (53, 'ILGAN_JIJI', '["정"]', '["오"]', 'month', '정일에 월지가 오면 천문성'),
+    (53, 'ILGAN_JIJI', '["무"]', '["사"]', 'month', '무일에 월지가 사면 천문성'),
+    (53, 'ILGAN_JIJI', '["기"]', '["오"]', 'month', '기일에 월지가 오면 천문성'),
+    (53, 'ILGAN_JIJI', '["경"]', '["신"]', 'month', '경일에 월지가 신이면 천문성'),
+    (53, 'ILGAN_JIJI', '["신"]', '["유"]', 'month', '신일에 월지가 유면 천문성'),
+    (53, 'ILGAN_JIJI', '["임"]', '["해"]', 'month', '임일에 월지가 해면 천문성'),
+    (53, 'ILGAN_JIJI', '["계"]', '["자"]', 'month', '계일에 월지가 자면 천문성');
+
+-- ============================================
+-- 암록 (暗祿) - 10개 규칙 (정록의 육합) - ID 54
+-- ============================================
+INSERT INTO sinsal_rule (sinsal_id, rule_type, condition_ilgan, condition_target, match_position, description)
+VALUES
+    (54, 'ILGAN_JIJI', '["갑"]', '["해"]', 'any', '갑일에 해가 있으면 암록'),
+    (54, 'ILGAN_JIJI', '["을"]', '["술"]', 'any', '을일에 술이 있으면 암록'),
+    (54, 'ILGAN_JIJI', '["병"]', '["신"]', 'any', '병일에 신이 있으면 암록'),
+    (54, 'ILGAN_JIJI', '["정"]', '["미"]', 'any', '정일에 미가 있으면 암록'),
+    (54, 'ILGAN_JIJI', '["무"]', '["신"]', 'any', '무일에 신이 있으면 암록'),
+    (54, 'ILGAN_JIJI', '["기"]', '["미"]', 'any', '기일에 미가 있으면 암록'),
+    (54, 'ILGAN_JIJI', '["경"]', '["사"]', 'any', '경일에 사가 있으면 암록'),
+    (54, 'ILGAN_JIJI', '["신"]', '["진"]', 'any', '신일에 진이 있으면 암록'),
+    (54, 'ILGAN_JIJI', '["임"]', '["인"]', 'any', '임일에 인이 있으면 암록'),
+    (54, 'ILGAN_JIJI', '["계"]', '["축"]', 'any', '계일에 축이 있으면 암록');
+
+-- ============================================
+-- 귀문관살 (鬼門關殺) - 12개 규칙 (지지 쌍)
+-- ============================================
+INSERT INTO sinsal_rule (sinsal_id, rule_type, condition_yenji, condition_target, match_position, description)
+VALUES
+    (49, 'JIJI_PAIR', '["진"]', '["해"]', 'any', '진해 조합이 있으면 귀문관살'),
+    (49, 'JIJI_PAIR', '["해"]', '["진"]', 'any', '해진 조합이 있으면 귀문관살'),
+    (49, 'JIJI_PAIR', '["자"]', '["유"]', 'any', '자유 조합이 있으면 귀문관살'),
+    (49, 'JIJI_PAIR', '["유"]', '["자"]', 'any', '유자 조합이 있으면 귀문관살'),
+    (49, 'JIJI_PAIR', '["인"]', '["미"]', 'any', '인미 조합이 있으면 귀문관살'),
+    (49, 'JIJI_PAIR', '["미"]', '["인"]', 'any', '미인 조합이 있으면 귀문관살'),
+    (49, 'JIJI_PAIR', '["축"]', '["오"]', 'any', '축오 조합이 있으면 귀문관살'),
+    (49, 'JIJI_PAIR', '["오"]', '["축"]', 'any', '오축 조합이 있으면 귀문관살'),
+    (49, 'JIJI_PAIR', '["묘"]', '["신"]', 'any', '묘신 조합이 있으면 귀문관살'),
+    (49, 'JIJI_PAIR', '["신"]', '["묘"]', 'any', '신묘 조합이 있으면 귀문관살'),
+    (49, 'JIJI_PAIR', '["사"]', '["술"]', 'any', '사술 조합이 있으면 귀문관살'),
+    (49, 'JIJI_PAIR', '["술"]', '["사"]', 'any', '술사 조합이 있으면 귀문관살');

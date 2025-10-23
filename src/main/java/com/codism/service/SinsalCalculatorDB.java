@@ -3,6 +3,7 @@ package com.codism.service;
 import com.codism.model.dto.SajuDetailResponse;
 import com.codism.model.entity.SinsalMaster;
 import com.codism.model.entity.SinsalRule;
+import com.codism.model.enums.SinsalRuleType;
 import com.codism.repository.SinsalMasterRepository;
 import com.codism.repository.SinsalRuleRepository;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -42,7 +43,7 @@ public class SinsalCalculatorDB {
      * @param hourCheongan 시간
      * @return 신살 리스트
      */
-    @Cacheable(value = "sinsal", key = "#ilgan + '_' + #yearJiji + '_' + #monthJiji + '_' + #dayJiji + '_' + #hourJiji")
+    @Cacheable(value = "sinsal", key = "#ilgan + '_' + #yearJiji + '_' + #monthJiji + '_' + #dayJiji + '_' + #hourJiji + '_' + #yearCheongan + '_' + #monthCheongan + '_' + #hourCheongan")
     public List<SajuDetailResponse.SinsalInfo> calculateAllSinsal(
             String ilgan,
             String yearJiji, String monthJiji, String dayJiji, String hourJiji,
@@ -95,38 +96,31 @@ public class SinsalCalculatorDB {
             String yearCheongan, String monthCheongan, String hourCheongan
     ) {
         try {
-            String ruleType = rule.getRuleType();
+            SinsalRuleType ruleType = rule.getRuleType();
 
-            switch (ruleType) {
-                case "ILGAN_JIJI":
-                    return checkIlganJijiRule(rule, ilgan, yearJiji, monthJiji, dayJiji, hourJiji);
-
-                case "YENJI_COMBINATION":
-                    return checkYenjiCombinationRule(rule, yearJiji, monthJiji, dayJiji);
-
-                case "JIJI_PATTERN":
-                    return checkJijiPatternRule(rule, yearJiji, monthJiji, dayJiji, hourJiji);
-
-                case "ILGAN_YENJI":
-                    return checkIlganYenjiRule(rule, ilgan, yearJiji);
-
-                case "CHEONGAN_JIJI":
-                    return checkCheonganJijiRule(rule, yearCheongan, monthCheongan, hourCheongan,
-                            yearJiji, monthJiji, hourJiji);
-
-                case "YENJI_TO_ANY":
-                    return checkYenjiToAnyRule(rule, yearJiji, monthJiji, dayJiji, hourJiji);
-
-                case "ILJU_COMBINATION":
-                    return checkIljuCombinationRule(rule, ilgan, dayJiji);
-
-                case "JIJI_PAIR":
-                    return checkJijiPairRule(rule, yearJiji, monthJiji, dayJiji, hourJiji);
-
-                default:
-                    log.warn("알 수 없는 규칙 타입: {}", ruleType);
-                    return false;
+            if (ruleType == null) {
+                log.warn("규칙 타입이 null입니다 - rule: {}", rule.getRuleId());
+                return false;
             }
+
+            return switch (ruleType) {
+                case ILGAN_JIJI -> checkIlganJijiRule(rule, ilgan, yearJiji, monthJiji, dayJiji, hourJiji);
+                case YENJI_COMBINATION -> checkYenjiCombinationRule(rule, yearJiji, monthJiji, dayJiji, hourJiji);
+                case JIJI_PATTERN -> checkJijiPatternRule(rule, yearJiji, monthJiji, dayJiji, hourJiji);
+                case ILGAN_YENJI -> checkIlganYenjiRule(rule, ilgan, yearJiji);
+                case CHEONGAN_JIJI -> checkCheonganJijiRule(rule, yearCheongan, monthCheongan, hourCheongan,
+                        yearJiji, monthJiji, hourJiji);
+                case YENJI_TO_ANY -> checkYenjiToAnyRule(rule, yearJiji, monthJiji, dayJiji, hourJiji);
+                case ILJU_COMBINATION -> checkIljuCombinationRule(rule, ilgan, yearCheongan, monthCheongan, hourCheongan,
+                        yearJiji, monthJiji, dayJiji, hourJiji);
+                case JIJI_PAIR -> checkJijiPairRule(rule, yearJiji, monthJiji, dayJiji, hourJiji);
+                case JIJI_TO_CHEONGAN -> checkJijiToCheonganRule(rule, ilgan, yearCheongan, monthCheongan, hourCheongan,
+                        yearJiji, monthJiji, dayJiji, hourJiji);
+                default -> {
+                    log.warn("알 수 없는 규칙 타입: {}", ruleType);
+                    yield false;
+                }
+            };
         } catch (Exception e) {
             log.error("신살 규칙 체크 실패 - rule: {}", rule.getRuleId(), e);
             return false;
@@ -186,14 +180,28 @@ public class SinsalCalculatorDB {
     /**
      * 연지 조합 규칙 체크 (예: 년지가 인묘진 중 하나)
      */
-    private boolean checkYenjiCombinationRule(SinsalRule rule, String yearJiji, String monthJiji, String dayJiji) {
+    private boolean checkYenjiCombinationRule(SinsalRule rule, String yearJiji, String monthJiji, String dayJiji, String hourJiji) {
         try {
             List<String> yenjiList = parseJsonArray(rule.getConditionYenji());
             if (yenjiList == null) {
                 return false;
             }
 
-            return yenjiList.contains(yearJiji);
+            String matchPosition = rule.getMatchPosition();
+
+            // matchPosition이 'any'면 4기둥 전체에서 확인
+            if ("any".equals(matchPosition)) {
+                List<String> allJiji = Arrays.asList(yearJiji, monthJiji, dayJiji, hourJiji);
+                for (String yenji : yenjiList) {
+                    if (allJiji.contains(yenji)) {
+                        return true;
+                    }
+                }
+                return false;
+            } else {
+                // 기본: 년지만 확인
+                return yenjiList.contains(yearJiji);
+            }
         } catch (Exception e) {
             log.error("연지 조합 규칙 체크 실패", e);
             return false;
@@ -298,19 +306,35 @@ public class SinsalCalculatorDB {
 
             List<String> allJiji = Arrays.asList(yearJiji, monthJiji, dayJiji, hourJiji);
 
-            // yenjiList가 비어있지 않으면 삼합 체크
+            // yenjiList가 비어있지 않으면 조건 체크
             if (!yenjiList.isEmpty()) {
-                // 사주 전체에서 yenjiList의 지지가 2개 이상 있는지 확인 (삼합 조건)
-                int matchCount = 0;
-                for (String yenji : yenjiList) {
-                    if (allJiji.contains(yenji)) {
-                        matchCount++;
+                // target이 yenjiList에 포함되면: 년지만 체크 (화개살, 조객살 등)
+                // target이 yenjiList에 없으면: 삼합 체크 (도화살, 역마살 등)
+                boolean isTargetInYenji = false;
+                if (targetList != null && !targetList.isEmpty()) {
+                    for (String target : targetList) {
+                        if (yenjiList.contains(target)) {
+                            isTargetInYenji = true;
+                            break;
+                        }
                     }
                 }
 
-                // 2개 미만이면 삼합이 아님
-                if (matchCount < 2) {
-                    return false;
+                if (isTargetInYenji) {
+                    // 년지가 yenjiList에 포함되는지만 확인
+                    if (!yenjiList.contains(yearJiji)) {
+                        return false;
+                    }
+                } else {
+                    // 사주 전체에서 yenjiList의 서로 다른 지지가 2개 이상 있는지 확인 (삼합 조건)
+                    long matchCount = yenjiList.stream()
+                            .filter(allJiji::contains)
+                            .distinct()
+                            .count();
+
+                    if (matchCount < 2) {
+                        return false;
+                    }
                 }
             }
 
@@ -332,13 +356,30 @@ public class SinsalCalculatorDB {
      * 일주 조합 규칙 체크 (일간 + 일지 조합)
      * 예: 갑진일주, 을사일주 등
      */
-    private boolean checkIljuCombinationRule(SinsalRule rule, String ilgan, String dayJiji) {
+    private boolean checkIljuCombinationRule(SinsalRule rule, String ilgan,
+                                              String yearCheongan, String monthCheongan, String hourCheongan,
+                                              String yearJiji, String monthJiji, String dayJiji, String hourJiji) {
         try {
             List<String> ilganList = parseJsonArray(rule.getConditionIlgan());
             List<String> jijiList = parseJsonArray(rule.getConditionTarget());
+            String matchPosition = rule.getMatchPosition();
 
-            // 일간과 일지가 모두 조건에 맞아야 함
-            return ilganList.contains(ilgan) && jijiList.contains(dayJiji);
+            // matchPosition이 'any'면 4기둥 전체에서 천간-지지 조합 체크
+            if ("any".equals(matchPosition)) {
+                List<String> allCheongan = Arrays.asList(yearCheongan, monthCheongan, ilgan, hourCheongan);
+                List<String> allJiji = Arrays.asList(yearJiji, monthJiji, dayJiji, hourJiji);
+
+                // 4기둥 중 어디든 천간-지지 조합이 맞으면 true
+                for (int i = 0; i < 4; i++) {
+                    if (ilganList.contains(allCheongan.get(i)) && jijiList.contains(allJiji.get(i))) {
+                        return true;
+                    }
+                }
+                return false;
+            } else {
+                // matchPosition이 'day'면 일주만 체크 (기존 로직)
+                return ilganList.contains(ilgan) && jijiList.contains(dayJiji);
+            }
         } catch (Exception e) {
             log.error("일주 조합 규칙 체크 실패", e);
             return false;
@@ -384,6 +425,61 @@ public class SinsalCalculatorDB {
             return false;
         } catch (Exception e) {
             log.error("지지 쌍 규칙 체크 실패", e);
+            return false;
+        }
+    }
+
+    /**
+     * 지지-천간 규칙 체크 (지지를 보고 천간을 찾음)
+     * 예: 천덕귀인 - 사년(지지)에 병(천간)이 있으면
+     */
+    private boolean checkJijiToCheonganRule(SinsalRule rule,
+                                             String ilgan,
+                                             String yearCheongan, String monthCheongan, String hourCheongan,
+                                             String yearJiji, String monthJiji, String dayJiji, String hourJiji) {
+        try {
+            List<String> jijiList = parseJsonArray(rule.getConditionYenji());
+            List<String> cheonganList = parseJsonArray(rule.getConditionTarget());
+
+            log.debug("JIJI_TO_CHEONGAN 규칙 체크 - 지지조건: {}, 천간조건: {}", jijiList, cheonganList);
+            log.debug("사주 - 일간: {}, 천간: [{}, {}, {}], 지지: [{}, {}, {}, {}]",
+                    ilgan, yearCheongan, monthCheongan, hourCheongan, yearJiji, monthJiji, dayJiji, hourJiji);
+
+            if (jijiList == null || cheonganList == null) {
+                log.debug("조건이 null입니다");
+                return false;
+            }
+
+            List<String> allJiji = Arrays.asList(yearJiji, monthJiji, dayJiji, hourJiji);
+            List<String> allCheongan = Arrays.asList(ilgan, yearCheongan, monthCheongan, hourCheongan);
+
+            // 지지가 조건에 맞는지 확인
+            boolean hasJiji = false;
+            for (String jiji : jijiList) {
+                if (allJiji.contains(jiji)) {
+                    hasJiji = true;
+                    log.debug("지지 매칭: {}", jiji);
+                    break;
+                }
+            }
+
+            if (!hasJiji) {
+                log.debug("지지가 조건에 맞지 않음");
+                return false;
+            }
+
+            // 천간이 조건에 맞는지 확인
+            for (String cheongan : cheonganList) {
+                if (allCheongan.contains(cheongan)) {
+                    log.debug("천간 매칭 성공: {} - 규칙 ID: {}", cheongan, rule.getRuleId());
+                    return true;
+                }
+            }
+
+            log.debug("천간이 조건에 맞지 않음");
+            return false;
+        } catch (Exception e) {
+            log.error("지지-천간 규칙 체크 실패", e);
             return false;
         }
     }
