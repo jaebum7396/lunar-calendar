@@ -1,5 +1,6 @@
 package com.codism.controller;
 
+import com.codism.model.dto.IljuAnimalResponse;
 import com.codism.model.dto.SajuDetailResponse;
 import com.codism.service.SajuDetailService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -93,6 +94,43 @@ public class SajuDetailController {
 
         SajuDetailResponse response = sajuDetailService.getSajuDetail(
                 birthDate, "00:00", gender, true
+        );
+
+        return ResponseEntity.ok(response);
+    }
+
+    /**
+     * 일주 동물 조회
+     *
+     * @param birthDate 생년월일 (YYYY-MM-DD)
+     * @param birthTime 출생 시간 (HH:mm, 선택 사항)
+     * @param isSolarCalendar 양력 여부 (기본값: true)
+     * @return 일주 동물 정보
+     */
+    @GetMapping("/ilju-animal")
+    @Operation(
+            summary = "일주 동물 조회",
+            description = "생년월일시를 기반으로 일주(日柱)의 동물 정보를 조회합니다. 예: 센스 있는 검은 원숭이"
+    )
+    public ResponseEntity<IljuAnimalResponse> getIljuAnimal(
+            @Parameter(description = "생년월일 (YYYY-MM-DD)", example = "1996-12-01", required = true)
+            @RequestParam
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+            LocalDate birthDate,
+
+            @Parameter(description = "출생 시간 (HH:mm)", example = "07:00")
+            @RequestParam(required = false, defaultValue = "00:00")
+            String birthTime,
+
+            @Parameter(description = "양력 여부", example = "true")
+            @RequestParam(required = false, defaultValue = "true")
+            boolean isSolarCalendar
+    ) {
+        log.info("일주 동물 조회 요청 - birthDate: {}, birthTime: {}, isSolar: {}",
+                birthDate, birthTime, isSolarCalendar);
+
+        IljuAnimalResponse response = sajuDetailService.getIljuAnimal(
+                birthDate, birthTime, isSolarCalendar
         );
 
         return ResponseEntity.ok(response);

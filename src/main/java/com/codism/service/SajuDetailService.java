@@ -1,5 +1,6 @@
 package com.codism.service;
 
+import com.codism.model.dto.IljuAnimalResponse;
 import com.codism.model.dto.SajuDetailResponse;
 import com.codism.model.dto.SajuDetailResponse.SajuPillar;
 import com.codism.model.dto.SajuDetailResponse.DaeunInfo;
@@ -35,6 +36,7 @@ public class SajuDetailService {
     private final CheonganMasterRepository cheonganMasterRepository;
     private final JijiMasterRepository jijiMasterRepository;
     private final SipsungMasterRepository sipsungMasterRepository;
+    private final GanjiCharacteristicService ganjiCharacteristicService;
 
     /**
      * 사주 상세 정보 조회
@@ -554,6 +556,55 @@ public class SajuDetailService {
         }
         if (result != null) {
             haeList.add(result);
+        }
+    }
+
+    /**
+     * 일주 동물 조회
+     *
+     * @param birthDate 생년월일
+     * @param birthTime 출생 시간 (예: "07:00")
+     * @param isSolarCalendar 양력 여부
+     * @return 일주 동물 정보
+     */
+    public IljuAnimalResponse getIljuAnimal(LocalDate birthDate, String birthTime, boolean isSolarCalendar) {
+        log.info("일주 동물 조회 시작 - birthDate: {}, birthTime: {}, isSolar: {}",
+                birthDate, birthTime, isSolarCalendar);
+
+        try {
+            // 1. 일주 간지 계산
+            int year = birthDate.getYear();
+            int month = birthDate.getMonthValue();
+            int day = birthDate.getDayOfMonth();
+            Integer hour = birthTime != null ? parseHour(birthTime) : null;
+
+            var stemBranchInfo = StemBranchCalculator.getAllStemBranch(year, month, day, hour, isSolarCalendar);
+            String dayStemBranch = stemBranchInfo.getDayStemBranch();
+
+            // 천간/지지 분리
+            String dayCheongan = dayStemBranch.substring(0, 1);
+            String dayJiji = dayStemBranch.substring(1, 2);
+
+            // 2. 간지 특성 조회
+            String characteristic = ganjiCharacteristicService.getCharacteristic(dayCheongan, dayJiji);
+            String colorAdjective = ganjiCharacteristicService.getColorAdjective(dayCheongan);
+            String animal = ganjiCharacteristicService.getAnimal(dayJiji);
+            String fullCharacteristic = ganjiCharacteristicService.getFullCharacteristic(dayCheongan, dayJiji);
+
+            // 3. Response 생성
+            return IljuAnimalResponse.builder()
+                    .ganjiName(dayStemBranch)
+                    .cheongan(dayCheongan)
+                    .jiji(dayJiji)
+                    .characteristic(characteristic)
+                    .colorAdjective(colorAdjective)
+                    .animal(animal)
+                    .fullCharacteristic(fullCharacteristic)
+                    .build();
+
+        } catch (Exception e) {
+            log.error("일주 동물 조회 중 오류 발생", e);
+            throw new RuntimeException("일주 동물 조회 실패: " + e.getMessage(), e);
         }
     }
 }
