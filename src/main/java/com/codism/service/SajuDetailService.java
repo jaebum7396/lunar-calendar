@@ -5,6 +5,7 @@ import com.codism.model.dto.response.SajuDetailResponse;
 import com.codism.model.dto.response.SajuDetailResponse.SajuPillar;
 import com.codism.model.dto.response.SajuDetailResponse.DaeunInfo;
 import com.codism.model.dto.response.SajuDetailResponse.HapChungAnalysis;
+import com.codism.model.dto.response.SimpleSajuResponse;
 import com.codism.model.entity.CheonganMaster;
 import com.codism.model.entity.JijiMaster;
 import com.codism.model.entity.SipsungMaster;
@@ -594,6 +595,86 @@ public class SajuDetailService {
         } catch (Exception e) {
             log.error("일주 동물 조회 중 오류 발생", e);
             throw new RuntimeException("일주 동물 조회 실패: " + e.getMessage(), e);
+        }
+    }
+
+    /**
+     * 간단한 사주 정보 조회 (년월일시 천간지지, 신살, 일주 동물)
+     *
+     * @param birthDate 생년월일
+     * @param birthTime 출생 시간 (예: "07:00")
+     * @param gender 성별 (M: 남성, F: 여성)
+     * @return 간단한 사주 정보
+     */
+    public SimpleSajuResponse getSimpleSaju(LocalDate birthDate, String birthTime, String gender) {
+        log.info("간단한 사주 조회 시작 - birthDate: {}, birthTime: {}, gender: {}",
+                birthDate, birthTime, gender);
+
+        try {
+            boolean isSolarCalendar = true;  // 기본값: 양력
+
+            // 1. 천간지지 계산
+            int year = birthDate.getYear();
+            int month = birthDate.getMonthValue();
+            int day = birthDate.getDayOfMonth();
+            Integer hour = birthTime != null ? parseHour(birthTime) : null;
+
+            var stemBranchInfo = StemBranchCalculator.getAllStemBranch(year, month, day, hour, isSolarCalendar);
+
+            String yearStemBranch = stemBranchInfo.getYearStemBranch();
+            String monthStemBranch = stemBranchInfo.getMonthStemBranch();
+            String dayStemBranch = stemBranchInfo.getDayStemBranch();
+            String timeStemBranch = stemBranchInfo.getTimeStemBranch();
+
+            // 천간/지지 분리
+            String yearCheongan = yearStemBranch.substring(0, 1);
+            String yearJiji = yearStemBranch.substring(1, 2);
+            String monthCheongan = monthStemBranch.substring(0, 1);
+            String monthJiji = monthStemBranch.substring(1, 2);
+            String dayCheongan = dayStemBranch.substring(0, 1);
+            String dayJiji = dayStemBranch.substring(1, 2);
+            String hourCheongan = timeStemBranch.substring(0, 1);
+            String hourJiji = timeStemBranch.substring(1, 2);
+
+            // 일간
+            String ilgan = dayCheongan;
+
+            // 2. 신살 계산
+            var sinsalInfoList = sinsalCalculatorDB.calculateAllSinsal(
+                    ilgan,
+                    yearJiji, monthJiji, dayJiji, hourJiji,
+                    yearCheongan, monthCheongan, hourCheongan
+            );
+
+            // 신살 이름만 추출
+            List<String> sinsalList = sinsalInfoList.stream()
+                    .map(info -> info.getSinsalName())
+                    .toList();
+
+            // 3. 일주 동물 특성 조회
+            String fullCharacteristic = ganjiCharacteristicService.getFullCharacteristic(dayCheongan, dayJiji);
+
+            // 4. 나이 계산
+            int age = calculateAge(birthDate);
+
+            // 5. Response 생성
+            return new SimpleSajuResponse(
+                    birthDate.toString(),
+                    birthTime,
+                    age,
+                    gender,
+                    isSolarCalendar,
+                    new SimpleSajuResponse.PillarInfo(yearCheongan, yearJiji),
+                    new SimpleSajuResponse.PillarInfo(monthCheongan, monthJiji),
+                    new SimpleSajuResponse.PillarInfo(dayCheongan, dayJiji),
+                    new SimpleSajuResponse.PillarInfo(hourCheongan, hourJiji),
+                    sinsalList,
+                    fullCharacteristic
+            );
+
+        } catch (Exception e) {
+            log.error("간단한 사주 조회 중 오류 발생", e);
+            throw new RuntimeException("간단한 사주 조회 실패: " + e.getMessage(), e);
         }
     }
 }

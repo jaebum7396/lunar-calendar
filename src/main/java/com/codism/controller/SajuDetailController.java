@@ -2,6 +2,7 @@ package com.codism.controller;
 
 import com.codism.model.dto.response.IljuAnimalResponse;
 import com.codism.model.dto.response.SajuDetailResponse;
+import com.codism.model.dto.response.SimpleSajuResponse;
 import com.codism.service.SajuDetailService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -131,6 +132,43 @@ public class SajuDetailController {
 
         IljuAnimalResponse response = sajuDetailService.getIljuAnimal(
                 birthDate, birthTime, isSolarCalendar
+        );
+
+        return ResponseEntity.ok(response);
+    }
+
+    /**
+     * 간단한 사주 정보 조회 (년월일시 천간지지, 신살, 일주 동물)
+     *
+     * @param birthDate 생년월일 (YYYY-MM-DD)
+     * @param birthTime 출생 시간 (HH:mm)
+     * @param gender 성별 (M: 남성, F: 여성)
+     * @return 간단한 사주 정보
+     */
+    @GetMapping("/simple-info")
+    @Operation(
+            summary = "간단한 사주 정보 조회",
+            description = "생년월일시와 성별을 기반으로 년월일시 천간지지, 신살, 일주 동물 정보를 조회합니다."
+    )
+    public ResponseEntity<SimpleSajuResponse> getSimpleSajuInfo(
+            @Parameter(description = "생년월일 (YYYY-MM-DD)", example = "1989-06-05", required = true)
+            @RequestParam
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+            LocalDate birthDate,
+
+            @Parameter(description = "출생 시간 (HH:mm)", example = "07:00")
+            @RequestParam(required = false, defaultValue = "00:00")
+            String birthTime,
+
+            @Parameter(description = "성별 (M: 남성, F: 여성)", example = "M")
+            @RequestParam(required = false, defaultValue = "M")
+            String gender
+    ) {
+        log.info("간단한 사주 정보 조회 요청 - birthDate: {}, birthTime: {}, gender: {}",
+                birthDate, birthTime, gender);
+
+        SimpleSajuResponse response = sajuDetailService.getSimpleSaju(
+                birthDate, birthTime, gender
         );
 
         return ResponseEntity.ok(response);
