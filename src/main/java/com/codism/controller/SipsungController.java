@@ -1,6 +1,6 @@
 package com.codism.controller;
 
-import com.codism.model.dto.SipsungDetailResponse;
+import com.codism.model.dto.response.SipsungDetailResponse;
 import com.codism.service.SipsungDetailService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

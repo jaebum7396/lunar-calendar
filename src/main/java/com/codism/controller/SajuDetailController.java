@@ -1,7 +1,7 @@
 package com.codism.controller;
 
-import com.codism.model.dto.IljuAnimalResponse;
-import com.codism.model.dto.SajuDetailResponse;
+import com.codism.model.dto.response.IljuAnimalResponse;
+import com.codism.model.dto.response.SajuDetailResponse;
 import com.codism.service.SajuDetailService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

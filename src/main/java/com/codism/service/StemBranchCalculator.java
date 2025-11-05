@@ -1,6 +1,6 @@
 package com.codism.service;
 
-import com.codism.model.dto.StemBranchInfo;
+import com.codism.model.dto.response.StemBranchInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 

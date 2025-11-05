@@ -1,6 +1,6 @@
 package com.codism.controller;
 
-import com.codism.model.dto.StemBranchInfo;
+import com.codism.model.dto.response.StemBranchInfo;
 import com.codism.service.StemBranchCalculator;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

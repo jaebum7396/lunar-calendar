@@ -1,4 +1,4 @@
-package com.codism.model.dto;
+package com.codism.model.dto.response;
 
 import com.codism.model.entity.SipsungMaster;
 import lombok.AllArgsConstructor;

@@ -1,4 +1,4 @@
-package com.codism.model.dto;
+package com.codism.model.dto.response;
 
 import lombok.Getter;
 

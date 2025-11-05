@@ -1,6 +1,6 @@
 package com.codism.service;
 
-import com.codism.model.dto.SajuDetailResponse;
+import com.codism.model.dto.response.SajuDetailResponse;
 import com.codism.model.entity.SinsalMaster;
 import com.codism.model.entity.SinsalRule;
 import com.codism.model.enums.SinsalRuleType;

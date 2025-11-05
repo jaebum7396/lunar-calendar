@@ -1,6 +1,6 @@
 package com.codism.service;
 
-import com.codism.model.dto.SipsungDetailResponse;
+import com.codism.model.dto.response.SipsungDetailResponse;
 import com.codism.model.entity.SipsungMaster;
 import com.codism.repository.SipsungMasterRepository;
 import lombok.RequiredArgsConstructor;

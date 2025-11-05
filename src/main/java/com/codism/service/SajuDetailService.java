@@ -1,10 +1,10 @@
 package com.codism.service;
 
-import com.codism.model.dto.IljuAnimalResponse;
-import com.codism.model.dto.SajuDetailResponse;
-import com.codism.model.dto.SajuDetailResponse.SajuPillar;
-import com.codism.model.dto.SajuDetailResponse.DaeunInfo;
-import com.codism.model.dto.SajuDetailResponse.HapChungAnalysis;
+import com.codism.model.dto.response.IljuAnimalResponse;
+import com.codism.model.dto.response.SajuDetailResponse;
+import com.codism.model.dto.response.SajuDetailResponse.SajuPillar;
+import com.codism.model.dto.response.SajuDetailResponse.DaeunInfo;
+import com.codism.model.dto.response.SajuDetailResponse.HapChungAnalysis;
 import com.codism.model.entity.CheonganMaster;
 import com.codism.model.entity.JijiMaster;
 import com.codism.model.entity.SipsungMaster;
