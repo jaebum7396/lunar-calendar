@@ -586,21 +586,10 @@ public class SajuDetailService {
             String dayJiji = dayStemBranch.substring(1, 2);
 
             // 2. 간지 특성 조회
-            String characteristic = ganjiCharacteristicService.getCharacteristic(dayCheongan, dayJiji);
-            String colorAdjective = ganjiCharacteristicService.getColorAdjective(dayCheongan);
-            String animal = ganjiCharacteristicService.getAnimal(dayJiji);
             String fullCharacteristic = ganjiCharacteristicService.getFullCharacteristic(dayCheongan, dayJiji);
 
             // 3. Response 생성
-            return IljuAnimalResponse.builder()
-                    .ganjiName(dayStemBranch)
-                    .cheongan(dayCheongan)
-                    .jiji(dayJiji)
-                    .characteristic(characteristic)
-                    .colorAdjective(colorAdjective)
-                    .animal(animal)
-                    .fullCharacteristic(fullCharacteristic)
-                    .build();
+            return new IljuAnimalResponse(fullCharacteristic);
 
         } catch (Exception e) {
             log.error("일주 동물 조회 중 오류 발생", e);
